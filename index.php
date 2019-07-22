@@ -79,7 +79,56 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <div class="d-flex flex-column flex-sm-row justify-content-between border-bottom border-warning">
+        <a class="navbar-brand p-3" href="/">LOGO HERE</a>
+        <div class="p-2 ">
+            <button type="button" class="btn btn-outline-warning float-right"><?php echo $lang["log_in"]  ?></button>
+            <button type="button" class="btn btn-warning float-right mx-2"><?php echo $lang["sign_up"]  ?></button>
+        </div>
+    </div>
+
+    <!-- <div class="nav bg-light">
+        <nav class="navbar navbar-expand-sm navbar-light red">
+            <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNav" >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse nav-fill" id="myNav">
+                <a class="nav-item nav-link" href="#">Active</a>
+                <a class="nav-item nav-link" href="#">Link</a>
+                <a class="nav-item nav-link" href="#">Link</a>
+                <a class="nav-item nav-link" href="#">Disabled</a>
+            </div>
+            </div>
+        </nav>
+    </div> -->
+
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <a class="navbar-brand" href="#"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav text-center m-auto">
+            <li class="nav-item active ">
+                <a class="nav-link" href="#"><?php echo $lang["all"]  ?> <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Html</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Css</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Javascript</a>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
     
+    <!-- 
     <h1><?php echo $lang["title"]  ?></h1>
     <p><?php echo $lang['text']  ?></p> 
     <a href="/en/">Angielski</a> | <a href="/pl/">Polski</a>
