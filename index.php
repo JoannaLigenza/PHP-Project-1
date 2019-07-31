@@ -1,5 +1,6 @@
 <?php
     include "functions.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -102,21 +103,25 @@
                             </div>
                         </div>
                     </section>
-
+                    <!-- END QUESTIONS FROM DATABASE -->
 
                 </main>
+                <!-- END LEFT COL -->
 
                 <!-- RIGHT COL -->
                 <div class="col-md-4 col-xl-3 border-left border-warning">
                     asd
                 </div>
+                <!-- END RIGHT COL -->
 
             </div>
         </div>
-        <!-- MAIN END -->
+        <!-- END MAIN -->
 
 
     </div>
+
+    <a href="/en/">Angielski</a> | <a href="/pl/">Polski</a>
     
     <!-- 
     <h1><?php echo $lang["title"]  ?></h1>
