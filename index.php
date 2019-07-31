@@ -103,6 +103,35 @@
                             </div>
                         </div>
                     </section>
+
+
+
+                    <section class="container-fluid border border-warning rounded text-center p-0 my-2">
+                        <div class="d-flex flex-row">
+                            <div class="d-flex flex-column justify-content-center px-2">
+                                <div class="h-100 pb-2 d-flex flex-column justify-content-end">
+                                    <div><?php echo $variables->setVariable('votes'); ?></div>
+                                    <div><img src="img/arr-up.svg" class="p-2" alt="up-icon red "></div>
+                                </div>
+                                <div class="h-100 pt-2">
+                                    <!-- <div><img src="img/arr-down.svg" class="p-2" alt="down-icon blue"></div>
+                                    <div>0</div> -->
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="container-fluid bg-gradient-warning border-bottom border-warning py-1 h4"> <?php echo $variables->setVariable('category'); ?> </div>
+                                <h2 class="p-2 h5 text-left"><?php echo $variables->setVariable('title'); ?></h2>
+                                <div class="d-flex flex-row justify-content-center align-items-center">
+                                    <img src="img/arr-down-b.svg" class="h-100" alt="heart-icon"> 
+                                    <a href="#"><div class="p-2 h6 lead text-body">Odpowiedzi: <?php echo $variables->setVariable('answears'); ?></div></a>
+                                    
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column align-items-start py-2 px-3">
+                                <span data-toggle="tooltip" title="<?php echo $lang["add_to_favourites"] ?>" data-placement="bottom"><img src="img/heart-e.svg" alt="heart-icon"></span>
+                            </div>
+                        </div>
+                    </section>
                     <!-- END QUESTIONS FROM DATABASE -->
 
                 </main>

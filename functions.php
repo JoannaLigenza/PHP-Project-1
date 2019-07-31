@@ -44,6 +44,64 @@
     require_once 'languages/'. $lang . ".php";
 
 
+
+
+    class Data {
+        //private $result = "";
+
+        public function query($query) {
+            $mysqli = new mysqli("localhost", "Aska", "myPass33", "recruiment_questions");
+            if ($mysqli->connect_error) {
+                //die("Database connection failed");
+                die('Connect Error (' . $mysqli->connect_errno . ') '. $mysqli->connect_error);
+            } else {
+                // $mysqli->query() - for OOP , mysqli_connect() - for procedural programing
+                $result = $mysqli->query($query);
+                //echo "dziala";
+                $this->result = $result;
+                mysqli_close($mysqli);
+                return $result;
+            }
+        }
+
+        function getQuestion($query, $column) {
+            $questionsArr = [];
+            if(mysqli_num_rows($this->query($query)) > 0){
+                while($row = mysqli_fetch_array($this->result)){
+                        //echo $row[$column];
+                    array_push($questionsArr, $row[$column]);
+                }
+            }
+            return $questionsArr;
+        }
+    }
+
+    
+
+    class Variables {
+        private $numRows = 0;
+        private $title = "title";
+        private $category = "category";
+
+        function setVariable($columnName) {
+            $selectQuery = 'SELECT * from questions_pl';
+            $questions = new Data();
+            if ($this->numRows === 0) {
+                $numRows = mysqli_num_rows($questions->query($selectQuery));
+                $this->numRows = $numRows;
+            }
+            $colName = $questions->getQuestion($selectQuery, $columnName)[0] ;
+            $this->$columnName = $colName;
+            return $this->$columnName;
+        }
+
+        // function returnVariable($var) {
+        //     return $this->$var;
+        // }
+    }
+
+    $variables = new Variables();
+    //echo $variables->setVariable('title');
     
 
 ?>
