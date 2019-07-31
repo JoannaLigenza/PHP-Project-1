@@ -105,12 +105,12 @@
                     </section>
 
 
-
+<?php for($i=0; $i < $variables->numRows(); $i++) : ?>
                     <section class="container-fluid border border-warning rounded text-center p-0 my-2">
                         <div class="d-flex flex-row">
                             <div class="d-flex flex-column justify-content-center px-2">
                                 <div class="h-100 pb-2 d-flex flex-column justify-content-end">
-                                    <div><?php echo $variables->setVariable('votes'); ?></div>
+                                    <div><?php echo $variables->getVariable('votes')[$i]; ?></div>
                                     <div><img src="img/arr-up.svg" class="p-2" alt="up-icon red "></div>
                                 </div>
                                 <div class="h-100 pt-2">
@@ -119,11 +119,11 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <div class="container-fluid bg-gradient-warning border-bottom border-warning py-1 h4"> <?php echo $variables->setVariable('category'); ?> </div>
-                                <h2 class="p-2 h5 text-left"><?php echo $variables->setVariable('title'); ?></h2>
+                                <div class="container-fluid bg-gradient-warning border-bottom border-warning py-1 h4"> <?php echo $variables->getVariable('category')[$i]; ?> </div>
+                                <h2 class="p-2 h5 text-left"><?php echo $variables->getVariable('title')[$i]; ?></h2>
                                 <div class="d-flex flex-row justify-content-center align-items-center">
                                     <img src="img/arr-down-b.svg" class="h-100" alt="heart-icon"> 
-                                    <a href="#"><div class="p-2 h6 lead text-body">Odpowiedzi: <?php echo $variables->setVariable('answears'); ?></div></a>
+                                    <a href="#"><div class="p-2 h6 lead text-body">Odpowiedzi: <?php echo $variables->getVariable('answears')[$i]; ?></div></a>
                                     
                                 </div>
                             </div>
@@ -132,6 +132,7 @@
                             </div>
                         </div>
                     </section>
+<?php endfor; ?>
                     <!-- END QUESTIONS FROM DATABASE -->
 
                 </main>
