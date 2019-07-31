@@ -5,7 +5,10 @@
         "text" => "To jest polski text",
         "log_in" => "Zaloguj się",
         "sign_up" => "Zarejestruj się",
-        "all" => "Wszystko"
+        "all" => "Wszystko",
+        "add_question" => "Dodaj pytanie",
+        "sort" => "Sortowanie",
+        "add_to_favourites" => "Dodaj do ulubionych"
     ]
 
 
