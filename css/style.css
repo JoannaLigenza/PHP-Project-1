@@ -1,0 +1,18 @@
+body {
+    position: relative;
+    padding-bottom: 120px;
+    min-height: 100%;
+}
+
+footer {
+    position: absolute;
+    bottom: -20px;
+    height: 120px;
+    background-color: rgb(61, 60, 60);
+}
+
+.myBtnHover:hover {
+    background-color: #FFC638;
+    border-color: #FFC638;
+}
+
