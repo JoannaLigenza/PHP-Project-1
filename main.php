@@ -29,7 +29,7 @@
                     <!-- QUESTIONS FROM DATABASE -->
 
 
-                    <?php for($i=0; $i < $getData->numRows(); $i++) : ?>
+                    <?php for($i=0; $i < $getData->questionRowsNum(); $i++) : ?>
                     <section class="container-fluid border border-warning rounded text-center p-0 my-2">
                         <div class="d-flex flex-row">
                             <div class="d-flex flex-column justify-content-center px-2">

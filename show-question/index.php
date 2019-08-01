@@ -8,24 +8,42 @@
             <div class="row justify-content-center my-4 mx-0">
                 <!-- LEFT COL -->
                 <main class="col-md-7 col-xl-6">
-                    <div>
+                    
+                    
+                    <div class="container-flex">
+                        <p class="text-right text-muted pb-2">Autor: <?php echo $getData->getQuestionData('author')[0]; ?>, data dodania: <?php echo $getData->getQuestionData('date')[0]; ?>  </p>
+                    </div>
+
+                    <div class="pb-5">
                         <h3><?php echo $getData->getQuestionData('title')[0]; ?></h3>
                     </div>
+
                     <div class="d-flex flex-row justify-content-end">
                         <div class="container-flex justify-content-center">
                             <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $lang["add_answear"]  ?> </button>
                         </div>
                     </div>
+
                     <div>
-                        odpowiedzi w petli ddd <br><br>
-                        <section class="container-fluid border border-warning rounded text-center p-0 my-2">
-                            <div class="d-flex flex-row">
-                                sada
+                        odpowiedzi w petli d <br><br>
+                        <section class="container-fluid text-center p-0 my-2">
+                            <div class="d-flex flex-row bg-light rounded">
+                                sada<br>
+                                sada<br>
+                                sada<br>
+                                sada<br>
+                                sada<br>
                             </div>
                         </section>
-                    </div>
 
-                    
+                        <?php for($i=0; $i < $getData->answearRowsNum(); $i++) : ?>
+                            <section class="container-fluid text-center p-0 my-2">
+                                <div class="d-flex flex-row bg-light rounded">
+                                    <p> <?php echo $getData->getAnswearData('answer_text')[$i]; ?> </p>
+                                </div>
+                            </section>
+                        <?php endfor; ?>
+                    </div>
 
                 </main>
                 <!-- END LEFT COL -->
@@ -39,10 +57,6 @@
             </div>
         </div>
         <!-- END MAIN -->
-
-<!-- <div><?php echo "blablbalba" ?></div>
-<div><?php echo $_SESSION['lang'] ?></div>
-<div><?php echo $lang["add_to_favourites"] ?></div> -->
         
 <?php include "../footer.php"; ?>
 

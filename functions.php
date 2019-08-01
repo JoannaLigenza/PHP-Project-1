@@ -47,7 +47,6 @@
 
 
     class Data {
-        private $numRows;
         private function connectToDatabase($query) {
             $mysqli = new mysqli("localhost", "Aska", "myPass33", "recruiment_questions");
             if ($mysqli->connect_error) {
@@ -66,9 +65,6 @@
         public function getQuestionData($columnName, $from=0, $to=9) {
             $lang = $_SESSION['lang'];
             $query = "SELECT $columnName from questions_$lang LIMIT $from, $to;";
-            //$questionsData = new Data();
-            // $colName = $this->getQuestion($query, $columnName) ;
-            // return $colName;
             $questionsArr = [];
             $result = $this->connectToDatabase($query);
             if(mysqli_num_rows($result) > 0){
@@ -87,9 +83,38 @@
             $this->connectToDatabase($query);
         }
 
-        public function numRows($from=0, $to=9) {
+        public function questionRowsNum($from=0, $to=9) {
             $lang = $_SESSION['lang'];
             $rowsNumberQuery = "SELECT id from questions_$lang LIMIT $from, $to;";
+            //$questionsNumbers = new Data();
+            $numRows = mysqli_num_rows($this->connectToDatabase($rowsNumberQuery));
+            return $numRows;
+        }
+
+        public function getAnswearData($columnName, $from=0, $to=9) {
+            $lang = $_SESSION['lang'];
+            $query = "SELECT $columnName from answears_$lang LIMIT $from, $to;";
+            $answearsArr = [];
+            $result = $this->connectToDatabase($query);
+            if(mysqli_num_rows($result) > 0){
+                while($row = mysqli_fetch_array($result)){
+                    array_push($answearsArr, $row[$columnName]);
+                }
+            }
+            return $answearsArr;
+        }
+
+        // public function putQuestionData($category, $title) {
+        //     $lang = $_SESSION['lang'];
+        //     $date=date("Y-m-d");
+        //     //$query = "INSERT INTO questions_$lang SET category = $category, title = $title, answears = 0, author = 'anonim', date = $date, favourites = false, votes = 0";
+        //     $query = "INSERT INTO questions_$lang SET category = '$category', title = '$title', answears = 0, author = 'anonim', date = $date, favourites = false, votes = 0";
+        //     $this->connectToDatabase($query);
+        // }
+
+        public function answearRowsNum($from=0, $to=9) {
+            $lang = $_SESSION['lang'];
+            $rowsNumberQuery = "SELECT id from answears_$lang WHERE to_question=1 LIMIT $from, $to;";
             //$questionsNumbers = new Data();
             $numRows = mysqli_num_rows($this->connectToDatabase($rowsNumberQuery));
             return $numRows;
