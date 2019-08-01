@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang=<?php echo $_SESSION['lang'] ?>>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="min-vh-100">
     <div class="container-fluid p-0">
         <!-- HEADER -->
         <header>
@@ -27,18 +27,21 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav justify-content-center text-center m-auto">
-                    <li class="nav-item nav-fill">
-                        <a class="nav-link active" href="#"><?php echo $lang["all"]  ?> <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Html</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Css</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Javascript</a>
-                    </li>
+                        <li class="nav-item nav-fill">
+                            <a class="nav-link active" href="#"><?php echo $lang["all"]  ?> <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Html</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Css</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Javascript</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><?php echo $lang["developer-tools"] ?></a>
+                        </li>
                     </ul>
                 </div>
             </nav>

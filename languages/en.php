@@ -8,7 +8,13 @@
         "all" => "All",
         "add_question" => "Add question",
         "sort" => "Sort",
-        "add_to_favourites" => "Add to favourites"
+        "add_to_favourites" => "Add to favourites",
+        "add_answear" => "Add answear",
+        "choose-category" => "Choose category",
+        "developer-tools" => "Developer tools",
+        "go-back" => "Go back",
+        "english" => "English",
+        "polish" => "Polish"
     ]
 
 

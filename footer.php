@@ -1,15 +1,12 @@
-        <!-- FOOTER -->
-        <footer>
-            <a href="/en/">Angielski</a> | <a href="/pl/">Polski</a>
-        </footer>
-        <!-- END FOOTER -->
+        
 
     </div>
-    
-    <!-- 
-    <h1><?php echo $lang["title"]  ?></h1>
-    <p><?php echo $lang['text']  ?></p> 
-    <a href="/en/">Angielski</a> | <a href="/pl/">Polski</a>
+
+    <!-- FOOTER -->
+    <footer class="container-fluid py-5">
+        <a href="/en/"><?php echo $lang["english"] ?></a> | <a href="/pl/"><?php echo $lang["polish"] ?></a>
+    </footer>
+    <!-- END FOOTER -->
 
     <!-- jQuery first, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
