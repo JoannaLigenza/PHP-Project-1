@@ -47,6 +47,7 @@
 
 
     class Data {
+        private $numRows;
         private function connectToDatabase($query) {
             $mysqli = new mysqli("localhost", "Aska", "myPass33", "recruiment_questions");
             if ($mysqli->connect_error) {
@@ -97,54 +98,36 @@
 
     $getData = new Data();
 
-    
-    // class GetData extends Data {
-    //     private $columnName = "column name";
-
-    //     public function getQuestionData($columnName, $from=0, $to=9) {
-    //         $lang = $_SESSION['lang'];
-    //         $selectQuery = "SELECT $columnName from questions_$lang LIMIT $from, $to;";
-    //         //$questionsData = new Data();
-    //         $colName = $this->getQuestion($selectQuery, $columnName) ;
-    //         $this->columnName = $colName;
-    //         return $this->columnName;
-    //     }
-
-    //     public function numRows($from=0, $to=9) {
-    //         $lang = $_SESSION['lang'];
-    //         $rowsNumberQuery = "SELECT id from questions_$lang LIMIT $from, $to;";
-    //         //$questionsNumbers = new Data();
-    //         $numRows = mysqli_num_rows($this->connectToDatabase($rowsNumberQuery));
-    //         return $numRows;
-    //     }
-    // }
-
-    // $getData = new Data();
 
 
-    // class Variables {
-    //     private $columnName = "column name";
 
-    //     public function getVariable($columnName, $from=0, $to=9) {
-    //         $lang = $_SESSION['lang'];
-    //         $selectQuery = "SELECT $columnName from questions_$lang LIMIT $from, $to;";
-    //         $questionsData = new Data();
-    //         $colName = $questionsData->getQuestion($selectQuery, $columnName) ;
-    //         $this->columnName = $colName;
-    //         return $this->columnName;
-    //     }
+    class LoadSites {
+        private $loadSite;
 
-    //     public function numRows($from=0, $to=9) {
-    //         $lang = $_SESSION['lang'];
-    //         $rowsNumberQuery = "SELECT id from questions_$lang LIMIT $from, $to;";
-    //         $questionsNumbers = new Data();
-    //         $numRows = mysqli_num_rows($questionsNumbers->query($rowsNumberQuery));
-    //         return $numRows;
-    //     }
-    // }
+        private function setSite($site) {
+            $lang = $_SESSION['lang'];
+            if ($site = "add-question") {
+                if ($lang = 'pl') {
+                    $this->loadSite = "dodaj-pytanie";
+                } else {
+                    $this->loadSite = "add-question";
+                }
+            } else if ($site = "show-question") {
+                if ($lang = 'pl') {
+                    $this->loadSite = "dodaj-pytanie";
+                } else {
+                    $this->loadSite = "add-question";
+                }
+            }
+        }
 
-    // $variables = new Variables();
+        public function loadSite($site) {
+            $this->setSite($site);
+            return $this->loadSite;
+        }
 
-    
+    }
+
+    $loadSite = new LoadSites();
 
 ?>
