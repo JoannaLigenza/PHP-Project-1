@@ -47,7 +47,9 @@
                                 <h2 class="p-2 h5 text-left"><?php echo $getQuestionsData->getQuestionData('title')[$i]; ?></h2>
                                 <div class="d-flex flex-row justify-content-center align-items-center">
                                     <img src="img/arr-down-b.svg" class="h-100" alt="heart-icon"> 
-                                    <a href="#"><div class="p-2 h6 lead text-body">Odpowiedzi: <?php echo $getQuestionsData->getQuestionData('answears')[$i]; ?></div></a>
+                                    <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$getQuestionsData->getQuestionData('id')[$i] ?> >
+                                        <div class="p-2 h6 lead text-body">Odpowiedzi: <?php echo $getQuestionsData->getQuestionData('answears')[$i]; ?></div>
+                                    </a>
                                     
                                 </div>
                             </div>

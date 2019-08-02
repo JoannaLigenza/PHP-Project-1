@@ -103,9 +103,9 @@
     $getQuestionsData = new QuestionsData();
 
     class AnswearsData extends Data {
-        public function getAnswearData($columnName, $from=0, $to=9) {
+        public function getAnswearData($columnName, $toQuestion, $from=0, $to=9) {
             $lang = $_SESSION['lang'];
-            $query = "SELECT $columnName from answears_$lang LIMIT $from, $to;";
+            $query = "SELECT $columnName from answears_$lang WHERE to_question LIKE $toQuestion LIMIT $from, $to;";
             $answearsArr = [];
             $result = $this->connectToDatabase($query);
             if(mysqli_num_rows($result) > 0){
@@ -126,9 +126,9 @@
 
 
         // ROWS NUMBER //
-        public function answearRowsNum($from=0, $to=9) {
+        public function answearRowsNum($toQuestion, $from=0, $to=9) {
             $lang = $_SESSION['lang'];
-            $rowsNumberQuery = "SELECT id from answears_$lang WHERE to_question=1 LIMIT $from, $to;";
+            $rowsNumberQuery = "SELECT id from answears_$lang WHERE to_question LIKE $toQuestion LIMIT $from, $to;";
             //$questionsNumbers = new Data();
             $numRows = mysqli_num_rows($this->connectToDatabase($rowsNumberQuery));
             return $numRows;
@@ -145,17 +145,17 @@
 
         private function setSite($site) {
             $lang = $_SESSION['lang'];
-            if ($site = "add-question") {
+            if ($site === "add-question") {
                 if ($lang = 'pl') {
                     $this->loadSite = "dodaj-pytanie";
                 } else {
                     $this->loadSite = "add-question";
                 }
-            } else if ($site = "show-question") {
+            } else if ($site === "show-question") {
                 if ($lang = 'pl') {
-                    $this->loadSite = "dodaj-pytanie";
+                    $this->loadSite = "pytanie";
                 } else {
-                    $this->loadSite = "add-question";
+                    $this->loadSite = "question";
                 }
             }
         }
