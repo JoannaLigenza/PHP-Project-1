@@ -61,13 +61,7 @@
                 return $result;
             }
         }
-
-        
-        
-
     }
-
-    //$getData = new Data();
 
     class QuestionsData extends Data {
         public function getQuestionData($columnName, $from=0, $to=9) {
@@ -92,10 +86,7 @@
         }
 
         public function questionRowsNum($from=0, $to=9) {
-            // $lang = $_SESSION['lang'];
-            // $rowsNumberQuery = "SELECT id from questions_$lang LIMIT $from, $to;";
-            // $numRows = mysqli_num_rows($this->connectToDatabase($rowsNumberQuery));
-            $numRows =  count($this->getQuestionData('id'));
+            $numRows =  count($this->getQuestionData('id',  $from, $to));
             return $numRows;
         }
     }
@@ -116,21 +107,15 @@
             return $answearsArr;
         }
 
-        // public function putQuestionData($category, $title) {
-        //     $lang = $_SESSION['lang'];
-        //     $date=date("Y-m-d");
-        //     //$query = "INSERT INTO questions_$lang SET category = $category, title = $title, answears = 0, author = 'anonim', date = $date, favourites = false, votes = 0";
-        //     $query = "INSERT INTO questions_$lang SET category = '$category', title = '$title', answears = 0, author = 'anonim', date = $date, favourites = false, votes = 0";
-        //     $this->connectToDatabase($query);
-        // }
-
-
-        // ROWS NUMBER //
-        public function answearRowsNum($toQuestion, $from=0, $to=9) {
+        public function putAnswearData($toQuestion, $answear, $link="" ) {
             $lang = $_SESSION['lang'];
-            $rowsNumberQuery = "SELECT id from answears_$lang WHERE to_question LIKE $toQuestion LIMIT $from, $to;";
-            //$questionsNumbers = new Data();
-            $numRows = mysqli_num_rows($this->connectToDatabase($rowsNumberQuery));
+            $date=date("Y-m-d");
+            $query = "INSERT INTO answears_$lang SET to_question = '$toQuestion', answer_text = '$answear', link = '$link', author = 'anonim', date = $date, votes_down = 0, votes_up = 0";
+            $this->connectToDatabase($query);
+        }
+
+        public function answearRowsNum($toQuestion, $from=0, $to=9) {
+            $numRows =  count($this->getAnswearData('id', $toQuestion, $from, $to));
             return $numRows;
         }
     }
