@@ -47,7 +47,7 @@
 
 
     class Data {
-        private function connectToDatabase($query) {
+        protected function connectToDatabase($query) {
             $mysqli = new mysqli("localhost", "Aska", "myPass33", "recruiment_questions");
             if ($mysqli->connect_error) {
                 die('Connect Error (' . $mysqli->connect_errno . ') '. $mysqli->connect_error);
@@ -62,6 +62,14 @@
             }
         }
 
+        
+        
+
+    }
+
+    //$getData = new Data();
+
+    class QuestionsData extends Data {
         public function getQuestionData($columnName, $from=0, $to=9) {
             $lang = $_SESSION['lang'];
             $query = "SELECT $columnName from questions_$lang LIMIT $from, $to;";
@@ -84,13 +92,17 @@
         }
 
         public function questionRowsNum($from=0, $to=9) {
-            $lang = $_SESSION['lang'];
-            $rowsNumberQuery = "SELECT id from questions_$lang LIMIT $from, $to;";
-            //$questionsNumbers = new Data();
-            $numRows = mysqli_num_rows($this->connectToDatabase($rowsNumberQuery));
+            // $lang = $_SESSION['lang'];
+            // $rowsNumberQuery = "SELECT id from questions_$lang LIMIT $from, $to;";
+            // $numRows = mysqli_num_rows($this->connectToDatabase($rowsNumberQuery));
+            $numRows =  count($this->getQuestionData('id'));
             return $numRows;
         }
+    }
 
+    $getQuestionsData = new QuestionsData();
+
+    class AnswearsData extends Data {
         public function getAnswearData($columnName, $from=0, $to=9) {
             $lang = $_SESSION['lang'];
             $query = "SELECT $columnName from answears_$lang LIMIT $from, $to;";
@@ -112,6 +124,8 @@
         //     $this->connectToDatabase($query);
         // }
 
+
+        // ROWS NUMBER //
         public function answearRowsNum($from=0, $to=9) {
             $lang = $_SESSION['lang'];
             $rowsNumberQuery = "SELECT id from answears_$lang WHERE to_question=1 LIMIT $from, $to;";
@@ -121,7 +135,7 @@
         }
     }
 
-    $getData = new Data();
+    $getAnswearsData = new AnswearsData();
 
 
 

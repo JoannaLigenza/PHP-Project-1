@@ -2,6 +2,8 @@
     include "../functions.php";
 
     include "../header.php";
+
+    echo $getAnswearsData->answearRowsNum();
 ?>
         <!-- MAIN  -->
         <div class="container-fluid">
@@ -11,11 +13,11 @@
                     
                     
                     <div class="container-flex">
-                        <p class="text-right text-muted pb-2">Autor: <?php echo $getData->getQuestionData('author')[0]; ?>, data dodania: <?php echo $getData->getQuestionData('date')[0]; ?>  </p>
+                        <p class="text-right text-muted pb-2">Autor: <?php echo $getQuestionsData->getQuestionData('author')[0]; ?>, data dodania: <?php echo $getQuestionsData->getQuestionData('date')[0]; ?>  </p>
                     </div>
 
                     <div class="pb-5">
-                        <h3><?php echo $getData->getQuestionData('title')[0]; ?></h3>
+                        <h3><?php echo $getQuestionsData->getQuestionData('title')[0]; ?></h3>
                     </div>
 
                     <div class="d-flex flex-row justify-content-end">
@@ -36,10 +38,10 @@
                             </div>
                         </section>
 
-                        <?php for($i=0; $i < $getData->answearRowsNum(); $i++) : ?>
+                        <?php for($i=0; $i < $getAnswearsData->answearRowsNum(); $i++) : ?>
                             <section class="container-fluid text-center p-0 my-2">
                                 <div class="d-flex flex-row bg-light rounded">
-                                    <p> <?php echo $getData->getAnswearData('answer_text')[$i]; ?> </p>
+                                    <p> <?php echo $getAnswearsData->getAnswearData('answer_text')[$i]; ?> </p>
                                 </div>
                             </section>
                         <?php endfor; ?>
