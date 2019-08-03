@@ -91,7 +91,7 @@
         }
     }
 
-    $getQuestionsData = new QuestionsData();
+    $questionsData = new QuestionsData();
 
     class AnswearsData extends Data {
         public function getAnswearData($columnName, $toQuestion, $from=0, $to=9) {
@@ -114,13 +114,16 @@
             $this->connectToDatabase($query);
         }
 
-        public function answearRowsNum($toQuestion, $from=0, $to=9) {
-            $numRows =  count($this->getAnswearData('id', $toQuestion, $from, $to));
+        public function answearRowsNum($toQuestion) {
+            $lang = $_SESSION['lang'];
+            $query = "SELECT id from answears_$lang WHERE to_question LIKE $toQuestion";
+            $result = $this->connectToDatabase($query);
+            $numRows = mysqli_num_rows($result);
             return $numRows;
         }
     }
 
-    $getAnswearsData = new AnswearsData();
+    $answearsData = new AnswearsData();
 
 
 

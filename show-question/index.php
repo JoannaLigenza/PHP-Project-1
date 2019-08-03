@@ -1,19 +1,7 @@
 <?php
-    include "../functions.php";
+    include "show-question-functions.php";
 
     include "../header.php";
-
-    $getURI = $_SERVER['REQUEST_URI'];
-    $getId = $_GET['id']-1;
-    $getAnswearsNumber = $getAnswearsData->answearRowsNum($getId);
-
-    if (isset($_POST["add-answear-button"])) {
-        $answear = $_POST['answear-textarea'];
-        $getAnswearsData->putAnswearData($getId, $answear);
-        $url = $_SERVER['REQUEST_URI'];
-        $scrollTo = '#'.$getAnswearsNumber; 
-        header("Refresh:1; url=$url$scrollTo");
-    }
     
 ?>
         <!-- MAIN  -->
@@ -24,11 +12,11 @@
                     
                     
                     <div class="container-flex">
-                        <p class="text-right text-muted pb-2">Autor: <?php echo $getQuestionsData->getQuestionData('author')[$getId]; ?>, data dodania: <?php echo $getQuestionsData->getQuestionData('date')[$getId]; ?>  </p>
+                        <p class="text-right text-muted pb-2">Autor: <?php echo $questionsData->getQuestionData('author')[$getId]; ?>, data dodania: <?php echo $questionsData->getQuestionData('date')[$getId]; ?>  </p>
                     </div>
 
                     <div class="pb-5">
-                        <h3><?php echo $getQuestionsData->getQuestionData('title')[$getId]; ?></h3>
+                        <h3><?php echo $questionsData->getQuestionData('title')[$getId]; ?></h3>
                     </div>
 
                     <div class="d-flex flex-row justify-content-end">
@@ -37,23 +25,35 @@
                         </div>
                     </div>
 
+                    <!-- ANSWEARS -->
                     <div class="py-5">
-                        <?php if ($getAnswearsNumber === 0) : ?>
+                        <?php if (count($displayAnswearsData->getAnswears()) === 0) : ?>
                             <p>Nie dodano jeszcze odpowiedzi / No answers yet </p>
                         <?php else : ?>   
-                            <?php for($i=0; $i < $getAnswearsNumber; $i++) : ?>
+                            <?php for($i=0; $i < $displayAnswearsData->answearsNumOnPage; $i++) : ?>
                                 <section class="container-fluid text-center p-0 my-2" id=<?php echo $i ?> >
                                     <div class="d-flex flex-row bg-light rounded p-2">
                                         <p> 
-                                            <?php echo $getAnswearsData->getAnswearData('answer_text', $getId)[$i]; ?>
+                                            <?php echo $displayAnswearsData->getAnswears()[$i]; ?>
                                         </p>
                                     </div>
                                 </section>
                             <?php endfor; ?>
                         <?php endif; ?>
-                        
                     </div>
 
+                    <!-- NUMERIC PAGE NAVIGATION -->
+                    <div class="d-flex flex-row justify-content-center">
+                        <?php if ($displayAnswearsData->pageNavigationNumber() > 1) : ?>
+                            <?php for($i=0; $i < $displayAnswearsData->pageNavigationNumber(); $i++) : ?>
+                                    <a href=<?php echo ($i === 0) ? $displayAnswearsData->getPath() : $displayAnswearsData->getPath().'&page='.($i+1) ?> >
+                                        <div class="p-4"> <?php echo ($i+1); ?> </div>
+                                    </a>
+                            <?php endfor; ?>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- ADD QUESTION FORM -->
                     <div class="py-5" id="add-answear-div">
                         <form action="" method="post">
                             <textarea type="text" name="answear-textarea" class="form-control form-control-lg" placeholder="Add answear"></textarea>
@@ -68,6 +68,7 @@
                             </div>
                         </form>
                     </div>
+
 
                 </main>
                 <!-- END LEFT COL -->
