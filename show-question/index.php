@@ -2,7 +2,9 @@
     include "show-question-functions.php";
 
     include "../header.php";
+
     
+
 ?>
         <!-- MAIN  -->
         <div class="container-fluid">
@@ -12,11 +14,11 @@
                     
                     
                     <div class="container-flex">
-                        <p class="text-right text-muted pb-2">Autor: <?php echo $questionsData->getQuestionData('author')[$getId]; ?>, data dodania: <?php echo $questionsData->getQuestionData('date')[$getId]; ?>  </p>
+                        <p class="text-right text-muted pb-2">Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?>  </p>
                     </div>
 
                     <div class="pb-5">
-                        <h3><?php echo $questionsData->getQuestionData('title')[$getId]; ?></h3>
+                        <h3><?php echo $questionData['title']; ?></h3>
                     </div>
 
                     <div class="d-flex flex-row justify-content-end">

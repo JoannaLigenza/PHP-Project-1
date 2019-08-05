@@ -80,8 +80,7 @@
         public function putQuestionData($category, $title) {
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
-            //$query = "INSERT INTO questions_$lang SET category = $category, title = $title, answears = 0, author = 'anonim', date = $date, favourites = false, votes = 0";
-            $query = "INSERT INTO questions_$lang SET category = '$category', title = '$title', answears = 0, author = 'anonim', date = $date, favourites = false, votes = 0";
+            $query = "INSERT INTO questions_$lang SET category = '$category', title = '$title', answears = 0, author = 'anonim', date = '$date', favourites = false, votes = 0";
             $this->connectToDatabase($query);
         }
 
@@ -130,12 +129,12 @@
 
 
     class DisplayQuestionsData extends QuestionsData {
-        public $questionsNumOnPage = 4;
+        public $questionsNumOnPage = 3;
         private $pageNumber;
         private $from;
         private $to;
 
-        public function questionsNumber() {   
+        private function questionsNumber() {    
             if(isset($_GET['page'])) {
                 $this->pageNumber = $_GET['page'];
             }
@@ -165,11 +164,21 @@
             $pageNavigationNumber = ceil($getAllQuestionsNumber/$this->questionsNumOnPage);
             return $pageNavigationNumber;
         }
+
+        public function questionDataOnAnswearPage($id) {
+            $lang = $_SESSION['lang'];
+            $query = "SELECT * from questions_$lang WHERE id LIKE $id";
+            $result = $this->connectToDatabase($query);
+            if(mysqli_num_rows($result) > 0){
+                $row = $result->fetch_array(MYSQLI_ASSOC);
+            }
+            return $row;
+        }
     }
 
     $displayQuestionsData = new DisplayQuestionsData();
     $pageNavigationNumberForQuestions = $displayQuestionsData->pageNavigationNumber();
-
+    //print_r($displayQuestionsData->questionDataOnAnswearPage(14));
 
 
     class LoadSites {

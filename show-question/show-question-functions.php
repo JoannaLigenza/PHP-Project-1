@@ -7,7 +7,7 @@
         private $from;
         private $to;
 
-        public function setAnswearsNumber() {   
+        private function setAnswearsNumber() {   
             if(isset($_GET['page'])) {
                 $this->pageNumber = $_GET['page'];
             }
@@ -38,12 +38,16 @@
             }
             return $getAnswears;
         }
+
     }
 
     $displayAnswearsData = new DisplayAnswearsData();
     $getId = $_GET['id']-1;
     $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber();
     $getAnswears = $displayAnswearsData->getAnswears();
+    $questionData = $displayQuestionsData->questionDataOnAnswearPage(($getId+1));
+    $answearsNumber = $answearsData->answearRowsNum($getId);
+    
 
     if (isset($_POST["add-answear-button"])) {
         $answear = $_POST['answear-textarea'];
