@@ -7,7 +7,7 @@
         private $from;
         private $to;
 
-        public function answearsNumber() {   
+        public function setAnswearsNumber() {   
             if(isset($_GET['page'])) {
                 $this->pageNumber = $_GET['page'];
             }
@@ -21,37 +21,37 @@
             }  
         }
 
-        public function getAnswears() {
-            $getId = $_GET['id']-1;
-            $getAnswears = $this->getAnswearData('answer_text', $getId, $this->from, $this->to);
-            $answearsNumber = count($getAnswears);
-            
-            if ( $answearsNumber < $this->answearsNumOnPage) {
-                $this->answearsNumOnPage = $answearsNumber;
-            }
-            return $getAnswears;
-        }
-
         public function pageNavigationNumber() {
-            $this->answearsNumber();
+            $this->setAnswearsNumber();
             $getAllAnswearNumber = $this->answearRowsNum($_GET['id']-1);
             $pageNavigationNumber = ceil($getAllAnswearNumber/$this->answearsNumOnPage);
             return $pageNavigationNumber;
+        }
+
+        public function getAnswears() {
+            $getId = $_GET['id']-1;
+            $getAnswears = $this->getAnswearData('answer_text', $getId, $this->from, $this->to);
+            $setAnswearsNumber = count($getAnswears);
+            
+            if ( $setAnswearsNumber < $this->answearsNumOnPage) {
+                $this->answearsNumOnPage = $setAnswearsNumber;
+            }
+            return $getAnswears;
         }
     }
 
     $displayAnswearsData = new DisplayAnswearsData();
     $getId = $_GET['id']-1;
     $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber();
-    
+    $getAnswears = $displayAnswearsData->getAnswears();
 
     if (isset($_POST["add-answear-button"])) {
         $answear = $_POST['answear-textarea'];
         if(!empty($answear)) {
             $answearsData->putAnswearData($getId, $answear);
             $url = $_SERVER['REQUEST_URI'];
-            //$scrollTo = '#'.($answearsNumber-1); 
-            $scroll = $answearsNumber;
+            //$scrollTo = '#'.($setAnswearsNumber-1); 
+            //$scroll = $setAnswearsNumber;
             header("Refresh:2; url=$url");
             // header("Refresh:2; url=$url?scroll=$scroll");
             // header("Refresh:2; url=$url$scrollTo");

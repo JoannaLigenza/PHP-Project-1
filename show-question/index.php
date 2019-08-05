@@ -27,14 +27,14 @@
 
                     <!-- ANSWEARS -->
                     <div class="py-5">
-                        <?php if ($displayAnswearsData->answearsNumOnPage === 0) : ?>
+                        <?php if (count($getAnswears) === 0) : ?>
                             <p>Nie dodano jeszcze odpowiedzi / No answers yet </p>
                         <?php else : ?>   
-                            <?php for($i=0; $i < $displayAnswearsData->answearsNumOnPage; $i++) : ?>
+                            <?php for($i=0; $i < count($getAnswears); $i++) : ?>
                                 <section class="container-fluid text-center p-0 my-2" id=<?php echo $i ?> >
                                     <div class="d-flex flex-row bg-light rounded p-2">
                                         <p> 
-                                            <?php echo $displayAnswearsData->getAnswears()[$i]; ?>
+                                            <?php echo $getAnswears[$i]; ?>
                                         </p>
                                     </div>
                                 </section>
