@@ -33,54 +33,16 @@
         }
 
         public function pageNavigationNumber() {
+            $this->answearsNumber();
             $getAllAnswearNumber = $this->answearRowsNum($_GET['id']-1);
-            $pageNavigationNumber = ceil($getAllAnswearNumber/10);
+            $pageNavigationNumber = ceil($getAllAnswearNumber/$this->answearsNumOnPage);
             return $pageNavigationNumber;
         }
-        
-
-        public function getPath() {
-            $mainPath = explode("?", $_SERVER['REQUEST_URI']);
-            return $mainPath[0].'?id='.($_GET['id']);
-        }
-
     }
 
     $displayAnswearsData = new DisplayAnswearsData();
     $getId = $_GET['id']-1;
-    $displayAnswearsData->answearsNumber();
-
-    // $getId = $_GET['id']-1;
-    // $answearsNumOnPage = 10;
-    // $pageNumber;
-    // $from;
-    // $to;
-    // if(isset($_GET['page'])) {
-    //     $pageNumber = $_GET['page'];
-    // }
-
-    // if (!empty($pageNumber)) {
-    //     $from = $answearsNumOnPage*($pageNumber-1);
-    //     $to = $answearsNumOnPage;
-    // } else {
-    //     $from = 0;
-    //     $to = $answearsNumOnPage;
-    // }
-
-    // $getAnswears = $answearsData->getAnswearData('answer_text', $getId, $from, $to);
-    // $answearsNumber = count($getAnswears);
-    
-    // if ( $answearsNumber < $answearsNumOnPage) {
-    //     $answearsNumOnPage = $answearsNumber;
-    // }
-
-    // $getAllAnswearNumber = $answearsData->answearRowsNum($getId);
-    // $pageNavigationNumber = ceil($getAllAnswearNumber/10);
-
-    // function getPath() {
-    //     $mainPath = explode("?", $_SERVER['REQUEST_URI']);
-    //     return $mainPath[0].'?id='.($_GET['id']);
-    // }
+    $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber();
     
 
     if (isset($_POST["add-answear-button"])) {
@@ -93,7 +55,6 @@
             header("Refresh:2; url=$url");
             // header("Refresh:2; url=$url?scroll=$scroll");
             // header("Refresh:2; url=$url$scrollTo");
-            unset($_POST['answear-textarea']);
         }
         
     }

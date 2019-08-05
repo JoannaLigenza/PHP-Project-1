@@ -27,7 +27,7 @@
 
                     <!-- ANSWEARS -->
                     <div class="py-5">
-                        <?php if (count($displayAnswearsData->getAnswears()) === 0) : ?>
+                        <?php if ($displayAnswearsData->answearsNumOnPage === 0) : ?>
                             <p>Nie dodano jeszcze odpowiedzi / No answers yet </p>
                         <?php else : ?>   
                             <?php for($i=0; $i < $displayAnswearsData->answearsNumOnPage; $i++) : ?>
@@ -44,9 +44,9 @@
 
                     <!-- NUMERIC PAGE NAVIGATION -->
                     <div class="d-flex flex-row justify-content-center">
-                        <?php if ($displayAnswearsData->pageNavigationNumber() > 1) : ?>
-                            <?php for($i=0; $i < $displayAnswearsData->pageNavigationNumber(); $i++) : ?>
-                                    <a href=<?php echo ($i === 0) ? $displayAnswearsData->getPath() : $displayAnswearsData->getPath().'&page='.($i+1) ?> >
+                        <?php if ($pageNavigationNumberForAnswears > 1) : ?>
+                            <?php for($i=0; $i < $pageNavigationNumberForAnswears; $i++) : ?>
+                                    <a href=<?php echo ($i === 0) ? $getPathToNavigation : $getPathToNavigation.'&page='.($i+1) ?> >
                                         <div class="p-4"> <?php echo ($i+1); ?> </div>
                                     </a>
                             <?php endfor; ?>
