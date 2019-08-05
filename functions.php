@@ -85,8 +85,11 @@
             $this->connectToDatabase($query);
         }
 
-        public function questionRowsNum($from=0, $to=9) {
-            $numRows =  count($this->getQuestionData('id',  $from, $to));
+        public function questionRowsNum() {
+            $lang = $_SESSION['lang'];
+            $query = "SELECT id from questions_$lang";
+            $result = $this->connectToDatabase($query);
+            $numRows = mysqli_num_rows($result);
             return $numRows;
         }
     }
@@ -126,6 +129,47 @@
     $answearsData = new AnswearsData();
 
 
+    class DisplayQuestionsData extends QuestionsData {
+        public $questionsNumOnPage = 4;
+        private $pageNumber;
+        private $from;
+        private $to;
+
+        public function questionsNumber() {   
+            if(isset($_GET['page'])) {
+                $this->pageNumber = $_GET['page'];
+            }
+
+            if (!empty($this->pageNumber)) {
+                $this->from = $this->questionsNumOnPage*(($this->pageNumber)-1);
+                $this->to = $this->questionsNumOnPage;
+            } else {
+                $this->from = 0;
+                $this->to = $this->questionsNumOnPage;
+            }  
+        }
+
+        public function getQuestions($columnName) {
+            $getQuestions = $this->getQuestionData($columnName, $this->from, $this->to);
+            $questionsNumber = count($getQuestions);
+            
+            if ( $questionsNumber < $this->questionsNumOnPage) {
+                $this->questionsNumOnPage = $questionsNumber;
+            }
+            return $getQuestions;
+        }
+
+        public function pageNavigationNumber() {
+            $this->questionsNumber();
+            $getAllQuestionsNumber = $this->questionRowsNum();
+            $pageNavigationNumber = ceil($getAllQuestionsNumber/$this->questionsNumOnPage);
+            return $pageNavigationNumber;
+        }
+    }
+
+    $displayQuestionsData = new DisplayQuestionsData();
+    $pageNavigationNumberForQuestions = $displayQuestionsData->pageNavigationNumber();
+
 
 
     class LoadSites {
@@ -156,5 +200,25 @@
     }
 
     $loadSite = new LoadSites();
+
+    class Path {
+        public function getPath() {
+            $url = $_SERVER['REQUEST_URI'];
+            $mainPath = $_SERVER['REQUEST_URI'];
+            if (strpos($url, "id")) {
+                $mainPath = explode("?", $mainPath);
+                $mainPath = $mainPath[0].'?id='.($_GET['id']);
+            } else {
+                if (strpos($url, "?")) {
+                    $mainPath = explode("?", $_SERVER['REQUEST_URI'])[0];
+                }
+            }
+            
+            return $mainPath;
+        }
+    }
+
+    $path = new Path();
+    $getPathToNavigation = $path->getPath();
 
 ?>
