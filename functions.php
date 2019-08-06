@@ -89,9 +89,22 @@
             $numRows = mysqli_num_rows($result);
             return $numRows;
         }
+
+        protected function changeAnswearsNumber($id, $sign) {
+            $lang = $_SESSION['lang'];
+            if ($sign === "+") {
+                $query = "UPDATE questions_$lang SET answears = answears+1 WHERE id = $id";
+            } else if ($sign === "-") {
+                $query = "UPDATE questions_$lang SET answears = answears-1 WHERE id = $id";
+            }
+            $this->connectToDatabase($query);
+        }
     }
 
     $questionsData = new QuestionsData();
+    //print_r($questionsData->changeAnswearsNumber(0, '+'));
+    echo "<br><br>";
+    //$questionsData->changeAnswearsNumber($id, $sign);
 
     class AnswearsData extends Data {
         protected function getAnswearsData($toQuestion, $from=0, $to=10) {
@@ -165,6 +178,10 @@
 
         public function addQuestion($category, $title) {
             $this->putQuestionData($category, $title);
+        }
+
+        public function setAnswearsNumber($id, $sign) {
+            $this->changeAnswearsNumber($id, $sign);
         }
 
         public function questionDataOnAnswearPage($id) {

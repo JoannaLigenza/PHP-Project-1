@@ -9,10 +9,11 @@
     //$answearsNumber = $answearsData->answearRowsNum($getId);
     
 
-    if (isset($_POST["add-answear-button"])) {
+    if (isset($_POST['add-answear-button'])) {
         $answear = $_POST['answear-textarea'];
         if(!empty($answear)) {
             $displayAnswearsData->addAnswear($getId, $answear);
+            $displayQuestionsData->setAnswearsNumber(($getId+1), '+');
             $url = $_SERVER['REQUEST_URI'];
             //$scrollTo = '#'.($setAnswearsNumber-1); 
             //$scroll = $setAnswearsNumber;
