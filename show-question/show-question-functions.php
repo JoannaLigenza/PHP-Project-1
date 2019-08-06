@@ -1,7 +1,5 @@
 <?php
     include "../functions.php";
-
-    
     $getId = $_GET['id']-1;
     $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber();
     $getAnswears = $displayAnswearsData->getAnswears();

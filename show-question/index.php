@@ -1,10 +1,6 @@
 <?php
     include "show-question-functions.php";
-
     include "../header.php";
-
-    
-
 ?>
         <!-- MAIN  -->
         <div class="container-fluid">
@@ -14,7 +10,7 @@
                     
                     
                     <div class="container-flex">
-                        <p class="text-right text-muted pb-2">Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?>  </p>
+                        <p class="text-right text-muted pb-2">Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?> , <a href=<?php echo "" ?> >usuń</a>  </p>
                     </div>
 
                     <div class="pb-5">
@@ -33,13 +29,25 @@
                             <p>Nie dodano jeszcze odpowiedzi / No answers yet </p>
                         <?php else : ?>   
                             <?php for($i=0; $i < count($getAnswears); $i++) : ?>
-                                <section class="container-fluid text-center p-0 my-2" id=<?php echo $i ?> >
+                                <section class="container-fluid text-center p-0 pb-3 my-2" id=<?php echo $i ?> >
+                                    <div class="d-flex justify-content-between">
+                                        <div class="pl-2 text-muted"><small>Autor: <?php echo $getAnswears[$i]['author']; ?>, data dodania: <?php echo $getAnswears[$i]['date']; ?> </small></div>
+                                        <div>
+                                            <form action="" method="post"> <button type="submit" name="<?php echo 'name'.$getAnswears[$i]['id'] ?>" class="text-muted" value="delete-answear">usuń</button></form>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="d-flex flex-row bg-light rounded p-2">
                                         <p> 
-                                            <?php echo $getAnswears[$i]['answer_text']; ?>
+                                            <?php echo $getAnswears[$i]['answear_text']; ?>
                                         </p>
                                     </div>
                                 </section>
+                                <?php 
+                                    if (isset($_POST['name'.$getAnswears[$i]['id']])) {
+                                        $answearsData->deleteAnswear($getAnswears[$i]['id']);
+                                    }
+                                ?>
                             <?php endfor; ?>
                         <?php endif; ?>
                     </div>

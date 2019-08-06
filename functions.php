@@ -1,7 +1,4 @@
 <?php
-
-    //define('connection', 'mysqli_connect("localhost", "Aska", "myPass33", "recruiment_questions")');
-
     class Language {
         // get language from browser and set language depent on if statement
         private function setLanguage($getLang) {
@@ -102,9 +99,6 @@
     }
 
     $questionsData = new QuestionsData();
-    //print_r($questionsData->changeAnswearsNumber(0, '+'));
-    echo "<br><br>";
-    //$questionsData->changeAnswearsNumber($id, $sign);
 
     class AnswearsData extends Data {
         protected function getAnswearsData($toQuestion, $from=0, $to=10) {
@@ -123,7 +117,13 @@
         protected function putAnswearData($toQuestion, $answear, $link="" ) {
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
-            $query = "INSERT INTO answears_$lang SET to_question = '$toQuestion', answer_text = '$answear', link = '$link', author = 'anonim', date = '$date', votes_down = 0, votes_up = 0";
+            $query = "INSERT INTO answears_$lang SET to_question = '$toQuestion', answear_text = '$answear', link = '$link', author = 'anonim', date = '$date', votes_down = 0, votes_up = 0";
+            $this->connectToDatabase($query);
+        }
+
+        public function deleteAnswear($id) {
+            $lang = $_SESSION['lang'];
+            $query = "DELETE from answears_$lang where id = $id";
             $this->connectToDatabase($query);
         }
 
@@ -137,6 +137,7 @@
     }
 
     $answearsData = new AnswearsData();
+    //$answearsData->deleteAnswear(71);
 
 
     class DisplayQuestionsData extends QuestionsData {
