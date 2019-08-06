@@ -39,7 +39,7 @@ ini_set('display_errors', 1);
                                     if (isset($_POST["add-question-button"])) {
                                         $category = $_POST['select-category'];
                                         $title = $_POST['question-title-textarea'];
-                                        $questionsData->putQuestionData($category, $title);
+                                        $displayQuestionsData->addQuestion($category, $title);
                                         echo "Pytanie zostało dodane";
                                     }
                                 ?>

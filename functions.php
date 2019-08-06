@@ -64,27 +64,25 @@
     }
 
     class QuestionsData extends Data {
-        public function getQuestionData($columnName, $from=0, $to=9) {
+        protected function getQuestionsData($from=0, $to=10) {
             $lang = $_SESSION['lang'];
-            $query = "SELECT $columnName from questions_$lang LIMIT $from, $to;";
+            $query = "SELECT * from questions_$lang LIMIT $from, $to;";
             $questionsArr = [];
             $result = $this->connectToDatabase($query);
-            if(mysqli_num_rows($result) > 0){
-                while($row = mysqli_fetch_array($result)){
-                    array_push($questionsArr, $row[$columnName]);
-                }
+            while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                array_push($questionsArr, $row);
             }
             return $questionsArr;
         }
 
-        public function putQuestionData($category, $title) {
+        protected function putQuestionData($category, $title) {
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
             $query = "INSERT INTO questions_$lang SET category = '$category', title = '$title', answears = 0, author = 'anonim', date = '$date', favourites = false, votes = 0";
             $this->connectToDatabase($query);
         }
 
-        public function questionRowsNum() {
+        protected function questionRowsNum() {
             $lang = $_SESSION['lang'];
             $query = "SELECT id from questions_$lang";
             $result = $this->connectToDatabase($query);
@@ -96,27 +94,27 @@
     $questionsData = new QuestionsData();
 
     class AnswearsData extends Data {
-        public function getAnswearData($columnName, $toQuestion, $from=0, $to=9) {
+        protected function getAnswearsData($toQuestion, $from=0, $to=10) {
             $lang = $_SESSION['lang'];
-            $query = "SELECT $columnName from answears_$lang WHERE to_question LIKE $toQuestion LIMIT $from, $to;";
+            $query = "SELECT * from answears_$lang WHERE to_question LIKE $toQuestion LIMIT $from, $to;";
             $answearsArr = [];
             $result = $this->connectToDatabase($query);
             if(mysqli_num_rows($result) > 0){
-                while($row = mysqli_fetch_array($result)){
-                    array_push($answearsArr, $row[$columnName]);
+                while($row = $result->fetch_array(MYSQLI_ASSOC)){
+                    array_push($answearsArr, $row);
                 }
             }
             return $answearsArr;
         }
 
-        public function putAnswearData($toQuestion, $answear, $link="" ) {
+        protected function putAnswearData($toQuestion, $answear, $link="" ) {
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
-            $query = "INSERT INTO answears_$lang SET to_question = '$toQuestion', answer_text = '$answear', link = '$link', author = 'anonim', date = $date, votes_down = 0, votes_up = 0";
+            $query = "INSERT INTO answears_$lang SET to_question = '$toQuestion', answer_text = '$answear', link = '$link', author = 'anonim', date = '$date', votes_down = 0, votes_up = 0";
             $this->connectToDatabase($query);
         }
 
-        public function answearRowsNum($toQuestion) {
+        protected function answearRowsNum($toQuestion) {
             $lang = $_SESSION['lang'];
             $query = "SELECT id from answears_$lang WHERE to_question LIKE $toQuestion";
             $result = $this->connectToDatabase($query);
@@ -148,8 +146,8 @@
             }  
         }
 
-        public function getQuestions($columnName) {
-            $getQuestions = $this->getQuestionData($columnName, $this->from, $this->to);
+        public function getQuestions() {
+            $getQuestions = $this->getQuestionsData($this->from, $this->to);
             $questionsNumber = count($getQuestions);
             
             if ( $questionsNumber < $this->questionsNumOnPage) {
@@ -165,6 +163,10 @@
             return $pageNavigationNumber;
         }
 
+        public function addQuestion($category, $title) {
+            $this->putQuestionData($category, $title);
+        }
+
         public function questionDataOnAnswearPage($id) {
             $lang = $_SESSION['lang'];
             $query = "SELECT * from questions_$lang WHERE id LIKE $id";
@@ -178,7 +180,52 @@
 
     $displayQuestionsData = new DisplayQuestionsData();
     $pageNavigationNumberForQuestions = $displayQuestionsData->pageNavigationNumber();
-    //print_r($displayQuestionsData->questionDataOnAnswearPage(14));
+    $questionData = $displayQuestionsData->getQuestions();
+
+    class DisplayAnswearsData extends AnswearsData {
+        public $answearsNumOnPage = 10;
+        private $pageNumber;
+        private $from;
+        private $to;
+
+        private function setAnswearsNumber() {   
+            if(isset($_GET['page'])) {
+                $this->pageNumber = $_GET['page'];
+            }
+
+            if (!empty($this->pageNumber)) {
+                $this->from = $this->answearsNumOnPage*(($this->pageNumber)-1);
+                $this->to = $this->answearsNumOnPage;
+            } else {
+                $this->from = 0;
+                $this->to = $this->answearsNumOnPage;
+            }  
+        }
+
+        public function pageNavigationNumber() {
+            $this->setAnswearsNumber();
+            $getAllAnswearNumber = $this->answearRowsNum($_GET['id']-1);
+            $pageNavigationNumber = ceil($getAllAnswearNumber/$this->answearsNumOnPage);
+            return $pageNavigationNumber;
+        }
+
+        public function getAnswears() {
+            $getId = $_GET['id']-1;
+            $getAnswears = $this->getAnswearsData($getId, $this->from, $this->to);
+            $setAnswearsNumber = count($getAnswears);
+            
+            if ( $setAnswearsNumber < $this->answearsNumOnPage) {
+                $this->answearsNumOnPage = $setAnswearsNumber;
+            }
+            return $getAnswears;
+        }
+
+        public function addAnswear($toQuestion, $answear, $link="") {
+            $this->putAnswearData($toQuestion, $answear);
+        }
+    }
+
+    $displayAnswearsData = new DisplayAnswearsData();
 
 
     class LoadSites {
@@ -209,6 +256,7 @@
     }
 
     $loadSite = new LoadSites();
+
 
     class Path {
         public function getPath() {

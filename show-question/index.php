@@ -36,7 +36,7 @@
                                 <section class="container-fluid text-center p-0 my-2" id=<?php echo $i ?> >
                                     <div class="d-flex flex-row bg-light rounded p-2">
                                         <p> 
-                                            <?php echo $getAnswears[$i]; ?>
+                                            <?php echo $getAnswears[$i]['answer_text']; ?>
                                         </p>
                                     </div>
                                 </section>

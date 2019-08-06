@@ -36,7 +36,7 @@
                             <div class="d-flex flex-row">
                                 <div class="d-flex flex-column justify-content-center px-2">
                                     <div class="h-100 pb-2 d-flex flex-column justify-content-end">
-                                        <div><?php echo $displayQuestionsData->getQuestions('votes')[$i]; ?></div>
+                                        <div><?php echo $questionData[$i]['votes']; ?></div>
                                         <div><img src="img/arr-up.svg" class="p-2" alt="up-icon red "></div>
                                     </div>
                                     <div class="h-100 pt-2">
@@ -45,12 +45,12 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <div class="container-fluid bg-gradient-warning border-bottom border-warning py-1 h4"> <?php echo $displayQuestionsData->getQuestions('category')[$i]; ?> </div>
-                                    <h2 class="p-2 h5 text-left"><?php echo $displayQuestionsData->getQuestions('title')[$i]; ?></h2>
+                                    <div class="container-fluid bg-gradient-warning border-bottom border-warning py-1 h4"> <?php echo $questionData[$i]['category']; ?> </div>
+                                    <h2 class="p-2 h5 text-left"><?php echo $questionData[$i]['title']; ?></h2>
                                     <div class="d-flex flex-row justify-content-center align-items-center">
                                         <img src="img/arr-down-b.svg" class="h-100" alt="heart-icon"> 
-                                        <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$displayQuestionsData->getQuestions('id')[$i] ?> >
-                                            <div class="p-2 h6 lead text-body">Odpowiedzi: <?php echo $displayQuestionsData->getQuestions('answears')[$i]; ?></div>
+                                        <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$questionData[$i]['id'] ?> >
+                                            <div class="p-2 h6 lead text-body">Odpowiedzi: <?php echo $questionData[$i]['answears']; ?></div>
                                         </a>
                                         
                                     </div>
