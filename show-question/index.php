@@ -33,7 +33,7 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="pl-2 text-muted"><small>Autor: <?php echo $getAnswears[$i]['author']; ?>, data dodania: <?php echo $getAnswears[$i]['date']; ?> </small></div>
                                         <div>
-                                            <form action="" method="post"> <button type="submit" name="<?php echo 'name'.$getAnswears[$i]['id'] ?>" class="text-muted" value="delete-answear">usuń</button></form>
+                                            <form action="" method="post"> <button type="submit" id="delete-answear" name="<?php echo 'name'.$getAnswears[$i]['id'] ?>" class="text-muted" value="delete-answear">usuń</button></form>
                                         </div>
                                     </div>
                                     
@@ -45,7 +45,9 @@
                                 </section>
                                 <?php 
                                     if (isset($_POST['name'.$getAnswears[$i]['id']])) {
-                                        $answearsData->deleteAnswear($getAnswears[$i]['id']);
+                                        if ($displayAnswearsData->deleteAnswear($getAnswears[$i]['id'])) {
+                                            $displayQuestionsData->setAnswearsNumber(($getId+1), '-');
+                                        }
                                     }
                                 ?>
                             <?php endfor; ?>

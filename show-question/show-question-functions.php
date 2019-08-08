@@ -10,16 +10,17 @@
     if (isset($_POST['add-answear-button'])) {
         $answear = $_POST['answear-textarea'];
         if(!empty($answear)) {
-            $displayAnswearsData->addAnswear($getId, $answear);
-            $displayQuestionsData->setAnswearsNumber(($getId+1), '+');
-            $url = $_SERVER['REQUEST_URI'];
-            //$scrollTo = '#'.($setAnswearsNumber-1); 
-            //$scroll = $setAnswearsNumber;
-            header("Refresh:2; url=$url");
-            // header("Refresh:2; url=$url?scroll=$scroll");
-            // header("Refresh:2; url=$url$scrollTo");
+            if ($displayAnswearsData->addAnswear($getId, $answear)) {
+                $displayQuestionsData->setAnswearsNumber(($getId+1), '+');
+                //$url = $_SERVER['REQUEST_URI'];
+                //$scrollTo = '#'.($setAnswearsNumber-1); 
+                //$scroll = $setAnswearsNumber;
+               // header("Refresh:1.5; url=$url");
+                // header("Refresh:2; url=$url?scroll=$scroll");
+                // header("Refresh:2; url=$url$scrollTo");
+            }
+            
         }
         
     }
-
 ?>

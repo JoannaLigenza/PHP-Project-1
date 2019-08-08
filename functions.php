@@ -44,94 +44,197 @@
 
 
     class Data {
-        protected function connectToDatabase($query) {
-            $mysqli = new mysqli("localhost", "Aska", "myPass33", "recruiment_questions");
-            if ($mysqli->connect_error) {
-                die('Connect Error (' . $mysqli->connect_errno . ') '. $mysqli->connect_error);
-            } else {
-                // $mysqli->query() - for OOP , mysqli_connect() - for procedural programing
-                $result = $mysqli->query($query);
-                mysqli_close($mysqli);
-                if(!$result) {
-                    die('Query failed');
-                }
-                return $result;
-            }
+        private $host = "localhost";
+        private $dbUserName = "Aska";
+        private $dbPass = "myPass33";
+        private $dbName = "recruiment_questions";
+
+        protected function connectionToDb() {
+            $mysqli = new mysqli($this->host, $this->dbUserName, $this->dbPass , $this->dbName);
+            return $mysqli;
         }
+        // protected function connectToDatabase($query) {
+        //     $mysqli = $this->connectionToDb();
+        //     if ($mysqli->connect_error) {
+        //         //die('Connect Error (' . $mysqli->connect_errno . ') '. $mysqli->connect_error);
+        //         exit('Error connecting to database');
+        //     } else {
+        //         // $mysqli->query() - for OOP , mysqli_connect() - for procedural programing
+        //         $result = $mysqli->query($query);
+        //         mysqli_close($mysqli);
+        //         if(!$result) {
+        //             die('Query failed');
+        //         }
+        //         return $result;
+        //     }
+        // }
     }
 
     class QuestionsData extends Data {
-        protected function getQuestionsData($from=0, $to=10) {
+        protected function getQuestionsData($from, $to) {
+            settype($from, "integer");
+            settype($to, "integer");
+            $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
-            $query = "SELECT * from questions_$lang LIMIT $from, $to;";
-            $questionsArr = [];
-            $result = $this->connectToDatabase($query);
-            while($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                array_push($questionsArr, $row);
+            $stmt = $connection->prepare("SELECT * from questions_$lang LIMIT ?, ?;");
+            if ($stmt) {
+                $stmt->bind_param("ii", $from, $to);
+                $questionsArr = [];
+                if($stmt->execute() === TRUE) {
+                   // $stmt->bind_result($result);
+                    $result = $stmt->get_result();
+                    while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                        array_push($questionsArr, $row);
+                    }
+                } 
             }
+            $stmt->close();
+            mysqli_close($connection);
             return $questionsArr;
         }
 
         protected function putQuestionData($category, $title) {
+            $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
-            $date=date("Y-m-d");
-            $query = "INSERT INTO questions_$lang SET category = '$category', title = '$title', answears = 0, author = 'anonim', date = '$date', favourites = false, votes = 0";
-            $this->connectToDatabase($query);
+            $date = date("Y-m-d");
+            // Convert special characters like < " > to HTML entities ( &lt; &quot; &gt;), so user cannot make script injections
+            $category = htmlspecialchars($category, ENT_QUOTES);
+            $title = htmlspecialchars($title, ENT_QUOTES);
+            // Prepared Statement send query and the data to the database separatly, not as one query.
+            $stmt = $connection->prepare("INSERT INTO questions_$lang SET category = ?, title = ?, answears = 0, author = 'anonim', date = ?, favourites = false, votes = 0;");
+            if ($stmt) {
+                $stmt->bind_param("sss", $category, $title, $date);
+                if($stmt->execute()) {
+                    $result = true;
+                    echo 'Pytanie zostało dodane';
+                } else {
+                    $result = false;
+                }
+            }
+            $stmt->close();
+            mysqli_close($connection);
+            return $result;
         }
 
         protected function questionRowsNum() {
+            $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
             $query = "SELECT id from questions_$lang";
-            $result = $this->connectToDatabase($query);
+            $result = $connection->query($query);
             $numRows = mysqli_num_rows($result);
             return $numRows;
         }
 
         protected function changeAnswearsNumber($id, $sign) {
+            $connection = $this->connectionToDb();
+            settype($id, "integer");
             $lang = $_SESSION['lang'];
             if ($sign === "+") {
-                $query = "UPDATE questions_$lang SET answears = answears+1 WHERE id = $id";
+                $query = "UPDATE questions_$lang SET answears = answears+1 WHERE id = ?";
             } else if ($sign === "-") {
-                $query = "UPDATE questions_$lang SET answears = answears-1 WHERE id = $id";
+                $query = "UPDATE questions_$lang SET answears = answears-1 WHERE id = ?";
             }
-            $this->connectToDatabase($query);
+            $stmt = $connection->prepare($query);
+            if ($stmt) {
+                $stmt->bind_param("i", $id );
+                if($stmt->execute()) {
+                    $result = true;
+                    echo 'Usunięto odpowiedź';
+                } else {
+                    $result = false;
+                }
+            }
+            $stmt->close();
+            mysqli_close($connection);
+            return $result;
         }
     }
 
     $questionsData = new QuestionsData();
 
     class AnswearsData extends Data {
-        protected function getAnswearsData($toQuestion, $from=0, $to=10) {
+        protected function getAnswearsData($toQuestion, $from, $to) {
+            $connection = $this->connectionToDb();
+            settype($toQuestion, "integer");
+            settype($from, "integer");
+            settype($to, "integer");
             $lang = $_SESSION['lang'];
-            $query = "SELECT * from answears_$lang WHERE to_question LIKE $toQuestion LIMIT $from, $to;";
-            $answearsArr = [];
-            $result = $this->connectToDatabase($query);
-            if(mysqli_num_rows($result) > 0){
-                while($row = $result->fetch_array(MYSQLI_ASSOC)){
-                    array_push($answearsArr, $row);
-                }
+            $stmt = $connection->prepare("SELECT * from answears_$lang WHERE to_question LIKE $toQuestion LIMIT ?, ?;");
+            if ($stmt) {
+                $stmt->bind_param("ii", $from, $to);
+                $answearsArr = [];
+                if($stmt->execute()) {
+                   // $stmt->bind_result($result);
+                    $result = $stmt->get_result();
+                    while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                        array_push($answearsArr, $row);
+                    }
+                } 
             }
+            $stmt->close();
+            mysqli_close($connection);
             return $answearsArr;
         }
 
-        protected function putAnswearData($toQuestion, $answear, $link="" ) {
+        protected function putAnswearData($toQuestion, $answear, $author="anonim", $link="" ) {
+            $connection = $this->connectionToDb();
+            settype($toQuestion, "integer");
+            $answear = htmlspecialchars($answear, ENT_QUOTES);
+            $link = htmlspecialchars($link, ENT_QUOTES);
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
-            $query = "INSERT INTO answears_$lang SET to_question = '$toQuestion', answear_text = '$answear', link = '$link', author = 'anonim', date = '$date', votes_down = 0, votes_up = 0";
-            $this->connectToDatabase($query);
+            $stmt = $connection->prepare("INSERT INTO answears_$lang SET to_question = ?, answear_text = ?, link = ?, author = ?, date = ?, votes_down = 0, votes_up = 0");
+            if ($stmt) {
+                $stmt->bind_param("issss", $toQuestion, $answear, $link, $author, $date);
+                if($stmt->execute()) {
+                    $result = true;
+                    $url = $_SERVER['REQUEST_URI'];
+                    header("Refresh:1.5; url=$url");
+                } else {
+                    $result = false;
+                }
+            }
+            $stmt->close();
+            mysqli_close($connection);
+            return $result;
         }
 
-        public function deleteAnswear($id) {
+        protected function removeAnswear($id) {
+            $connection = $this->connectionToDb();
+            settype($id, "integer");
             $lang = $_SESSION['lang'];
-            $query = "DELETE from answears_$lang where id = $id";
-            $this->connectToDatabase($query);
+            $stmt = $connection->prepare("DELETE from answears_$lang where id = ?");
+            if ($stmt) {
+                $stmt->bind_param("i", $id);
+                if($stmt->execute()) {
+                    $result = true;
+                    // $url = $_SERVER['REQUEST_URI'];
+                    // header("Refresh:1.5; url=$url");
+                } else {
+                    $result = false;
+                }
+            }
+            $stmt->close();
+            mysqli_close($connection);
+            return $result;
         }
 
         protected function answearRowsNum($toQuestion) {
+            $connection = $this->connectionToDb();
+            settype($toQuestion, "integer");
             $lang = $_SESSION['lang'];
-            $query = "SELECT id from answears_$lang WHERE to_question LIKE $toQuestion";
-            $result = $this->connectToDatabase($query);
-            $numRows = mysqli_num_rows($result);
+            $stmt = $connection->prepare("SELECT id from answears_$lang WHERE to_question LIKE ?");
+            if ($stmt) {
+                $stmt->bind_param("i", $toQuestion);
+                if($stmt->execute()) {
+                    $stmt->store_result();
+                    $numRows = $stmt->num_rows;
+                } else {
+                    $numRows = 0;
+                }
+            }
+            $stmt->close();
+            mysqli_close($connection);
             return $numRows;
         }
     }
@@ -150,7 +253,6 @@
             if(isset($_GET['page'])) {
                 $this->pageNumber = $_GET['page'];
             }
-
             if (!empty($this->pageNumber)) {
                 $this->from = $this->questionsNumOnPage*(($this->pageNumber)-1);
                 $this->to = $this->questionsNumOnPage;
@@ -186,13 +288,20 @@
         }
 
         public function questionDataOnAnswearPage($id) {
+            $connection = $this->connectionToDb();
+            settype($id, "integer");
             $lang = $_SESSION['lang'];
-            $query = "SELECT * from questions_$lang WHERE id LIKE $id";
-            $result = $this->connectToDatabase($query);
-            if(mysqli_num_rows($result) > 0){
-                $row = $result->fetch_array(MYSQLI_ASSOC);
+            $stmt = $connection->prepare("SELECT * from questions_$lang WHERE id LIKE ?");
+            if ($stmt) {
+                $stmt->bind_param("i", $id);
+                if($stmt->execute()) {
+                    $result = $stmt->get_result();
+                    $result = $result->fetch_array(MYSQLI_ASSOC);
+                } 
             }
-            return $row;
+            $stmt->close();
+            mysqli_close($connection);
+            return $result;
         }
     }
 
@@ -239,7 +348,13 @@
         }
 
         public function addAnswear($toQuestion, $answear, $link="") {
-            $this->putAnswearData($toQuestion, $answear);
+            $res = $this->putAnswearData($toQuestion, $answear);
+            return $res;
+        }
+
+        public function deleteAnswear($id) {
+            $res = $this->removeAnswear($id);
+            return $res;
         }
     }
 

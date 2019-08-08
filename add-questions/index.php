@@ -40,7 +40,6 @@ ini_set('display_errors', 1);
                                         $category = $_POST['select-category'];
                                         $title = $_POST['question-title-textarea'];
                                         $displayQuestionsData->addQuestion($category, $title);
-                                        echo "Pytanie zostało dodane";
                                     }
                                 ?>
                             </div>
