@@ -76,19 +76,19 @@
             settype($to, "integer");
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
-            $stmt = $connection->prepare("SELECT * from questions_$lang LIMIT ?, ?;");
-            if ($stmt) {
-                $stmt->bind_param("ii", $from, $to);
+            $query = $connection->prepare("SELECT * from questions_$lang LIMIT ?, ?;");
+            if ($query) {
+                $query->bind_param("ii", $from, $to);
                 $questionsArr = [];
-                if($stmt->execute() === TRUE) {
-                   // $stmt->bind_result($result);
-                    $result = $stmt->get_result();
+                if($query->execute()) {
+                   // $query->bind_result($result);
+                    $result = $query->get_result();
                     while($row = $result->fetch_array(MYSQLI_ASSOC)) {
                         array_push($questionsArr, $row);
                     }
                 } 
             }
-            $stmt->close();
+            $query->close();
             mysqli_close($connection);
             return $questionsArr;
         }
@@ -101,17 +101,17 @@
             $category = htmlspecialchars($category, ENT_QUOTES);
             $title = htmlspecialchars($title, ENT_QUOTES);
             // Prepared Statement send query and the data to the database separatly, not as one query.
-            $stmt = $connection->prepare("INSERT INTO questions_$lang SET category = ?, title = ?, answears = 0, author = 'anonim', date = ?, favourites = false, votes = 0;");
-            if ($stmt) {
-                $stmt->bind_param("sss", $category, $title, $date);
-                if($stmt->execute()) {
+            $query = $connection->prepare("INSERT INTO questions_$lang SET category = ?, title = ?, answears = 0, author = 'anonim', date = ?, favourites = false, votes = 0;");
+            if ($query) {
+                $query->bind_param("sss", $category, $title, $date);
+                if($query->execute()) {
                     $result = true;
                     echo 'Pytanie zostało dodane';
                 } else {
                     $result = false;
                 }
             }
-            $stmt->close();
+            $query->close();
             mysqli_close($connection);
             return $result;
         }
@@ -134,17 +134,16 @@
             } else if ($sign === "-") {
                 $query = "UPDATE questions_$lang SET answears = answears-1 WHERE id = ?";
             }
-            $stmt = $connection->prepare($query);
-            if ($stmt) {
-                $stmt->bind_param("i", $id );
-                if($stmt->execute()) {
+            $query = $connection->prepare($query);
+            if ($query) {
+                $query->bind_param("i", $id );
+                if($query->execute()) {
                     $result = true;
-                    echo 'Usunięto odpowiedź';
                 } else {
                     $result = false;
                 }
             }
-            $stmt->close();
+            $query->close();
             mysqli_close($connection);
             return $result;
         }
@@ -159,19 +158,19 @@
             settype($from, "integer");
             settype($to, "integer");
             $lang = $_SESSION['lang'];
-            $stmt = $connection->prepare("SELECT * from answears_$lang WHERE to_question LIKE $toQuestion LIMIT ?, ?;");
-            if ($stmt) {
-                $stmt->bind_param("ii", $from, $to);
+            $query = $connection->prepare("SELECT * from answears_$lang WHERE to_question LIKE $toQuestion LIMIT ?, ?;");
+            if ($query) {
+                $query->bind_param("ii", $from, $to);
                 $answearsArr = [];
-                if($stmt->execute()) {
-                   // $stmt->bind_result($result);
-                    $result = $stmt->get_result();
+                if($query->execute()) {
+                   // $query->bind_result($result);
+                    $result = $query->get_result();
                     while($row = $result->fetch_array(MYSQLI_ASSOC)) {
                         array_push($answearsArr, $row);
                     }
                 } 
             }
-            $stmt->close();
+            $query->close();
             mysqli_close($connection);
             return $answearsArr;
         }
@@ -183,10 +182,10 @@
             $link = htmlspecialchars($link, ENT_QUOTES);
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
-            $stmt = $connection->prepare("INSERT INTO answears_$lang SET to_question = ?, answear_text = ?, link = ?, author = ?, date = ?, votes_down = 0, votes_up = 0");
-            if ($stmt) {
-                $stmt->bind_param("issss", $toQuestion, $answear, $link, $author, $date);
-                if($stmt->execute()) {
+            $query = $connection->prepare("INSERT INTO answears_$lang SET to_question = ?, answear_text = ?, link = ?, author = ?, date = ?, votes_down = 0, votes_up = 0");
+            if ($query) {
+                $query->bind_param("issss", $toQuestion, $answear, $link, $author, $date);
+                if($query->execute()) {
                     $result = true;
                     $url = $_SERVER['REQUEST_URI'];
                     header("Refresh:1.5; url=$url");
@@ -194,7 +193,7 @@
                     $result = false;
                 }
             }
-            $stmt->close();
+            $query->close();
             mysqli_close($connection);
             return $result;
         }
@@ -203,10 +202,10 @@
             $connection = $this->connectionToDb();
             settype($id, "integer");
             $lang = $_SESSION['lang'];
-            $stmt = $connection->prepare("DELETE from answears_$lang where id = ?");
-            if ($stmt) {
-                $stmt->bind_param("i", $id);
-                if($stmt->execute()) {
+            $query = $connection->prepare("DELETE from answears_$lang where id = ?");
+            if ($query) {
+                $query->bind_param("i", $id);
+                if($query->execute()) {
                     $result = true;
                     // $url = $_SERVER['REQUEST_URI'];
                     // header("Refresh:1.5; url=$url");
@@ -214,7 +213,7 @@
                     $result = false;
                 }
             }
-            $stmt->close();
+            $query->close();
             mysqli_close($connection);
             return $result;
         }
@@ -223,17 +222,17 @@
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
             $lang = $_SESSION['lang'];
-            $stmt = $connection->prepare("SELECT id from answears_$lang WHERE to_question LIKE ?");
-            if ($stmt) {
-                $stmt->bind_param("i", $toQuestion);
-                if($stmt->execute()) {
-                    $stmt->store_result();
-                    $numRows = $stmt->num_rows;
+            $query = $connection->prepare("SELECT id from answears_$lang WHERE to_question LIKE ?");
+            if ($query) {
+                $query->bind_param("i", $toQuestion);
+                if($query->execute()) {
+                    $query->store_result();
+                    $numRows = $query->num_rows;
                 } else {
                     $numRows = 0;
                 }
             }
-            $stmt->close();
+            $query->close();
             mysqli_close($connection);
             return $numRows;
         }
@@ -291,15 +290,15 @@
             $connection = $this->connectionToDb();
             settype($id, "integer");
             $lang = $_SESSION['lang'];
-            $stmt = $connection->prepare("SELECT * from questions_$lang WHERE id LIKE ?");
-            if ($stmt) {
-                $stmt->bind_param("i", $id);
-                if($stmt->execute()) {
-                    $result = $stmt->get_result();
+            $query = $connection->prepare("SELECT * from questions_$lang WHERE id LIKE ?");
+            if ($query) {
+                $query->bind_param("i", $id);
+                if($query->execute()) {
+                    $result = $query->get_result();
                     $result = $result->fetch_array(MYSQLI_ASSOC);
                 } 
             }
-            $stmt->close();
+            $query->close();
             mysqli_close($connection);
             return $result;
         }
@@ -359,6 +358,51 @@
     }
 
     $displayAnswearsData = new DisplayAnswearsData();
+
+    class UserData extends Data {
+        public function checkUserName($userName) {
+            $connection = $this->connectionToDb();
+            settype($userName, "string");
+            $lang = $_SESSION['lang'];
+            $query = $connection->prepare("SELECT * from users_$lang WHERE username LIKE ?");
+            if ($query) {
+                $query->bind_param("s", $userName);
+                if($query->execute()) {
+                    $query->store_result();
+                    $numRows = $query->num_rows;
+                } else {
+                    $numRows = 0;
+                }
+            }
+            $query->close();
+            mysqli_close($connection);
+            return $numRows;
+        }
+
+        public function addUser($userName, $email, $pass) {
+            $connection = $this->connectionToDb();
+            $lang = $_SESSION['lang'];
+            $date=date("Y-m-d");
+            $query = $connection->prepare("INSERT INTO users_$lang SET username = ?, email = ?, pass = ?, date = ?");
+            if ($query) {
+                $query->bind_param("ssss", $userName, $email, $pass, $date);
+                if($query->execute()) {
+                    $result = true;
+                    //$url = $_SERVER['REQUEST_URI'];
+                    //header("Refresh:1.5; url=$url");
+                    //header("Location: $url?signup=success");
+                } else {
+                    $result = false;
+                }
+            }
+            $query->close();
+            mysqli_close($connection);
+            return $result;
+        }
+    }
+
+    $userData = new UserData();
+    //$checkUserName = $userData->checkUserName($userName);
 
 
     class LoadSites {

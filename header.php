@@ -11,7 +11,7 @@
     <script src="/js/script.js"></script>
 </head>
 <body class="min-vh-100">
-    <div class="container-fluid p-0">
+    <div class="container-fluid m-0 p-0">
         <!-- HEADER -->
         <header>
             <div class="d-flex flex-column flex-sm-row justify-content-between border-bottom border-warning">

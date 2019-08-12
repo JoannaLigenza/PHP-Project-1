@@ -3,8 +3,10 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="container-fluid py-5">
-        <a href="/en/"><?php echo $lang["english"] ?></a> | <a href="/pl/"><?php echo $lang["polish"] ?></a>
+    <footer class="container-fluid">
+        <div class="right py-3">
+            <a href="/en/"><?php echo $lang["english"] ?></a> | <a href="/pl/"><?php echo $lang["polish"] ?></a>
+        </div>
     </footer>
     <!-- END FOOTER -->
 
