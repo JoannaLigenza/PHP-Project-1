@@ -44,30 +44,15 @@
 
 
     class Data {
-        private $host = "localhost";
-        private $dbUserName = "Aska";
-        private $dbPass = "myPass33";
-        private $dbName = "recruiment_questions";
-
         protected function connectionToDb() {
-            $mysqli = new mysqli($this->host, $this->dbUserName, $this->dbPass , $this->dbName);
+            include "dbconnect.php";
+            $mysqli = new mysqli($host, $dbUserName, $dbPass , $dbName);
+            if ($mysqli->connect_error) {
+                die();
+                exit('Error connecting to database');
+            }
             return $mysqli;
         }
-        // protected function connectToDatabase($query) {
-        //     $mysqli = $this->connectionToDb();
-        //     if ($mysqli->connect_error) {
-        //         //die('Connect Error (' . $mysqli->connect_errno . ') '. $mysqli->connect_error);
-        //         exit('Error connecting to database');
-        //     } else {
-        //         // $mysqli->query() - for OOP , mysqli_connect() - for procedural programing
-        //         $result = $mysqli->query($query);
-        //         mysqli_close($mysqli);
-        //         if(!$result) {
-        //             die('Query failed');
-        //         }
-        //         return $result;
-        //     }
-        // }
     }
 
     class QuestionsData extends Data {
@@ -394,6 +379,23 @@
                 } else {
                     $result = false;
                 }
+            }
+            $query->close();
+            mysqli_close($connection);
+            return $result;
+        }
+
+        public function getUserData($username) {
+            $connection = $this->connectionToDb();
+            $lang = $_SESSION['lang'];
+            $query = $connection->prepare("SELECT * FROM users_$lang WHERE username = ?");
+            if($query) {
+                $query->bind_param("s", $username);
+                //$userArr = [];
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    $result = $result->fetch_array(MYSQLI_ASSOC);
+                } 
             }
             $query->close();
             mysqli_close($connection);

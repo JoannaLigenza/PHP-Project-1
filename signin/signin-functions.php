@@ -9,9 +9,9 @@
     // }
 
     if (isset($_POST['signin-button'])) {
-        $userName = htmlspecialchars($_POST['username'], ENT_QUOTES);
-        $email = htmlspecialchars($_POST['email'], ENT_QUOTES);
-        $pass = htmlspecialchars($_POST['pass'], ENT_QUOTES);
+        $userName = htmlspecialchars($_POST['signin-username'], ENT_QUOTES);
+        $email = htmlspecialchars($_POST['signin-email'], ENT_QUOTES);
+        $pass = htmlspecialchars($_POST['signin-pass'], ENT_QUOTES);
         if (empty($userName) || empty($email) || empty($pass)) {
             // $url = $_SERVER['REQUEST_URI'];
             // header("Location: $url?signup=empty");
