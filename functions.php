@@ -1,4 +1,6 @@
 <?php
+    ini_set('session.name', 'SESSION_ID');
+    ini_set('session.cookie_httponly', 1 );
     class Language {
         // get language from browser and set language depent on if statement
         private function setLanguage($getLang) {
@@ -78,22 +80,21 @@
             return $questionsArr;
         }
 
-        protected function putQuestionData($category, $title) {
+        protected function putQuestionData($category, $title, $author) {
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
             $date = date("Y-m-d");
             // Convert special characters like < " > to HTML entities ( &lt; &quot; &gt;), so user cannot make script injections
             $category = htmlspecialchars($category, ENT_QUOTES);
             $title = htmlspecialchars($title, ENT_QUOTES);
+            $result = false;
             // Prepared Statement send query and the data to the database separatly, not as one query.
-            $query = $connection->prepare("INSERT INTO questions_$lang SET category = ?, title = ?, answears = 0, author = 'anonim', date = ?, favourites = false, votes = 0;");
+            $query = $connection->prepare("INSERT INTO questions_$lang SET category = ?, title = ?, answears = 0, author = ?, date = ?, favourites = false, votes = 0;");
             if ($query) {
-                $query->bind_param("sss", $category, $title, $date);
+                $query->bind_param("ssss", $category, $title, $author, $date);
                 if($query->execute()) {
                     $result = true;
-                    echo 'Pytanie zostało dodane';
-                } else {
-                    $result = false;
+                    //echo 'Pytanie zostało dodane';
                 }
             }
             $query->close();
@@ -132,6 +133,45 @@
             mysqli_close($connection);
             return $result;
         }
+
+        public function addToFavourites($user, $toQuestion) {
+            $connection = $this->connectionToDb();
+            $lang = $_SESSION['lang'];
+            $query = $connection->prepare("SELECT * FROM favourites_$lang WHERE username = ? AND question_number = ?");
+            if($query) {
+                $query->bind_param("si", $user, $toQuestion);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    $numRows = mysqli_num_rows($result);
+                    //$result = $result->fetch_array(MYSQLI_ASSOC);
+                    if ($numRows > 0) {
+                        $query = $connection->prepare("DELETE from favourites_$lang WHERE username = ? AND question_number = ?");
+                        if($query) {
+                            $query->bind_param("si", $user, $toQuestion);
+                            if($query->execute()) {
+                                $isAdded = false;
+                                $query->close();
+                                mysqli_close($connection);
+                                //echo "<br>num rows ".$isAdded."<br>";
+                                return $isAdded;
+                            } 
+                        }
+                    } else {
+                        $query = $connection->prepare("INSERT INTO favourites_$lang SET username = ?, question_number = ?");
+                        if($query) {
+                            $query->bind_param("si", $user, $toQuestion);
+                            if($query->execute()) {
+                                $isAdded = true;
+                                $query->close();
+                                mysqli_close($connection);
+                                //echo "<br>is added ".$isAdded."<br>";
+                                return $isAdded;
+                            } 
+                        }
+                    }
+                } 
+            }
+        }
     }
 
     $questionsData = new QuestionsData();
@@ -160,7 +200,7 @@
             return $answearsArr;
         }
 
-        protected function putAnswearData($toQuestion, $answear, $author="anonim", $link="" ) {
+        protected function putAnswearData($toQuestion, $answear, $author, $link="" ) {
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
             $answear = htmlspecialchars($answear, ENT_QUOTES);
@@ -172,8 +212,8 @@
                 $query->bind_param("issss", $toQuestion, $answear, $link, $author, $date);
                 if($query->execute()) {
                     $result = true;
-                    $url = $_SERVER['REQUEST_URI'];
-                    header("Refresh:1.5; url=$url");
+                    // $url = $_SERVER['REQUEST_URI'];
+                    // header("Refresh:1.5; url=$url");
                 } else {
                     $result = false;
                 }
@@ -263,12 +303,32 @@
             return $pageNavigationNumber;
         }
 
-        public function addQuestion($category, $title) {
-            $this->putQuestionData($category, $title);
+        public function addQuestion($category, $title, $author='anonim') {
+            $result = $this->putQuestionData($category, $title, $author);
+            return $result;
         }
 
         public function setAnswearsNumber($id, $sign) {
-            $this->changeAnswearsNumber($id, $sign);
+            $result = $this->changeAnswearsNumber($id, $sign);
+            return $result;
+        }
+
+        public function isAddedToFavourites($user, $toQuestion) {
+            $connection = $this->connectionToDb();
+            $lang = $_SESSION['lang'];
+            $query = $connection->prepare("SELECT * FROM favourites_$lang WHERE username = ? AND question_number = ?");
+            if($query) {
+                $query->bind_param("si", $user, $toQuestion);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    $numRows = mysqli_num_rows($result);
+                } 
+            }
+            if ($numRows > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         public function questionDataOnAnswearPage($id) {
@@ -331,8 +391,8 @@
             return $getAnswears;
         }
 
-        public function addAnswear($toQuestion, $answear, $link="") {
-            $res = $this->putAnswearData($toQuestion, $answear);
+        public function addAnswear($toQuestion, $answear, $author='anonim', $link="") {
+            $res = $this->putAnswearData($toQuestion, $answear, $author);
             return $res;
         }
 

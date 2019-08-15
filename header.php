@@ -4,11 +4,12 @@
         session_unset();
         session_destroy();
         session_start();
+        session_regenerate_id();
         $_SESSION['lang'] = $actualLang;
+        //echo "session new id ". session_id();
         header('Location: /'.$_SESSION['lang']);
     }
-    // echo "session lang: ".$_SESSION['lang']."<br>";
-    // echo "logged in: ".$_SESSION['loggedin']
+    //print_r($_COOKIE);
 ?>
 <!DOCTYPE html>
 <html lang=<?php echo $_SESSION['lang'] ?>>
@@ -20,7 +21,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/script.js"></script>
+    <!-- <script src="/js/script.js"></script> -->
 </head>
 <body class="min-vh-100">
     <div class="container-fluid m-0 p-0">
@@ -44,4 +45,5 @@
 
             
         </header>
+        <div id="cos"></div>
         <!-- HEADER END -->

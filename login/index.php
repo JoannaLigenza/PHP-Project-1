@@ -13,7 +13,7 @@
                 <input type="password" placeholder="password" name="login-pass" class="container form-control form-control-lg my-3" id="login-pass" >
 
                 <p class='mt-3 text-danger'><?php echo $message ?> </p>
-                <button type="submit" name="login-button" class="container btn btn-outline-warning my-2 py-2" id="login-button">Sign In</button>
+                <button type="submit" name="login-button" class="container btn btn-outline-warning my-2 py-2" id="login-button">Log In</button>
             </form>
         </div>
     </div>
@@ -23,13 +23,3 @@
 
 
 <?php include "../footer.php"; ?>
-
-<!-- <script>
-    $(document).ready(function () {
-        $("#signin-form").submit(function(e) {
-            e.preventDefault();
-            name = 
-            console.log("submit");
-        })
-    })
-</script> -->

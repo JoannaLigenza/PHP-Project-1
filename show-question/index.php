@@ -1,7 +1,37 @@
 <?php
-    include "show-question-functions.php";
+    // include "show-question-functions.php";
+    // include "../header.php";
+
+    include "../functions.php";
     include "../header.php";
+
+    $getId = $_GET['id']-1;
+
+    if (isset($_POST['add-answear-button'])) {
+        $answear = $_POST['answear-textarea'];
+        $author = $_SESSION['username'];
+        if(!empty($answear)) {
+            if ($displayAnswearsData->addAnswear($getId, $answear, $author)) {
+                $displayQuestionsData->setAnswearsNumber(($getId+1), '+');
+            }
+        }
+    }
+    
+    $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber();        // this must be set before getAnswears, because it read page number from url and sets answears to display on page
+    $getAnswears = $displayAnswearsData->getAnswears();
+
+    for($i=0; $i < count($getAnswears); $i++) {
+        if (isset($_POST['delete-answear-'.$getAnswears[$i]['id']])) {
+            if ($displayAnswearsData->deleteAnswear($getAnswears[$i]['id'])) {
+                $displayQuestionsData->setAnswearsNumber(($getId+1), '-');
+            }
+        }
+    }
+
+    $questionData = $displayQuestionsData->questionDataOnAnswearPage(($getId+1));
+    $getAnswears = $displayAnswearsData->getAnswears();
 ?>
+
         <!-- MAIN  -->
         <div class="container-fluid">
             <div class="row justify-content-center my-4 mx-0">
@@ -10,7 +40,11 @@
                     
                     
                     <div class="container-flex">
+                        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $questionData['author']) :  ?>
                         <p class="text-right text-muted pb-2">Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?> , <a href=<?php echo "" ?> >usuń</a>  </p>
+                        <?php else: ?>
+                        <p class="text-right text-muted pb-2">Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?>  </p>
+                        <?php endif; ?>
                     </div>
 
                     <div class="pb-5">
@@ -19,7 +53,9 @@
 
                     <div class="d-flex flex-row justify-content-end">
                         <div class="container-flex justify-content-center">
-                            <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $lang["add_answear"]  ?> </button>
+                            <a href="#add-answear-div">
+                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $lang["add_answear"]  ?> </button>
+                            </a>
                         </div>
                     </div>
 
@@ -32,9 +68,11 @@
                                 <section class="container-fluid text-center p-0 pb-3 my-2" id=<?php echo $i ?> >
                                     <div class="d-flex justify-content-between">
                                         <div class="pl-2 text-muted"><small>Autor: <?php echo $getAnswears[$i]['author']; ?>, data dodania: <?php echo $getAnswears[$i]['date']; ?> </small></div>
+                                        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $getAnswears[$i]['author']) :  ?>
                                         <div>
-                                            <form action="" method="post"> <button type="submit" id="delete-answear" name="<?php echo 'name'.$getAnswears[$i]['id'] ?>" class="text-muted" value="delete-answear">usuń</button></form>
+                                            <form action="" method="post"> <button type="submit" id="delete-answear" name="<?php echo 'delete-answear-'.$getAnswears[$i]['id'] ?>" class="text-muted" value="delete-answear">usuń</button></form>
                                         </div>
+                                        <?php endif; ?>
                                     </div>
                                     
                                     <div class="d-flex flex-row bg-light rounded p-2">
@@ -43,13 +81,6 @@
                                         </p>
                                     </div>
                                 </section>
-                                <?php 
-                                    if (isset($_POST['name'.$getAnswears[$i]['id']])) {
-                                        if ($displayAnswearsData->deleteAnswear($getAnswears[$i]['id'])) {
-                                            $displayQuestionsData->setAnswearsNumber(($getId+1), '-');
-                                        }
-                                    }
-                                ?>
                             <?php endfor; ?>
                         <?php endif; ?>
                     </div>
@@ -65,22 +96,24 @@
                         <?php endif; ?>
                     </div>
 
-                    <!-- ADD QUESTION FORM -->
+                    <!-- ADD ANSWEAR FORM -->
                     <div class="py-5" id="add-answear-div">
+                        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
                         <form action="" method="post">
                             <textarea type="text" name="answear-textarea" class="form-control form-control-lg" placeholder="Add answear"></textarea>
                             <div class="d-flex flex-row justify-content-end">
-                                <div class="container-flex justify-content-center pt-3">
-                                    <button type="submit" name="add-answear-button" id="add-answear-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $lang["add_answear"]  ?> </button>
-                                </div>
-                            </div>
-                            <div class="text-center py-4">
-                                <p id="add-answear-info">
-                                </p>
+                                    <div class="container-flex justify-content-center pt-3">
+                                        <button type="submit" name="add-answear-button" id="add-answear-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $lang["add_answear"]  ?> </button>
+                                    </div>
                             </div>
                         </form>
+                        <?php else: ?>   
+                            <div class="container-fluid text-center my-2">
+                                <p class="py-3">Please log in to add answear</p>
+                                <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $lang["log_in"]  ?></button></a>
+                            </div>
+                        <?php endif; ?>
                     </div>
-
 
                 </main>
                 <!-- END LEFT COL -->

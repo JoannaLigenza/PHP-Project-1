@@ -1,19 +1,25 @@
 <?php
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-
     include "../functions.php";
-
     include "../header.php";
 
+    $isQuestionAdded = false;
+
+    if (isset($_POST["add-question-button"])) {
+        $category = $_POST['select-category'];
+        $title = $_POST['question-title-textarea'];
+        $author = $_SESSION['username'];
+        if ($displayQuestionsData->addQuestion($category, $title, $author)){
+            $isQuestionAdded = true;
+        }
+    }
+    
 ?>
         <!-- MAIN  -->
         <div class="container-fluid">
             <div class="row justify-content-center my-4 mx-0">
                 <!-- LEFT COL -->
                 <main class="col-md-7 col-xl-6">
+                    <?php if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']===true): ?>
                     <div>
                         <form action="" method="post">
                             <!-- <label for="question-title">Add question:</label> -->
@@ -35,13 +41,7 @@ ini_set('display_errors', 1);
                             </div>
 
                             <div class="container-fluid text-center py-4">
-                                <?php 
-                                    if (isset($_POST["add-question-button"])) {
-                                        $category = $_POST['select-category'];
-                                        $title = $_POST['question-title-textarea'];
-                                        $displayQuestionsData->addQuestion($category, $title);
-                                    }
-                                ?>
+                                <?php echo $isQuestionAdded ? 'Pytanie zostało dodane' : "" ?>
                             </div>
 
                         </form>
@@ -53,8 +53,14 @@ ini_set('display_errors', 1);
                         </div>
                     </div>
                     
-
+                    <?php else: ?>
+                        <div class="container-fluid py-5"><p class="text-center">You have to log in to add question</p></div>
+                        <div class="container-fluid text-center my-5">
+                            <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $lang["log_in"]  ?></button></a>
+                        </div>
+                    <?php endif ?>
                 </main>
+                
                 <!-- END LEFT COL -->
 
                 <!-- RIGHT COL -->
