@@ -6,6 +6,10 @@
     include "../header.php";
 
     $getId = $_GET['id']-1;
+    $pageNumber = 1;
+    $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber();        // this must be set before getAnswears, because it read page number from url and sets answears to display on page
+    $getAnswears = $displayAnswearsData->getAnswears();
+    $questionData = $displayQuestionsData->questionDataOnAnswearPage(($getId+1));
 
     if (isset($_POST['add-answear-button'])) {
         $answear = $_POST['answear-textarea'];
@@ -16,9 +20,10 @@
             }
         }
     }
-    
-    $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber();        // this must be set before getAnswears, because it read page number from url and sets answears to display on page
-    $getAnswears = $displayAnswearsData->getAnswears();
+
+    if (isset($_GET['page'])) {
+        $pageNumber = $_GET['page'];
+    }
 
     for($i=0; $i < count($getAnswears); $i++) {
         if (isset($_POST['delete-answear-'.$getAnswears[$i]['id']])) {
@@ -28,7 +33,6 @@
         }
     }
 
-    $questionData = $displayQuestionsData->questionDataOnAnswearPage(($getId+1));
     $getAnswears = $displayAnswearsData->getAnswears();
 ?>
 
@@ -85,16 +89,27 @@
                         <?php endif; ?>
                     </div>
 
+
                     <!-- NUMERIC PAGE NAVIGATION -->
-                    <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-row justify-content-center justify-content-lg-end flex-wrap py-4">
                         <?php if ($pageNavigationNumberForAnswears > 1) : ?>
-                            <?php for($i=0; $i < $pageNavigationNumberForAnswears; $i++) : ?>
+                            <a href=<?php echo $getPathToNavigation ?> >
+                                <div class="pagination first"> <?php echo 1; ?> </div>
+                            </a>
+                            <?php echo $pageNumber > 4 ? "<div class='pagination'> ... </div>" : null ?>
+                            <?php for($i=$pageNumber-3; $i < $pageNumber+2; $i++) : ?>
+                                <?php if ($i < 0 || $i >= $pageNavigationNumberForAnswears || $i===0 || $i===intval($pageNavigationNumberForAnswears-1)) {continue;} ?>
                                     <a href=<?php echo ($i === 0) ? $getPathToNavigation : $getPathToNavigation.'&page='.($i+1) ?> >
-                                        <div class="p-4"> <?php echo ($i+1); ?> </div>
+                                        <div class="pagination"> <?php echo ($i+1); ?> </div>
                                     </a>
                             <?php endfor; ?>
+                            <?php echo $pageNumber < $pageNavigationNumberForAnswears-3 ? "<div class='pagination'> ... </div>" : null ?>
+                            <a href=<?php echo $getPathToNavigation.'&page='.$pageNavigationNumberForAnswears ?> >
+                                <div class="pagination last"> <?php echo $pageNavigationNumberForAnswears; ?> </div>
+                            </a>
                         <?php endif; ?>
                     </div>
+
 
                     <!-- ADD ANSWEAR FORM -->
                     <div class="py-5" id="add-answear-div">

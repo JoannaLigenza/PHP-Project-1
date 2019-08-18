@@ -1,5 +1,6 @@
 html {
     --color-orange: #FFBE07;
+    /* font-size: 0.8rem; */
 }
 
 
@@ -28,23 +29,50 @@ footer {
     border-color: rgb(255, 183, 0);
 }
 
+.h2-size {
+    font-size: 1rem;
+}
+
+.h6-size {
+    font-size: 1rem;
+}
+
 .card {
     display: block;
     margin: 0 auto;
     min-width: 300px;
     max-width: 600px;
-    /* border: 1px solid var(--color-orange); */
     border: none;
 }
 
-/* #sign-in-button {
-    background-color: var(--color-orange);
-    border: 1px solid var(--color-orange);
-    border-radius: 5px;
-} */
+.log-in-message-form {
+    position: relative;
+}
 
-@media screen and (max-width: 800px) {
-    .card {
-        border: none;
+.log-in-message {
+    position: absolute;
+    width: 50px;
+    left: -12px;
+}
+
+.pagination {
+    padding: 10px 15px;
+}
+
+.first {
+    padding-left: 0;
+}
+
+.last {
+    padding-right: 0;
+}
+
+@media screen and (min-width: 1100px) {
+    .h2-size {
+        font-size: 1.4rem;
+    }
+
+    .h6-size {
+        font-size: 1.1rem;
     }
 }
