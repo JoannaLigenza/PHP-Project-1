@@ -10,6 +10,13 @@
         $author = $_SESSION['username'];
         if ($displayQuestionsData->addQuestion($category, $title, $author)){
             $isQuestionAdded = true;
+            $lang = $_SESSION['lang'];
+            $lastIndex = $displayQuestionsData->lastQuestionIndex();
+            $site = "question";
+            if ($_SESSION['lang'] === 'pl') {
+                $site = "pytanie";
+            }
+            header("Location: /".$lang."/".$site."?id=".$lastIndex);
         }
     }
     

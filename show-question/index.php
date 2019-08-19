@@ -5,18 +5,20 @@
     include "../functions.php";
     include "../header.php";
 
-    $getId = $_GET['id']-1;
+    $getId = $_GET['id'];
     $pageNumber = 1;
-    $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber();        // this must be set before getAnswears, because it read page number from url and sets answears to display on page
-    $getAnswears = $displayAnswearsData->getAnswears();
-    $questionData = $displayQuestionsData->questionDataOnAnswearPage(($getId+1));
+    $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber($getId);        // this must be set before getAnswears, because it read page number from url and sets answears to display on page
+    $getAnswears = $displayAnswearsData->getAnswears($getId);
+    $questionData = $displayQuestionsData->questionDataOnAnswearPage(($getId));
+    $deleteQuestion = false;
 
     if (isset($_POST['add-answear-button'])) {
         $answear = $_POST['answear-textarea'];
         $author = $_SESSION['username'];
+        //echo $answear;
         if(!empty($answear)) {
             if ($displayAnswearsData->addAnswear($getId, $answear, $author)) {
-                $displayQuestionsData->setAnswearsNumber(($getId+1), '+');
+                $displayQuestionsData->setAnswearsNumber(($getId), '+');
             }
         }
     }
@@ -25,15 +27,34 @@
         $pageNumber = $_GET['page'];
     }
 
+    if (isset($_POST['delete-question'])) {
+        $deleteQuestion = true;
+        // $mainPath = $_SERVER['REQUEST_URI'];
+        // $mainPath = explode("#", $mainPath);
+        // print_r($mainPath);
+        //header("Location: /");
+    }
+
+    if (isset($_POST['delete-question-no'])) {
+        $deleteQuestion = false;
+    }
+
+    if (isset($_POST['delete-question-yes'])) {
+        if ($displayQuestionsData->deleteQuestion($getId)) {
+            $lang = $_SESSION['lang'];
+            header("Location: /".$lang);
+        } 
+    }
+
     for($i=0; $i < count($getAnswears); $i++) {
         if (isset($_POST['delete-answear-'.$getAnswears[$i]['id']])) {
             if ($displayAnswearsData->deleteAnswear($getAnswears[$i]['id'])) {
-                $displayQuestionsData->setAnswearsNumber(($getId+1), '-');
+                $displayQuestionsData->setAnswearsNumber(($getId), '-');
             }
         }
     }
 
-    $getAnswears = $displayAnswearsData->getAnswears();
+    $getAnswears = $displayAnswearsData->getAnswears($getId);
 ?>
 
         <!-- MAIN  -->
@@ -42,23 +63,41 @@
                 <!-- LEFT COL -->
                 <main class="col-md-7 col-xl-6">
                     
-                    
+                    <!-- QUESTION DATA -->
                     <div class="container-flex">
                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $questionData['author']) :  ?>
-                        <p class="text-right text-muted pb-2">Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?> , <a href=<?php echo "" ?> >usuń</a>  </p>
+                        <p class="text-right text-muted pb-2">
+                            Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?> 
+                            <div class="d-flex justify-content-end">
+                                <form action="" method="post">
+                                    <button type="submit" name="delete-question" class="btn btn-warning my-2 shadow-none myBtnHover d-flex" > <img src="../img/delete.svg" alt="trash-icon">Usuń pytanie</button>
+                                </form>
+                            </div> 
+                            <?php if ($deleteQuestion) :  ?>
+                                <div class="container text-center py-4">
+                                    <form action="" method="post">
+                                        <p>Czy na pewno chcesz usunąć to pytanie? </p>
+                                        <button type="submit" name="delete-question-yes" class="btn btn-warning my-2 shadow-none myBtnHover"> Tak </button>
+                                        <button type="submit" name="delete-question-no" class="btn btn-warning my-2 shadow-none myBtnHover"> Nie </button>
+                                    </form>
+                                </div>
+                            <?php endif; ?>
+                        </p>
                         <?php else: ?>
                         <p class="text-right text-muted pb-2">Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?>  </p>
                         <?php endif; ?>
                     </div>
 
+                    <!-- QUESTION TITLE -->
                     <div class="pb-5">
                         <h3><?php echo $questionData['title']; ?></h3>
                     </div>
-
+                    
+                    <!-- ADD ANSWEAR BUTTON -->
                     <div class="d-flex flex-row justify-content-end">
                         <div class="container-flex justify-content-center">
                             <a href="#add-answear-div">
-                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $lang["add_answear"]  ?> </button>
+                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ". $lang["add_answear"]  ?> </button>
                             </a>
                         </div>
                     </div>
@@ -74,7 +113,7 @@
                                         <div class="pl-2 text-muted"><small>Autor: <?php echo $getAnswears[$i]['author']; ?>, data dodania: <?php echo $getAnswears[$i]['date']; ?> </small></div>
                                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $getAnswears[$i]['author']) :  ?>
                                         <div>
-                                            <form action="" method="post"> <button type="submit" id="delete-answear" name="<?php echo 'delete-answear-'.$getAnswears[$i]['id'] ?>" class="text-muted" value="delete-answear">usuń</button></form>
+                                            <form action="" method="post"> <button type="submit" id="delete-answear" name="<?php echo 'delete-answear-'.$getAnswears[$i]['id'] ?>" class="d-flex flex-column justify-content-center btn btn-warning my-2 shadow-none myBtnHover" value="delete-answear"><img src="../img/delete.svg" alt="trash-icon"></button></form>
                                         </div>
                                         <?php endif; ?>
                                     </div>
@@ -118,7 +157,7 @@
                             <textarea type="text" name="answear-textarea" class="form-control form-control-lg" placeholder="Add answear"></textarea>
                             <div class="d-flex flex-row justify-content-end">
                                     <div class="container-flex justify-content-center pt-3">
-                                        <button type="submit" name="add-answear-button" id="add-answear-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $lang["add_answear"]  ?> </button>
+                                        <button type="submit" name="add-answear-button" id="add-answear-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ".$lang["add_answear"]  ?> </button>
                                     </div>
                             </div>
                         </form>

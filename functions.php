@@ -102,6 +102,29 @@
             return $result;
         }
 
+        protected function removeQuestion($id) {
+            $result = false;
+            $connection = $this->connectionToDb();
+            settype($id, "integer");
+            $lang = $_SESSION['lang'];
+            $query = $connection->prepare("DELETE from answears_$lang where to_question = ?");
+            if ($query) {
+                $query->bind_param("i", $id);
+                if($query->execute()) {
+                    $query = $connection->prepare("DELETE from questions_$lang where id = ?");
+                    if ($query) {
+                        $query->bind_param("i", $id);
+                        if($query->execute()) {
+                            $result = true;
+                            $query->close();
+                            mysqli_close($connection);
+                        }
+                    }
+                }
+            }
+            return $result;
+        }
+
         protected function questionRowsNum() {
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
@@ -308,9 +331,22 @@
             return $result;
         }
 
+        public function deleteQuestion($id) {
+            $res = $this->removeQuestion($id);
+            return $res;
+        }
+
         public function setAnswearsNumber($id, $sign) {
             $result = $this->changeAnswearsNumber($id, $sign);
             return $result;
+        }
+
+        public function lastQuestionIndex() {
+            $connection = $this->connectionToDb();
+            $lang = $_SESSION['lang'];
+            $res = $connection->query("SELECT id from questions_$lang ORDER BY id DESC LIMIT 1");
+            $row = $res->fetch_row();
+            return intval($row[0]);
         }
 
         public function isAddedToFavourites($user, $toQuestion) {
@@ -373,15 +409,14 @@
             }  
         }
 
-        public function pageNavigationNumber() {
+        public function pageNavigationNumber($getId) {
             $this->setAnswearsNumber();
-            $getAllAnswearNumber = $this->answearRowsNum($_GET['id']-1);
+            $getAllAnswearNumber = $this->answearRowsNum($getId);
             $pageNavigationNumber = ceil($getAllAnswearNumber/$this->answearsNumOnPage);
             return $pageNavigationNumber;
         }
 
-        public function getAnswears() {
-            $getId = $_GET['id']-1;
+        public function getAnswears($getId) {
             $getAnswears = $this->getAnswearsData($getId, $this->from, $this->to);
             $setAnswearsNumber = count($getAnswears);
             
@@ -464,7 +499,6 @@
     }
 
     $userData = new UserData();
-    //$checkUserName = $userData->checkUserName($userName);
 
 
     class LoadSites {
@@ -473,13 +507,13 @@
         private function setSite($site) {
             $lang = $_SESSION['lang'];
             if ($site === "add-question") {
-                if ($lang = 'pl') {
+                if ($lang === 'pl') {
                     $this->loadSite = "dodaj-pytanie";
                 } else {
                     $this->loadSite = "add-question";
                 }
             } else if ($site === "show-question") {
-                if ($lang = 'pl') {
+                if ($lang === 'pl') {
                     $this->loadSite = "pytanie";
                 } else {
                     $this->loadSite = "question";
@@ -495,7 +529,6 @@
     }
 
     $loadSite = new LoadSites();
-
 
     class Path {
         public function getPath() {
