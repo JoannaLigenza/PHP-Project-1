@@ -54,7 +54,7 @@
 ?>
 
         <!-- MAIN  -->
-        <div class="container-fluid">
+        <div class="container-fluid p-0">
             <div class="row justify-content-center my-4 mx-0">
                 <!-- LEFT COL -->
                 <main class="col-md-7 col-xl-6">
@@ -87,7 +87,7 @@
                     <!-- QUESTION TITLE -->
                     <div class="pb-5">
                         <!-- nl2br() - displays enters -->
-                        <h3 class="word-break"><?php echo nl2br($questionData['title']); ?></h3>
+                        <h3 class="word-break h2-size"><?php echo nl2br($questionData['title']); ?></h3>
                     </div>
                     
                     <!-- ADD ANSWEAR BUTTON -->
@@ -110,17 +110,27 @@
                                         <div class="pl-2 text-muted"><small>Autor: <?php echo $getAnswears[$i]['author']; ?>, data dodania: <?php echo $getAnswears[$i]['date']; ?> </small></div>
                                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $getAnswears[$i]['author']) :  ?>
                                         <div>
-                                            <form action="" method="post"> <button type="submit" id="delete-answear" name="<?php echo 'delete-answear-'.$getAnswears[$i]['id'] ?>" class="d-flex flex-column justify-content-center btn btn-warning my-2 shadow-none myBtnHover" value="delete-answear"><img src="../img/delete.svg" alt="trash-icon"></button></form>
+                                            <form action="" method="post"> <button type="submit" id="delete-answear" name="<?php echo 'delete-answear-'.$getAnswears[$i]['id'] ?>" class="d-flex flex-column justify-content-center btn m-2 p-0 shadow-none" value="delete-answear"><img src="../img/delete.svg" alt="trash-icon"></button></form>
                                         </div>
                                         <?php endif; ?>
                                     </div>
                                     
-                                    <div class="d-flex flex-row bg-light rounded p-2 text-left">
-                                        <p class="word-break"> 
-                                            <!-- nl2br() - displays enters -->
-                                            <?php echo nl2br($getAnswears[$i]['answear_text'], false) ; ?>
-                                        </p>
+                                    <div class="d-flex flex-row">
+                                        <div class="d-flex flex-column justify-content-start align-items-center bg-light rounded-left pl-1">
+                                            <img src="../img/arr-up.svg" alt="arrow-up-icon">
+                                            <div><p class="m-0 ">0</p></div>
+                                            <img src="../img/arr-down.svg" alt="arrow-down-icon">
+                                        </div>
+                                        
+                                        <div class="bg-light rounded-right p-2 text-left flex-fill">
+                                            <p class="word-break"> 
+                                                <!-- nl2br() - displays enters -->
+                                                <?php echo nl2br($getAnswears[$i]['answear_text'], false) ; ?>
+                                            </p>
+                                        </div>
                                     </div>
+                                    
+                                    
                                 </section>
                             <?php endfor; ?>
                         <?php endif; ?>

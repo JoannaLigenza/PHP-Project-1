@@ -65,7 +65,7 @@
                                         <div>0</div>
                                     </div>
                                 </div> -->
-                                <div style="width: 1%"></div>
+                                <div class="break-div"></div>
                                 <div class="flex-grow-1">
                                     <div class="container-fluid bg-gradient-warning border-bottom border-warning py-1 h4"><h3 class="h2-size"> <?php echo $questionData[$i]['category']; ?> </h3></div>
                                     <h2 class="p-2 text-left h2-size word-break"><?php echo nl2br($questionData[$i]['title']); ?></h2>

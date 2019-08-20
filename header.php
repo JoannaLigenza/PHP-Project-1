@@ -21,15 +21,18 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
-    <!-- <script src="/js/script.js"></script> -->
+    <!-- <script src="/js/script.js"></script> <- this is in footer -->
 </head>
 <body class="min-vh-100">
     <div class="container-fluid m-0 p-0">
         <!-- HEADER -->
         <header>
-            <div class="d-flex flex-column flex-sm-row justify-content-between border-bottom border-warning">
-                <a class="navbar-brand p-3" href=<?php echo '/'.$_SESSION['lang'] ?>>LOGO HERE</a>
-                <div class="p-2 float-right">
+            <div class="d-flex flex-sm-row justify-content-between border-bottom border-warning">
+                <div>
+                    <a class="navbar p-3" href=<?php echo '/'.$_SESSION['lang'] ?>>LOGO</a>
+                </div>
+                
+                <div class="p-2 right">
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true ) :  ?>
                     <form action="" method="post">
                         <button type="submit" class="btn btn-outline-warning" name="logout-button"><?php echo "Log Out" ?></button>
@@ -45,5 +48,4 @@
 
             
         </header>
-        <div id="cos"></div>
         <!-- HEADER END -->

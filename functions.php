@@ -59,6 +59,7 @@
 
     class QuestionsData extends Data {
         protected function getQuestionsData($from, $to) {
+            $questionsArr = [];
             settype($from, "integer");
             settype($to, "integer");
             $connection = $this->connectionToDb();
@@ -66,7 +67,6 @@
             $query = $connection->prepare("SELECT * from questions_$lang LIMIT ?, ?;");
             if ($query) {
                 $query->bind_param("ii", $from, $to);
-                $questionsArr = [];
                 if($query->execute()) {
                    // $query->bind_result($result);
                     $result = $query->get_result();
@@ -74,31 +74,30 @@
                         array_push($questionsArr, $row);
                     }
                 } 
+                $query->close();
+                mysqli_close($connection);
             }
-            $query->close();
-            mysqli_close($connection);
             return $questionsArr;
         }
 
         protected function putQuestionData($category, $title, $author) {
+            $result = false;
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
             $date = date("Y-m-d");
             // Convert special characters like < " > to HTML entities ( &lt; &quot; &gt;), so user cannot make script injections
             $category = htmlspecialchars($category, ENT_QUOTES);
             $title = htmlspecialchars($title, ENT_QUOTES);
-            $result = false;
             // Prepared Statement send query and the data to the database separatly, not as one query.
             $query = $connection->prepare("INSERT INTO questions_$lang SET category = ?, title = ?, answears = 0, author = ?, date = ?, favourites = false, votes = 0;");
             if ($query) {
                 $query->bind_param("ssss", $category, $title, $author, $date);
                 if($query->execute()) {
                     $result = true;
-                    //echo 'Pytanie zostało dodane';
                 }
+                $query->close();
+                mysqli_close($connection);
             }
-            $query->close();
-            mysqli_close($connection);
             return $result;
         }
 
@@ -116,11 +115,11 @@
                         $query->bind_param("i", $id);
                         if($query->execute()) {
                             $result = true;
-                            $query->close();
-                            mysqli_close($connection);
                         }
                     }
                 }
+                $query->close();
+                mysqli_close($connection);
             }
             return $result;
         }
@@ -135,6 +134,7 @@
         }
 
         protected function changeAnswearsNumber($id, $sign) {
+            $result = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
             $lang = $_SESSION['lang'];
@@ -148,12 +148,10 @@
                 $query->bind_param("i", $id );
                 if($query->execute()) {
                     $result = true;
-                } else {
-                    $result = false;
                 }
+                $query->close();
+                mysqli_close($connection);
             }
-            $query->close();
-            mysqli_close($connection);
             return $result;
         }
 
@@ -187,12 +185,13 @@
                                 $isAdded = true;
                                 $query->close();
                                 mysqli_close($connection);
-                                //echo "<br>is added ".$isAdded."<br>";
                                 return $isAdded;
                             } 
                         }
                     }
                 } 
+                $query->close();
+                mysqli_close($connection);
             }
         }
     }
@@ -201,6 +200,7 @@
 
     class AnswearsData extends Data {
         protected function getAnswearsData($toQuestion, $from, $to) {
+            $answearsArr = [];
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
             settype($from, "integer");
@@ -209,21 +209,20 @@
             $query = $connection->prepare("SELECT * from answears_$lang WHERE to_question LIKE $toQuestion LIMIT ?, ?;");
             if ($query) {
                 $query->bind_param("ii", $from, $to);
-                $answearsArr = [];
                 if($query->execute()) {
-                   // $query->bind_result($result);
                     $result = $query->get_result();
                     while($row = $result->fetch_array(MYSQLI_ASSOC)) {
                         array_push($answearsArr, $row);
                     }
-                } 
+                }
+                $query->close();
+                mysqli_close($connection);
             }
-            $query->close();
-            mysqli_close($connection);
             return $answearsArr;
         }
 
         protected function putAnswearData($toQuestion, $answear, $author, $link="" ) {
+            $result = false;
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
             $answear = htmlspecialchars($answear, ENT_QUOTES);
@@ -235,18 +234,15 @@
                 $query->bind_param("issss", $toQuestion, $answear, $link, $author, $date);
                 if($query->execute()) {
                     $result = true;
-                    // $url = $_SERVER['REQUEST_URI'];
-                    // header("Refresh:1.5; url=$url");
-                } else {
-                    $result = false;
                 }
+                $query->close();
+                mysqli_close($connection);
             }
-            $query->close();
-            mysqli_close($connection);
             return $result;
         }
 
         protected function removeAnswear($id) {
+            $result = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
             $lang = $_SESSION['lang'];
@@ -255,18 +251,15 @@
                 $query->bind_param("i", $id);
                 if($query->execute()) {
                     $result = true;
-                    // $url = $_SERVER['REQUEST_URI'];
-                    // header("Refresh:1.5; url=$url");
-                } else {
-                    $result = false;
-                }
+                } 
+                $query->close();
+                mysqli_close($connection);
             }
-            $query->close();
-            mysqli_close($connection);
             return $result;
         }
 
         protected function answearRowsNum($toQuestion) {
+            $numRows = 0;
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
             $lang = $_SESSION['lang'];
@@ -276,12 +269,10 @@
                 if($query->execute()) {
                     $query->store_result();
                     $numRows = $query->num_rows;
-                } else {
-                    $numRows = 0;
-                }
+                } 
+                $query->close();
+                mysqli_close($connection);
             }
-            $query->close();
-            mysqli_close($connection);
             return $numRows;
         }
     }
@@ -332,8 +323,8 @@
         }
 
         public function deleteQuestion($id) {
-            $res = $this->removeQuestion($id);
-            return $res;
+            $result = $this->removeQuestion($id);
+            return $result;
         }
 
         public function setAnswearsNumber($id, $sign) {
@@ -359,6 +350,8 @@
                     $result = $query->get_result();
                     $numRows = mysqli_num_rows($result);
                 } 
+                $query->close();
+                mysqli_close($connection);
             }
             if ($numRows > 0) {
                 return true;
@@ -378,9 +371,9 @@
                     $result = $query->get_result();
                     $result = $result->fetch_array(MYSQLI_ASSOC);
                 } 
+                $query->close();
+                mysqli_close($connection);
             }
-            $query->close();
-            mysqli_close($connection);
             return $result;
         }
     }
@@ -453,13 +446,14 @@
                 } else {
                     $numRows = 0;
                 }
+                $query->close();
+                mysqli_close($connection);
             }
-            $query->close();
-            mysqli_close($connection);
             return $numRows;
         }
 
         public function addUser($userName, $email, $pass) {
+            $result = false;
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
@@ -468,15 +462,10 @@
                 $query->bind_param("ssss", $userName, $email, $pass, $date);
                 if($query->execute()) {
                     $result = true;
-                    //$url = $_SERVER['REQUEST_URI'];
-                    //header("Refresh:1.5; url=$url");
-                    //header("Location: $url?signup=success");
-                } else {
-                    $result = false;
-                }
+                    $query->close();
+                    mysqli_close($connection);
+                } 
             }
-            $query->close();
-            mysqli_close($connection);
             return $result;
         }
 
@@ -490,10 +479,10 @@
                 if($query->execute()) {
                     $result = $query->get_result();
                     $result = $result->fetch_array(MYSQLI_ASSOC);
+                    $query->close();
+                    mysqli_close($connection);
                 } 
             }
-            $query->close();
-            mysqli_close($connection);
             return $result;
         }
     }
@@ -542,7 +531,6 @@
                     $mainPath = explode("?", $_SERVER['REQUEST_URI'])[0];
                 }
             }
-            
             return $mainPath;
         }
     }
