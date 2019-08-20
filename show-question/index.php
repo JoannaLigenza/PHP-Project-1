@@ -29,10 +29,6 @@
 
     if (isset($_POST['delete-question'])) {
         $deleteQuestion = true;
-        // $mainPath = $_SERVER['REQUEST_URI'];
-        // $mainPath = explode("#", $mainPath);
-        // print_r($mainPath);
-        //header("Location: /");
     }
 
     if (isset($_POST['delete-question-no'])) {
@@ -69,7 +65,7 @@
                         <p class="text-right text-muted pb-2">
                             Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?> 
                             <div class="d-flex justify-content-end">
-                                <form action="" method="post">
+                                <form action=<?php echo basename($_SERVER['REQUEST_URI']) ?> method="post">
                                     <button type="submit" name="delete-question" class="btn btn-warning my-2 shadow-none myBtnHover d-flex" > <img src="../img/delete.svg" alt="trash-icon">Usuń pytanie</button>
                                 </form>
                             </div> 
@@ -90,7 +86,8 @@
 
                     <!-- QUESTION TITLE -->
                     <div class="pb-5">
-                        <h3><?php echo $questionData['title']; ?></h3>
+                        <!-- nl2br() - displays enters -->
+                        <h3 class="word-break"><?php echo nl2br($questionData['title']); ?></h3>
                     </div>
                     
                     <!-- ADD ANSWEAR BUTTON -->
@@ -118,9 +115,10 @@
                                         <?php endif; ?>
                                     </div>
                                     
-                                    <div class="d-flex flex-row bg-light rounded p-2">
-                                        <p> 
-                                            <?php echo $getAnswears[$i]['answear_text']; ?>
+                                    <div class="d-flex flex-row bg-light rounded p-2 text-left">
+                                        <p class="word-break"> 
+                                            <!-- nl2br() - displays enters -->
+                                            <?php echo nl2br($getAnswears[$i]['answear_text'], false) ; ?>
                                         </p>
                                     </div>
                                 </section>

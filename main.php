@@ -68,7 +68,7 @@
                                 <div style="width: 1%"></div>
                                 <div class="flex-grow-1">
                                     <div class="container-fluid bg-gradient-warning border-bottom border-warning py-1 h4"><h3 class="h2-size"> <?php echo $questionData[$i]['category']; ?> </h3></div>
-                                    <h2 class="p-2 text-left h2-size"><?php echo $questionData[$i]['title']; ?></h2>
+                                    <h2 class="p-2 text-left h2-size word-break"><?php echo nl2br($questionData[$i]['title']); ?></h2>
                                     <div class="d-flex flex-row justify-content-center align-items-center">
                                         <img src="img/arr-down-b.svg" class="h-100" alt="arr-down-icon"> 
                                         <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$questionData[$i]['id'] ?> >
