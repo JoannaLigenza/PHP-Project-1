@@ -17,14 +17,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?php echo $lang["site_title"]  ?></title>
+    <title><?php echo $displayLang["site_title"]  ?></title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
     <!-- <script src="/js/script.js"></script> <- this is in footer -->
 </head>
 <body class="min-vh-100">
-    <div class="container-fluid m-0 p-0">
+    <div class="m-0 p-0 h-100">
         <!-- HEADER -->
         <header>
             <div class="d-flex flex-sm-row justify-content-between border-bottom border-warning">
@@ -39,8 +39,8 @@
                     </form>
                     <?php else: ?>
                     <form action="" method="post">
-                        <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $lang["log_in"]  ?></button></a> 
-                        <a href=<?php echo '/'.$_SESSION['lang'].'/signin/' ?>><button type="button" class="btn btn-warning mx-2 myBtnHover"><?php echo $lang["sign_up"]  ?></button></a> 
+                        <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a> 
+                        <a href=<?php echo '/'.$_SESSION['lang'].'/signin/' ?>><button type="button" class="btn btn-warning mx-2 myBtnHover"><?php echo $displayLang["sign_up"]  ?></button></a> 
                     </form>
                     <?php endif; ?>
                 </div>

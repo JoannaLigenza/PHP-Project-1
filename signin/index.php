@@ -3,23 +3,23 @@
     include "../header.php";
 ?>
 
-<div class="login-container" style="background-color: #F7F7F7">
-    <div class="card text-center py-5" style="background-color: #F7F7F7">
+<div class="gray-background">
+    <div class="card text-center py-5 gray-background vh-100">
         <!-- <h3>Dołącz, by dodać nowe pytania i odpowiedzi do bazy wiedzy dla Junior Front-end Developerów</h3> -->
-        <div class="card-body py-5" style="background-color: #F7F7F7">
+        <div class="card-body py-5">
 
             <form action="" method="post" id="signin-form">
-                <input type="text" placeholder="username" name="signin-username" class="container form-control form-control-lg" id="signin-username" autofocus>
-                <label for="pass" class="container-fluid text-left text-muted "><small>Username can contain letters, numbers and dash character</small></label>
+                <input type="text" placeholder=<?php echo $displayLang["username"] ?> name="signin-username" class="container form-control form-control-lg shadow-none" id="signin-username" autofocus>
+                <label for="pass" class="container-fluid text-left text-muted "><small><?php echo $displayLang["label_username"] ?></small></label>
 
-                <input type="email" placeholder="e-mail:" name="signin-email" class="container form-control form-control-lg" id="signin-email" >
-                <label for="email" class="container-fluid text-left text-muted"><small>Needed to confirm registration</small></label>
+                <input type="email" placeholder="e-mail:" name="signin-email" class="container form-control form-control-lg shadow-none" id="signin-email" >
+                <label for="email" class="container-fluid text-left text-muted"><small><?php echo $displayLang["label_email"] ?></small></label>
 
-                <input type="password" placeholder="password:" name="signin-pass" class="container form-control form-control-lg" id="signin-pass" >
-                <label for="pass" class="container-fluid text-left text-muted "><small>Password can have 6-30 characters. You can use these characters: [a-zA-Z0-9?!#]</small></label>
+                <input type="password" placeholder=<?php echo $displayLang["password"] ?> name="signin-pass" class="container form-control form-control-lg shadow-none" id="signin-pass" >
+                <label for="pass" class="container-fluid text-left text-muted "><small><?php echo $displayLang["label_password"] ?></small></label>
 
                 <p class='mt-3 text-danger'><?php echo $message ?> </p>
-                <button type="submit" name="signin-button" class="container btn btn-outline-warning my-2 py-2" id="signin-button">Sign In</button>
+                <button type="submit" name="signin-button" class="container btn btn-outline-warning my-2 py-2" id="signin-button"><?php echo $displayLang["sign_up"] ?></button>
             </form>
         </div>
     </div>

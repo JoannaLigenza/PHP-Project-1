@@ -28,7 +28,7 @@
                     <div class="d-flex flex-row justify-content-end">
                         <div class="container-flex justify-content-center">
                             <a href=<?php echo $loadSite->loadSite('add-question') ?> >
-                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $lang["add_question"]  ?> </button>
+                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ".$displayLang["add_question"]  ?> </button>
                             </a>
                         </div>
                     </div>
@@ -37,11 +37,11 @@
                         <div class="d-flex flex-row justify-content-end">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $lang["sort"].":"  ?></a>
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $displayLang["sort"].":"  ?></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Najlepiej oceniane</a>
-                                    <a class="dropdown-item" href="#">Z odpowiedziami</a>
-                                    <a class="dropdown-item" href="#">Data dodania</a>
+                                    <a class="dropdown-item" href="#"><?php echo $displayLang["top_rated"]; ?></a>
+                                    <a class="dropdown-item" href="#"><?php echo $displayLang["with_answears"]; ?></a>
+                                    <a class="dropdown-item" href="#"><?php echo $displayLang["adding_date"]; ?></a>
                                     </div>
                                 </li>
                             </ul>
@@ -50,9 +50,10 @@
                     <!-- QUESTIONS FROM DATABASE -->
 
                     <?php if ($displayQuestionsData->questionsNumOnPage === 0) : ?>
-                        <p>Nie dodano jeszcze pytań/ No questions yet </p>
+                        <p><?php echo $displayLang["no-question"]; ?></p>
                     <?php else : ?>   
                         <?php for($i=0; $i < $displayQuestionsData->questionsNumOnPage; $i++) : ?>
+                        <p class="log-in-message"><?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
                         <section class="container-fluid border border-warning rounded text-center p-0 my-2">
                             <div class="d-flex flex-row">
                                 <!-- <div class="d-flex flex-column justify-content-center px-2">
@@ -72,18 +73,17 @@
                                     <div class="d-flex flex-row justify-content-center align-items-center">
                                         <img src="img/arr-down-b.svg" class="h-100" alt="arr-down-icon"> 
                                         <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$questionData[$i]['id'] ?> >
-                                            <div class="p-2 lead text-body h6-size">Odpowiedzi: <?php echo $questionData[$i]['answears']; ?></div>
+                                            <div class="p-2 lead text-body h6-size"><?php echo $displayLang["answears"].": ".$questionData[$i]['answears']; ?></div>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column align-items-start py-2 px-3">
-                                    <span data-toggle="tooltip" title="<?php echo $lang["add_to_favourites"] ?>" data-placement="bottom">
+                                    <span data-toggle="tooltip" title="<?php echo $displayLang["add_to_favourites"] ?>" data-placement="bottom">
                                         <form action="" method="post" class="log-in-message-form">
                                             <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
                                                 <input type="image" src=<?php echo $displayQuestionsData->isAddedToFavourites($_SESSION['username'], $questionData[$i]['id']) ? "img/heart-f.svg" : "img/heart-e.svg" ?> alt="heart-icon" id="heart-icon" class="add-to-favourites-img" name=<?php echo $questionData[$i]['id']; ?> >
                                             <?php else: ?>
                                                 <input type="image" src="img/heart-e.svg" alt="heart-icon" id="heart-icon" class="add-to-favourites-img" name=<?php echo $questionData[$i]['id']; ?> >
-                                                <p class="log-in-message"><?php echo $loginMessage === $i ? 'Log in first!' : ''; ?></p>
                                             <?php endif; ?>
                                         </form>
                                     </span>

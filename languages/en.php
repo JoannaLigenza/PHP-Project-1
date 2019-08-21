@@ -1,5 +1,5 @@
 <?php   
-    $lang = [
+    $displayLang = [
         "site_title" => "Front end developer interview questions and answers",
         "title" => "This is english title",
         "text" => "This is english text :)",
@@ -14,7 +14,27 @@
         "developer-tools" => "Developer tools",
         "go-back" => "Go back",
         "english" => "English",
-        "polish" => "Polish"
+        "polish" => "Polish",
+        "log-in-to-add-question" => "You have to log in to add question",
+        "author" => "Author",
+        "adding-date" => "adding date",
+        "delte-question" => "Delete question",
+        "delte-question-confirm" => "Are you sure you want to delete this question?",
+        "yes" => "Yes",
+        "no" => "No",
+        "no-answear" => "No answers yet",
+        "log_in_to_add_answear" => "Please log in to add answear",
+        "log_in_first" => "Log in first!",
+        "top_rated" => "Top rated",
+        "with_answears" => "With Answears",
+        "adding_date" => "Adding date",
+        "no-question" => "No questions yet",
+        "answears" => "Answears",
+        "username" => "username",
+        "password" => "password",
+        "label_username" => "Username can contain letters, numbers and dash character",
+        "label_email" => "Email is needed to confirm registration",
+        "label_password" => "Password can have 6-30 characters. You can use lower and upper case, digits and characters ?!#",
     ]
 
 

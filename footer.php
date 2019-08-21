@@ -5,7 +5,7 @@
     <!-- FOOTER -->
     <footer class="container-fluid">
         <div class="right py-3">
-            <a href="/en/"><?php echo $lang["english"] ?></a> | <a href="/pl/"><?php echo $lang["polish"] ?></a>
+            <a href="/en/"><?php echo $displayLang['english'] ?></a> | <a href="/pl/"><?php echo $displayLang['polish'] ?></a>
         </div>
     </footer>
     <!-- END FOOTER -->

@@ -43,7 +43,7 @@
 
                             <div class="d-flex flex-row justify-content-end">
                                 <div class="container-flex justify-content-center">
-                                    <button type="submit" name="add-question-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $displayLang['add_question']  ?> </button>
+                                    <button type="submit" name="add-question-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ".$displayLang['add_question']  ?> </button>
                                 </div>
                             </div>
 
@@ -61,7 +61,7 @@
                     </div>
                     
                     <?php else: ?>
-                        <div class="container-fluid py-5"><p class="text-center">You have to log in to add question</p></div>
+                        <div class="container-fluid py-5"><p class="text-center"> <?php echo $displayLang['log-in-to-add-question']?> </p></div>
                         <div class="container-fluid text-center my-5">
                             <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang['log_in']  ?></button></a>
                         </div>

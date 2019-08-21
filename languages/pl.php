@@ -1,5 +1,5 @@
 <?php   
-    $lang = [
+    $displayLang = [
         "site_title" => "Pytania rekrutacyjne + odpowiedzi - Junior Front end developer",
         "title" => "To jest polski tytuł",
         "text" => "To jest polski text",
@@ -14,7 +14,27 @@
         "developer-tools" => "Narzędzia programisty",
         "go-back"=> "Powrót",
         "english" => "Angielski",
-        "polish" => "Polski"
+        "polish" => "Polski",
+        "log-in-to-add-question" => "Zaloguj się, by dodać pytanie",
+        "author" => "Autor",
+        "adding-date" => "data dodania",
+        "delte-question" => "Usuń pytanie",
+        "delte-question-confirm" => "Czy na pewno chcesz usunąć to pytanie?",
+        "yes" => "Tak",
+        "no" => "Nie",
+        "no-answear" => "Nie dodano jeszcze odpowiedzi",
+        "log_in_to_add_answear" => "Zaloguj się, by dodać odpowiedź",
+        "log_in_first" => "Zaloguj się najpierw",
+        "top_rated" => "Najlepiej oceniane",
+        "with_answears" => "Z odpowiedziami",
+        "adding_date" => "Data dodania",
+        "no-question" => "Nie dodano jeszcze pytań",
+        "answears" => "Odpowiedzi",
+        "username" => "login",
+        "password" => "hasło",
+        "label_username" => "Login może zawierać litery, cyfry i myślnik",
+        "label_email" => "Email jest potrzebny, by potwierdzić rejestrację",
+        "label_password" => "Hasło może zawierać 6-30 znaków. Możesz użyć dużych i małych liter, cyfr i znaków ?!#",
     ]
 
 

@@ -45,14 +45,16 @@ footer {
     border: none;
 }
 
+.gray-background {
+    background-color: #F7F7F7;
+}
+
 .log-in-message-form {
     position: relative;
 }
 
 .log-in-message {
-    position: absolute;
-    width: 50px;
-    left: -12px;
+    text-align: center;
 }
 
 .pagination {
@@ -76,6 +78,16 @@ footer {
     margin-left: 2%;
 }
 
+.arr {
+    width: 17px;
+}
+
+@media screen and (min-width: 768px) {
+    .arr {
+        width: 20px;
+    }
+}
+
 @media screen and (min-width: 1100px) {
     .h2-size {
         font-size: 1.4rem;
@@ -88,4 +100,5 @@ footer {
     .break-div {
         margin-left: 1%;
     }
+
 }

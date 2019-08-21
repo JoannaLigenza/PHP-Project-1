@@ -101,24 +101,24 @@
                     <div class="container-flex">
                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $questionData['author']) :  ?>
                         <p class="text-right text-muted pb-2">
-                            <small>Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?> </small>
+                            <small><?php echo $displayLang['author'].': '.$questionData['author'].", "; echo $displayLang['adding-date'].': '.$questionData['date']; ?> </small>
                             <div class="d-flex justify-content-end">
                                 <form action=<?php echo basename($_SERVER['REQUEST_URI']) ?> method="post">
-                                    <button type="submit" name="delete-question" class="btn btn-warning my-2 shadow-none myBtnHover d-flex" > <img src="../img/delete.svg" alt="trash-icon">Usuń pytanie</button>
+                                    <button type="submit" name="delete-question" class="btn btn-warning my-2 shadow-none myBtnHover d-flex" > <img src="../img/delete.svg" alt="trash-icon"><?php echo $displayLang['delte-question'] ?></button>
                                 </form>
                             </div> 
                             <?php if ($deleteQuestion) :  ?>
                                 <div class="container text-center py-4">
                                     <form action="" method="post">
-                                        <p>Czy na pewno chcesz usunąć to pytanie? </p>
-                                        <button type="submit" name="delete-question-yes" class="btn btn-warning my-2 shadow-none myBtnHover"> Tak </button>
-                                        <button type="submit" name="delete-question-no" class="btn btn-warning my-2 shadow-none myBtnHover"> Nie </button>
+                                        <p><?php echo $displayLang['delte-question-confirm'] ?> </p>
+                                        <button type="submit" name="delete-question-yes" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $displayLang['yes'] ?> </button>
+                                        <button type="submit" name="delete-question-no" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo $displayLang['no'] ?> </button>
                                     </form>
                                 </div>
                             <?php endif; ?>
                         </p>
                         <?php else: ?>
-                        <p class="text-right text-muted pb-2"><small>Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?> </small></p>
+                        <p class="text-right text-muted pb-2"><small><?php echo $displayLang['author'].': '.$questionData['author'].", "; echo $displayLang['adding-date'].': '.$questionData['date']; ?> </small></p>
                         <?php endif; ?>
                     </div>
 
@@ -140,7 +140,7 @@
                     <!-- ANSWEARS -->
                     <div class="py-5">
                         <?php if (count($getAnswears) === 0) : ?>
-                            <p>Nie dodano jeszcze odpowiedzi / No answers yet </p>
+                            <p><?php echo $displayLang["no-answear"] ?> </p>
                         <?php else : ?>   
                             <!-- LOOP FOR ANSWEARS -->
                             <?php for($i=0; $i < count($getAnswears); $i++) : ?>
@@ -153,9 +153,9 @@
                                 ?>
                                 <section class="container-fluid text-center p-0 pb-3 my-2" id=<?php echo $i ?> >
                                     <!--  AUTHOR, DATE, DELETE ICON FOR ANSWEAR  -->
-                                    <p class=""><?php echo $loginMessage === $i ? 'Log in first!' : ''; ?></p>
+                                    <p class=""><?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
                                     <div class="d-flex justify-content-between">
-                                        <div class="pl-2 text-muted"><small>Autor: <?php echo $author; ?>, data dodania: <?php echo $date; ?> </small></div>
+                                        <div class="pl-2 text-muted"><small><?php echo $displayLang['author'].': '.$author.", "; echo $displayLang['adding-date'].': '.$date; ?> </small></div>
                                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $author) :  ?>
                                         <div>
                                             <form action="" method="post"> 
@@ -239,7 +239,7 @@
                         </form>
                         <?php else: ?>   
                             <div class="container-fluid text-center my-2" id="log-in-first">
-                                <p class="py-3">Please log in to add answear</p>
+                                <p class="py-3"><?php echo $displayLang["log_in_to_add_answear"] ?></p>
                                 <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a>
                             </div>
                         <?php endif; ?>
