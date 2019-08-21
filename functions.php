@@ -81,7 +81,7 @@
         }
 
         protected function putQuestionData($category, $title, $author) {
-            $result = false;
+            $res = false;
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
             $date = date("Y-m-d");
@@ -93,16 +93,16 @@
             if ($query) {
                 $query->bind_param("ssss", $category, $title, $author, $date);
                 if($query->execute()) {
-                    $result = true;
+                    $res = true;
                 }
                 $query->close();
                 mysqli_close($connection);
             }
-            return $result;
+            return $res;
         }
 
         protected function removeQuestion($id) {
-            $result = false;
+            $res = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
             $lang = $_SESSION['lang'];
@@ -114,14 +114,14 @@
                     if ($query) {
                         $query->bind_param("i", $id);
                         if($query->execute()) {
-                            $result = true;
+                            $res = true;
                         }
                     }
                 }
                 $query->close();
                 mysqli_close($connection);
             }
-            return $result;
+            return $res;
         }
 
         protected function questionRowsNum() {
@@ -134,7 +134,7 @@
         }
 
         protected function changeAnswearsNumber($id, $sign) {
-            $result = false;
+            $res = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
             $lang = $_SESSION['lang'];
@@ -147,12 +147,12 @@
             if ($query) {
                 $query->bind_param("i", $id );
                 if($query->execute()) {
-                    $result = true;
+                    $res = true;
                 }
                 $query->close();
                 mysqli_close($connection);
             }
-            return $result;
+            return $res;
         }
 
         public function addToFavourites($user, $toQuestion) {
@@ -194,6 +194,20 @@
                 mysqli_close($connection);
             }
         }
+
+        public function deleteFromFavourites($user, $toQuestion) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            $lang = $_SESSION['lang'];
+            $query = $connection->prepare("DELETE from favourites_$lang where username = ? AND question_number = ?");
+            if($query) {
+                $query->bind_param("si", $user, $toQuestion);
+                if($query->execute()) {
+                    $res = true;
+                }
+            }
+            return $res;
+        }
     }
 
     $questionsData = new QuestionsData();
@@ -222,27 +236,27 @@
         }
 
         protected function putAnswearData($toQuestion, $answear, $author, $link="" ) {
-            $result = false;
+            $res = false;
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
             $answear = htmlspecialchars($answear, ENT_QUOTES);
             $link = htmlspecialchars($link, ENT_QUOTES);
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
-            $query = $connection->prepare("INSERT INTO answears_$lang SET to_question = ?, answear_text = ?, link = ?, author = ?, date = ?, votes_down = 0, votes_up = 0");
+            $query = $connection->prepare("INSERT INTO answears_$lang SET to_question = ?, answear_text = ?, link = ?, author = ?, date = ?, votes = 0");
             if ($query) {
                 $query->bind_param("issss", $toQuestion, $answear, $link, $author, $date);
                 if($query->execute()) {
-                    $result = true;
+                    $res = true;
                 }
                 $query->close();
                 mysqli_close($connection);
             }
-            return $result;
+            return $res;
         }
 
         protected function removeAnswear($id) {
-            $result = false;
+            $res = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
             $lang = $_SESSION['lang'];
@@ -250,12 +264,12 @@
             if ($query) {
                 $query->bind_param("i", $id);
                 if($query->execute()) {
-                    $result = true;
+                    $res = true;
                 } 
                 $query->close();
                 mysqli_close($connection);
             }
-            return $result;
+            return $res;
         }
 
         protected function answearRowsNum($toQuestion) {
@@ -275,10 +289,128 @@
             }
             return $numRows;
         }
+
+        public function changeAnswearVotesNumber($answearId, $sign, $difference) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            settype($answearId, "integer");
+            $lang = $_SESSION['lang'];
+            if ($sign === "+") {
+                $query = "UPDATE answears_$lang SET votes = votes+$difference WHERE id = ?";
+            } else if ($sign === "-") {
+                $query = "UPDATE answears_$lang SET votes = votes-$difference WHERE id = ?";
+            }
+            $query = $connection->prepare($query);
+            if ($query) {
+                $query->bind_param("i", $answearId);
+                if($query->execute()) {
+                    $res = true;
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $res;
+        }
+
+        public function addVote($user, $answearId, $sign) {
+            $isVotesAdded = [];
+            $connection = $this->connectionToDb();
+            $lang = $_SESSION['lang'];
+            $query = $connection->prepare("SELECT * FROM votes_$lang WHERE username = ? AND answear_number = ?");
+            if($query) {
+                $query->bind_param("si", $user, $answearId);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    $numRows = mysqli_num_rows($result);
+                    if ($numRows > 0) {
+                        $result = $result->fetch_array(MYSQLI_ASSOC);
+                        $up =  $result['up'];
+                        $down =  $result['down'];
+                        $id = $result['id'];
+                        $difference = 1;
+                        if ($sign === "+") {
+                            if ($down) {
+                                $difference = 2;
+                            }
+                            $up = !$up;
+                            $down = false;
+                        }
+                        if ($sign === "-") {
+                            if ($up) {
+                                $difference = 2;
+                            }
+                            $up = false;
+                            $down = !$down;
+                        } 
+                        $query = $connection->prepare("UPDATE votes_$lang SET up = '$up', down = '$down' WHERE id = ?");
+                        if($query) {
+                            $query->bind_param("i", $id);
+                            if($query->execute()) {                             
+                                array_push($isVotesAdded, $up, $down, $difference);
+                            }
+                            $query->close();
+                            mysqli_close($connection);
+                        }
+                        return $isVotesAdded;
+                    } else {
+                        $up = false;
+                        $down = false;
+                        if ($sign === "+") {
+                            $up = true;
+                        }
+                        if ($sign === "-") {
+                            $down = true;
+                        }
+                        $difference = 1;
+                        $query = $connection->prepare("INSERT INTO votes_$lang SET username = ?, answear_number = ?, up = '$up', down = '$down'");
+                        if($query) {
+                            $query->bind_param("si", $user, $answearId);
+                            if($query->execute()) {
+                                array_push($isVotesAdded, $up, $down, $difference);
+                            }
+                            $query->close();
+                            mysqli_close($connection);
+                        } 
+                        return $isVotesAdded;
+                    }
+                } 
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $isVotesAdded;
+        }
+
+        public function deleteVote($user, $answearId) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            $lang = $_SESSION['lang'];
+            $query = $connection->prepare("DELETE from votes_$lang where username = ? AND answear_number = ?");
+            if($query) {
+                $query->bind_param("si", $user, $answearId);
+                if($query->execute()) {
+                    $res = true;
+                }
+            }
+            return $res;
+        }
+
+        public function isVoted($user, $answearId) {
+            $connection = $this->connectionToDb();
+            $lang = $_SESSION['lang'];
+            $query = $connection->prepare("SELECT * FROM votes_$lang where username = ? AND answear_number = ?");
+            if($query) {
+                $query->bind_param("si", $user, $answearId);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    $result = $result->fetch_array(MYSQLI_ASSOC);
+                }
+            }
+            return $result;
+        }
     }
 
     $answearsData = new AnswearsData();
-    //$answearsData->deleteAnswear(71);
+    //$answearsData->isVoted("kal", 309);
 
 
     class DisplayQuestionsData extends QuestionsData {
@@ -318,18 +450,18 @@
         }
 
         public function addQuestion($category, $title, $author='anonim') {
-            $result = $this->putQuestionData($category, $title, $author);
-            return $result;
+            $res = $this->putQuestionData($category, $title, $author);
+            return $res;
         }
 
         public function deleteQuestion($id) {
-            $result = $this->removeQuestion($id);
-            return $result;
+            $res = $this->removeQuestion($id);
+            return $res;
         }
 
         public function setAnswearsNumber($id, $sign) {
-            $result = $this->changeAnswearsNumber($id, $sign);
-            return $result;
+            $res = $this->changeAnswearsNumber($id, $sign);
+            return $res;
         }
 
         public function lastQuestionIndex() {
@@ -453,7 +585,7 @@
         }
 
         public function addUser($userName, $email, $pass) {
-            $result = false;
+            $res = false;
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
@@ -461,12 +593,12 @@
             if ($query) {
                 $query->bind_param("ssss", $userName, $email, $pass, $date);
                 if($query->execute()) {
-                    $result = true;
+                    $res = true;
                     $query->close();
                     mysqli_close($connection);
                 } 
             }
-            return $result;
+            return $res;
         }
 
         public function getUserData($username) {

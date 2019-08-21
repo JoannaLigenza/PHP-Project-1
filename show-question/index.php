@@ -11,6 +11,7 @@
     $getAnswears = $displayAnswearsData->getAnswears($getId);
     $questionData = $displayQuestionsData->questionDataOnAnswearPage(($getId));
     $deleteQuestion = false;
+    $loginMessage = -1;
 
     if (isset($_POST['add-answear-button'])) {
         $answear = $_POST['answear-textarea'];
@@ -37,20 +38,57 @@
 
     if (isset($_POST['delete-question-yes'])) {
         if ($displayQuestionsData->deleteQuestion($getId)) {
+            $questionsData->deleteFromFavourites($_SESSION['username'], $getId);
             $lang = $_SESSION['lang'];
             header("Location: /".$lang);
         } 
     }
 
     for($i=0; $i < count($getAnswears); $i++) {
-        if (isset($_POST['delete-answear-'.$getAnswears[$i]['id']])) {
+        $answearId = $getAnswears[$i]['id'];
+        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+            $user = $_SESSION['username'];
+        }
+        if (isset($_POST['delete-answear-'.$answearId])) {
             if ($displayAnswearsData->deleteAnswear($getAnswears[$i]['id'])) {
                 $displayQuestionsData->setAnswearsNumber(($getId), '-');
+                $answearsData->deleteVote($user, $answearId);
+            }
+        }
+        if (isset($_POST['arr-up-'.$getAnswears[$i]['id']])) {
+            if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+                $res = $answearsData->addVote($user, $answearId, "+");
+                $up = $res[0];
+                $down = $res[1];
+                $difference = $res[2];
+                if ($up) {
+                    $answearsData->changeAnswearVotesNumber($answearId, "+", $difference);
+                } else {
+                    $answearsData->changeAnswearVotesNumber($answearId, "-", $difference);
+                }
+            } else {
+                $loginMessage = $i;
+            }
+        }
+        if (isset($_POST['arr-down-'.$getAnswears[$i]['id']])) {
+            if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+                $res = $answearsData->addVote($user, $answearId, "-");
+                $up = $res[0];
+                $down = $res[1];
+                $difference = $res[2];
+                if ($down) {
+                    $answearsData->changeAnswearVotesNumber($answearId, "-", $difference);
+                } else {
+                    $answearsData->changeAnswearVotesNumber($answearId, "+", $difference);
+                }
+            } else {
+                $loginMessage = $i;
             }
         }
     }
 
     $getAnswears = $displayAnswearsData->getAnswears($getId);
+
 ?>
 
         <!-- MAIN  -->
@@ -63,7 +101,7 @@
                     <div class="container-flex">
                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $questionData['author']) :  ?>
                         <p class="text-right text-muted pb-2">
-                            Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?> 
+                            <small>Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?> </small>
                             <div class="d-flex justify-content-end">
                                 <form action=<?php echo basename($_SERVER['REQUEST_URI']) ?> method="post">
                                     <button type="submit" name="delete-question" class="btn btn-warning my-2 shadow-none myBtnHover d-flex" > <img src="../img/delete.svg" alt="trash-icon">Usuń pytanie</button>
@@ -80,7 +118,7 @@
                             <?php endif; ?>
                         </p>
                         <?php else: ?>
-                        <p class="text-right text-muted pb-2">Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?>  </p>
+                        <p class="text-right text-muted pb-2"><small>Autor: <?php echo $questionData['author']; ?>, data dodania: <?php echo $questionData['date']; ?> </small></p>
                         <?php endif; ?>
                     </div>
 
@@ -94,7 +132,7 @@
                     <div class="d-flex flex-row justify-content-end">
                         <div class="container-flex justify-content-center">
                             <a href="#add-answear-div">
-                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ". $lang["add_answear"]  ?> </button>
+                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ". $displayLang["add_answear"]  ?> </button>
                             </a>
                         </div>
                     </div>
@@ -104,33 +142,63 @@
                         <?php if (count($getAnswears) === 0) : ?>
                             <p>Nie dodano jeszcze odpowiedzi / No answers yet </p>
                         <?php else : ?>   
+                            <!-- LOOP FOR ANSWEARS -->
                             <?php for($i=0; $i < count($getAnswears); $i++) : ?>
+                                <?php 
+                                    $author = $getAnswears[$i]['author'];
+                                    $date = $getAnswears[$i]['date'];
+                                    $id = $getAnswears[$i]['id'];
+                                    $votes = $getAnswears[$i]['votes'];
+                                    $answearText = $getAnswears[$i]['answear_text'];
+                                ?>
                                 <section class="container-fluid text-center p-0 pb-3 my-2" id=<?php echo $i ?> >
+                                    <!--  AUTHOR, DATE, DELETE ICON FOR ANSWEAR  -->
+                                    <p class=""><?php echo $loginMessage === $i ? 'Log in first!' : ''; ?></p>
                                     <div class="d-flex justify-content-between">
-                                        <div class="pl-2 text-muted"><small>Autor: <?php echo $getAnswears[$i]['author']; ?>, data dodania: <?php echo $getAnswears[$i]['date']; ?> </small></div>
-                                        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $getAnswears[$i]['author']) :  ?>
+                                        <div class="pl-2 text-muted"><small>Autor: <?php echo $author; ?>, data dodania: <?php echo $date; ?> </small></div>
+                                        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $author) :  ?>
                                         <div>
-                                            <form action="" method="post"> <button type="submit" id="delete-answear" name="<?php echo 'delete-answear-'.$getAnswears[$i]['id'] ?>" class="d-flex flex-column justify-content-center btn m-2 p-0 shadow-none" value="delete-answear"><img src="../img/delete.svg" alt="trash-icon"></button></form>
+                                            <form action="" method="post"> 
+                                                <button type="submit" id=<?php echo 'delete-answear-'.$id ?> name="<?php echo 'delete-answear-'.$id ?>" class="d-flex flex-column justify-content-center btn m-2 p-0 shadow-none" value="delete-answear">
+                                                    <img src="../img/delete.svg" alt="trash-icon">
+                                                </button>
+                                            </form>
                                         </div>
                                         <?php endif; ?>
                                     </div>
                                     
                                     <div class="d-flex flex-row">
+                                        <!--  RATES SYSTEM  -->
                                         <div class="d-flex flex-column justify-content-start align-items-center bg-light rounded-left pl-1">
-                                            <img src="../img/arr-up.svg" alt="arrow-up-icon">
-                                            <div><p class="m-0 ">0</p></div>
-                                            <img src="../img/arr-down.svg" alt="arrow-down-icon">
+                                            <form action="" method="post">
+                                                <button type="submit" id=<?php echo 'arr-up-'.$id ?> name=<?php echo 'arr-up-'.$id ?> class="btn border-0 m-0 p-0 shadow-none d-flex align-items-center flex-column" >
+                                                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
+                                                        <img src=<?php echo $answearsData->isVoted($_SESSION['username'], $id)["up"] ? "../img/arr-up.svg" : "../img/arr-up-grey.svg" ?> alt="arrow-up-icon" class="arr">
+                                                    <?php else: ?>
+                                                        <img src="../img/arr-up-grey.svg" alt="arrow-up-icon" class="arr">
+                                                    <?php endif; ?>
+                                                </button>
+                                                
+                                                <div><p class="m-0 py-0"><?php echo $votes ?></p></div>
+                                                
+                                                <button type="submit" id=<?php echo 'arr-down-'.$id ?> name=<?php echo 'arr-down-'.$id ?> class="btn border-0 m-0 p-0 shadow-none d-flex align-items-center flex-column" >
+                                                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
+                                                        <img src=<?php echo $answearsData->isVoted($_SESSION['username'], $id)["down"] ? "../img/arr-down.svg" : "../img/arr-down-grey.svg" ?> alt="arrow-down-icon" class="arr">
+                                                    <?php else: ?>
+                                                        <img src="../img/arr-down-grey.svg" alt="arrow-down-icon" class="arr">
+                                                    <?php endif; ?>
+                                                </button>
+                                            </form>
                                         </div>
                                         
+                                        <!--  ANSWEAR TEXT  -->
                                         <div class="bg-light rounded-right p-2 text-left flex-fill">
                                             <p class="word-break"> 
                                                 <!-- nl2br() - displays enters -->
                                                 <?php echo nl2br($getAnswears[$i]['answear_text'], false) ; ?>
                                             </p>
                                         </div>
-                                    </div>
-                                    
-                                    
+                                    </div>                                   
                                 </section>
                             <?php endfor; ?>
                         <?php endif; ?>
@@ -165,18 +233,18 @@
                             <textarea type="text" name="answear-textarea" class="form-control form-control-lg" placeholder="Add answear"></textarea>
                             <div class="d-flex flex-row justify-content-end">
                                     <div class="container-flex justify-content-center pt-3">
-                                        <button type="submit" name="add-answear-button" id="add-answear-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ".$lang["add_answear"]  ?> </button>
+                                        <button type="submit" name="add-answear-button" id="add-answear-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ".$displayLang["add_answear"]  ?> </button>
                                     </div>
                             </div>
                         </form>
                         <?php else: ?>   
-                            <div class="container-fluid text-center my-2">
+                            <div class="container-fluid text-center my-2" id="log-in-first">
                                 <p class="py-3">Please log in to add answear</p>
-                                <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $lang["log_in"]  ?></button></a>
+                                <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a>
                             </div>
                         <?php endif; ?>
                     </div>
-
+                    <!-- END ANSWEARS -->
                 </main>
                 <!-- END LEFT COL -->
 
