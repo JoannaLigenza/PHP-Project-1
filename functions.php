@@ -89,7 +89,7 @@
             $category = htmlspecialchars($category, ENT_QUOTES);
             $title = htmlspecialchars($title, ENT_QUOTES);
             // Prepared Statement send query and the data to the database separatly, not as one query.
-            $query = $connection->prepare("INSERT INTO questions_$lang SET category = ?, title = ?, answears = 0, author = ?, date = ?, favourites = false, votes = 0;");
+            $query = $connection->prepare("INSERT INTO questions_$lang SET category = ?, title = ?, answears = 0, author = ?, date = ?, votes = 0;");
             if ($query) {
                 $query->bind_param("ssss", $category, $title, $author, $date);
                 if($query->execute()) {
@@ -157,8 +157,7 @@
 
         public function addToFavourites($user, $toQuestion) {
             $connection = $this->connectionToDb();
-            $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT * FROM favourites_$lang WHERE username = ? AND question_number = ?");
+            $query = $connection->prepare("SELECT * FROM favourites WHERE username = ? AND question_number = ?");
             if($query) {
                 $query->bind_param("si", $user, $toQuestion);
                 if($query->execute()) {
@@ -166,7 +165,7 @@
                     $numRows = mysqli_num_rows($result);
                     //$result = $result->fetch_array(MYSQLI_ASSOC);
                     if ($numRows > 0) {
-                        $query = $connection->prepare("DELETE from favourites_$lang WHERE username = ? AND question_number = ?");
+                        $query = $connection->prepare("DELETE from favourites WHERE username = ? AND question_number = ?");
                         if($query) {
                             $query->bind_param("si", $user, $toQuestion);
                             if($query->execute()) {
@@ -178,7 +177,7 @@
                             } 
                         }
                     } else {
-                        $query = $connection->prepare("INSERT INTO favourites_$lang SET username = ?, question_number = ?");
+                        $query = $connection->prepare("INSERT INTO favourites SET username = ?, question_number = ?");
                         if($query) {
                             $query->bind_param("si", $user, $toQuestion);
                             if($query->execute()) {
@@ -198,8 +197,7 @@
         public function deleteFromFavourites($user, $toQuestion) {
             $res = false;
             $connection = $this->connectionToDb();
-            $lang = $_SESSION['lang'];
-            $query = $connection->prepare("DELETE from favourites_$lang where username = ? AND question_number = ?");
+            $query = $connection->prepare("DELETE from favourites where username = ? AND question_number = ?");
             if($query) {
                 $query->bind_param("si", $user, $toQuestion);
                 if($query->execute()) {
@@ -315,8 +313,7 @@
         public function addVote($user, $answearId, $sign) {
             $isVotesAdded = [];
             $connection = $this->connectionToDb();
-            $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT * FROM votes_$lang WHERE username = ? AND answear_number = ?");
+            $query = $connection->prepare("SELECT * FROM votes WHERE username = ? AND answear_number = ?");
             if($query) {
                 $query->bind_param("si", $user, $answearId);
                 if($query->execute()) {
@@ -342,7 +339,7 @@
                             $up = false;
                             $down = !$down;
                         } 
-                        $query = $connection->prepare("UPDATE votes_$lang SET up = '$up', down = '$down' WHERE id = ?");
+                        $query = $connection->prepare("UPDATE votes SET up = '$up', down = '$down' WHERE id = ?");
                         if($query) {
                             $query->bind_param("i", $id);
                             if($query->execute()) {                             
@@ -362,7 +359,7 @@
                             $down = true;
                         }
                         $difference = 1;
-                        $query = $connection->prepare("INSERT INTO votes_$lang SET username = ?, answear_number = ?, up = '$up', down = '$down'");
+                        $query = $connection->prepare("INSERT INTO votes SET username = ?, answear_number = ?, up = '$up', down = '$down'");
                         if($query) {
                             $query->bind_param("si", $user, $answearId);
                             if($query->execute()) {
@@ -383,8 +380,7 @@
         public function deleteVote($user, $answearId) {
             $res = false;
             $connection = $this->connectionToDb();
-            $lang = $_SESSION['lang'];
-            $query = $connection->prepare("DELETE from votes_$lang where username = ? AND answear_number = ?");
+            $query = $connection->prepare("DELETE from votes where username = ? AND answear_number = ?");
             if($query) {
                 $query->bind_param("si", $user, $answearId);
                 if($query->execute()) {
@@ -396,8 +392,7 @@
 
         public function isVoted($user, $answearId) {
             $connection = $this->connectionToDb();
-            $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT * FROM votes_$lang where username = ? AND answear_number = ?");
+            $query = $connection->prepare("SELECT * FROM votes where username = ? AND answear_number = ?");
             if($query) {
                 $query->bind_param("si", $user, $answearId);
                 if($query->execute()) {
@@ -474,8 +469,7 @@
 
         public function isAddedToFavourites($user, $toQuestion) {
             $connection = $this->connectionToDb();
-            $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT * FROM favourites_$lang WHERE username = ? AND question_number = ?");
+            $query = $connection->prepare("SELECT * FROM favourites WHERE username = ? AND question_number = ?");
             if($query) {
                 $query->bind_param("si", $user, $toQuestion);
                 if($query->execute()) {
@@ -568,8 +562,7 @@
         public function checkUserName($userName) {
             $connection = $this->connectionToDb();
             settype($userName, "string");
-            $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT * from users_$lang WHERE username LIKE ?");
+            $query = $connection->prepare("SELECT * from users WHERE username LIKE ?");
             if ($query) {
                 $query->bind_param("s", $userName);
                 if($query->execute()) {
@@ -587,9 +580,8 @@
         public function addUser($userName, $email, $pass) {
             $res = false;
             $connection = $this->connectionToDb();
-            $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
-            $query = $connection->prepare("INSERT INTO users_$lang SET username = ?, email = ?, pass = ?, date = ?");
+            $query = $connection->prepare("INSERT INTO users SET username = ?, email = ?, pass = ?, date = ?");
             if ($query) {
                 $query->bind_param("ssss", $userName, $email, $pass, $date);
                 if($query->execute()) {
@@ -603,8 +595,7 @@
 
         public function getUserData($username) {
             $connection = $this->connectionToDb();
-            $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT * FROM users_$lang WHERE username = ?");
+            $query = $connection->prepare("SELECT * FROM users WHERE username = ?");
             if($query) {
                 $query->bind_param("s", $username);
                 //$userArr = [];
