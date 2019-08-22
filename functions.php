@@ -43,7 +43,53 @@
     require_once 'languages/'. $lang . ".php";
 
 
+    class Path {
+        public function getPath() {
+            $url = $_SERVER['REQUEST_URI'];
+            $mainPath = $_SERVER['REQUEST_URI'];
+            if (strpos($url, "id")) {
+                $mainPath = explode("?", $mainPath);
+                $mainPath = $mainPath[0].'?id='.($_GET['id']);
+            } else {
+                if (strpos($url, "?")) {
+                    $mainPath = explode("?", $_SERVER['REQUEST_URI'])[0];
+                }
+            }
+            return $mainPath;
+        }
+    }
 
+    $path = new Path();
+    $getPathToNavigation = $path->getPath();
+
+
+    class SetSession {
+        public function setSessionParams($displayLang, $getPathToNavigation) {
+            if (isset($_POST['display-all-categories'])) {
+                $_SESSION['category'] = "all";
+                header("Location: $getPathToNavigation");
+            }
+            if (isset($_POST['display-html'])) {
+                $_SESSION['category'] = "HTML";
+                header("Location: $getPathToNavigation");
+            }
+            if (isset($_POST['display-css'])) {
+                $_SESSION['category'] = "CSS";
+                header("Location: $getPathToNavigation");
+            }
+            if (isset($_POST['display-javascript'])) {
+                $_SESSION['category'] = "Javascript";
+                header("Location: $getPathToNavigation");
+            }
+            if (isset($_POST['display-dev-tools'])) {
+               $_SESSION['category'] = $displayLang['developer-tools'];
+               header("Location: $getPathToNavigation");
+            }
+        }
+    }
+
+    $setSession = new SetSession();
+    $setSession->setSessionParams($displayLang, $getPathToNavigation);
 
     class Data {
         protected function connectionToDb() {
@@ -59,25 +105,41 @@
 
     class QuestionsData extends Data {
         protected function getQuestionsData($from, $to) {
-            $questionsArr = [];
             settype($from, "integer");
             settype($to, "integer");
+            $questionsArr = [];
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT * from questions_$lang LIMIT ?, ?;");
-            if ($query) {
-                $query->bind_param("ii", $from, $to);
-                if($query->execute()) {
-                   // $query->bind_result($result);
-                    $result = $query->get_result();
-                    while($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                        array_push($questionsArr, $row);
-                    }
-                } 
-                $query->close();
-                mysqli_close($connection);
+            if (!isset($_SESSION['category']) || $_SESSION['category'] === "all") {
+                $query = $connection->prepare("SELECT * from questions_$lang LIMIT ?, ?;");
+                if ($query) {
+                    $query->bind_param("ii", $from, $to);
+                    if($query->execute()) {
+                        $result = $query->get_result();
+                        while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                            array_push($questionsArr, $row);
+                        }
+                    } 
+                    $query->close();
+                    mysqli_close($connection);
+                }
+                return $questionsArr;
+            } else {
+                $category = $_SESSION['category'];
+                $query = $connection->prepare("SELECT * from questions_$lang WHERE category = ? LIMIT ?, ?;");
+                if ($query) {
+                    $query->bind_param("sii", $category, $from, $to);
+                    if($query->execute()) {
+                        $result = $query->get_result();
+                        while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                            array_push($questionsArr, $row);
+                        }
+                    } 
+                    $query->close();
+                    mysqli_close($connection);
+                }
+                return $questionsArr;
             }
-            return $questionsArr;
         }
 
         protected function putQuestionData($category, $title, $author) {
@@ -127,7 +189,12 @@
         protected function questionRowsNum() {
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
-            $query = "SELECT id from questions_$lang";
+            if (!isset($_SESSION['category']) || $_SESSION['category'] === "all") {
+                $query = "SELECT id from questions_$lang";
+            } else {
+                $category = $_SESSION['category'];
+                $query = "SELECT id from questions_$lang WHERE category = '$category'";
+            }
             $result = $connection->query($query);
             $numRows = mysqli_num_rows($result);
             return $numRows;
@@ -641,24 +708,5 @@
     }
 
     $loadSite = new LoadSites();
-
-    class Path {
-        public function getPath() {
-            $url = $_SERVER['REQUEST_URI'];
-            $mainPath = $_SERVER['REQUEST_URI'];
-            if (strpos($url, "id")) {
-                $mainPath = explode("?", $mainPath);
-                $mainPath = $mainPath[0].'?id='.($_GET['id']);
-            } else {
-                if (strpos($url, "?")) {
-                    $mainPath = explode("?", $_SERVER['REQUEST_URI'])[0];
-                }
-            }
-            return $mainPath;
-        }
-    }
-
-    $path = new Path();
-    $getPathToNavigation = $path->getPath();
 
 ?>
