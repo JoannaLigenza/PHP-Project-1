@@ -26,7 +26,7 @@
         "log_in_to_add_answear" => "Please log in to add answear",
         "log_in_first" => "Log in first!",
         "top_rated" => "Top rated",
-        "with_answears" => "With Answears",
+        "most_answears" => "Most Answears",
         "adding_date" => "Adding date",
         "no-question" => "No questions yet",
         "answears" => "Answears",

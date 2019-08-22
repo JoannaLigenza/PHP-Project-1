@@ -29,6 +29,11 @@ footer {
     border-color: rgb(255, 183, 0);
 }
 
+.btn:active, .btn:focus {
+    background-color: rgb(255, 183, 0);
+    border-color: rgb(255, 183, 0);
+}
+
 .h2-size {
     font-size: 1rem;
 }

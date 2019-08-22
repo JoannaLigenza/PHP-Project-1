@@ -33,22 +33,29 @@
                         </div>
                     </div>
 
+                    <!--  SORTING QUESTIONS  -->
                     <div class="my-3">
                         <div class="d-flex flex-row justify-content-end">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $displayLang["sort"].":"  ?></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><?php echo $displayLang["top_rated"]; ?></a>
-                                    <a class="dropdown-item" href="#"><?php echo $displayLang["with_answears"]; ?></a>
-                                    <a class="dropdown-item" href="#"><?php echo $displayLang["adding_date"]; ?></a>
+                                        <form action="" method="post">
+                                            <button type="submit" name="adding-date" class="dropdown-item btn shadow-none"><?php echo $displayLang["adding_date"]; ?></button>
+                                            <button type="submit" name="most-answears" class="dropdown-item btn shadow-none"><?php echo $displayLang["most_answears"]; ?></button>
+                                            <button type="submit" name="top-rated" class="dropdown-item btn shadow-none"><?php echo $displayLang["top_rated"]; ?></button>
+                                        </form>
+
+                                    <!-- <a class="dropdown-item" href="#"><?php echo $displayLang["top_rated"]; ?></a>
+                                    <a class="dropdown-item" href="#"><?php echo $displayLang["most_answears"]; ?></a>
+                                    <a class="dropdown-item" href="#"><?php echo $displayLang["adding_date"]; ?></a> -->
                                     </div>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <!-- QUESTIONS FROM DATABASE -->
 
+                    <!-- QUESTIONS FROM DATABASE -->
                     <?php if ($displayQuestionsData->questionsNumOnPage === 0) : ?>
                         <p><?php echo $displayLang["no-question"]; ?></p>
                     <?php else : ?>   

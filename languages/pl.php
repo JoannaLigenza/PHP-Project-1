@@ -26,7 +26,7 @@
         "log_in_to_add_answear" => "Zaloguj się, by dodać odpowiedź",
         "log_in_first" => "Zaloguj się najpierw",
         "top_rated" => "Najlepiej oceniane",
-        "with_answears" => "Z odpowiedziami",
+        "most_answears" => "Najwięcej odpowiedzi",
         "adding_date" => "Data dodania",
         "no-question" => "Nie dodano jeszcze pytań",
         "answears" => "Odpowiedzi",

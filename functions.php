@@ -85,6 +85,18 @@
                $_SESSION['category'] = $displayLang['developer-tools'];
                header("Location: $getPathToNavigation");
             }
+            if (isset($_POST['adding-date'])) {
+               $_SESSION['queston-sort'] = "date";
+               header("Location: $getPathToNavigation");
+            }
+            if (isset($_POST['most-answears'])) {
+               $_SESSION['queston-sort'] = "answears";
+               header("Location: $getPathToNavigation");
+            }
+            if (isset($_POST['top-rated'])) {
+               $_SESSION['queston-sort'] = "votes";
+               header("Location: $getPathToNavigation");
+            }
         }
     }
 
@@ -110,8 +122,13 @@
             $questionsArr = [];
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
+            if (!isset($_SESSION['queston-sort']) || $_SESSION['queston-sort'] === "date") {
+                $order = "date";
+            } else {
+                $order = $_SESSION['queston-sort']." DESC";
+            }
             if (!isset($_SESSION['category']) || $_SESSION['category'] === "all") {
-                $query = $connection->prepare("SELECT * from questions_$lang LIMIT ?, ?;");
+                $query = $connection->prepare("SELECT * from questions_$lang ORDER BY $order LIMIT ?, ?;");
                 if ($query) {
                     $query->bind_param("ii", $from, $to);
                     if($query->execute()) {
@@ -126,7 +143,7 @@
                 return $questionsArr;
             } else {
                 $category = $_SESSION['category'];
-                $query = $connection->prepare("SELECT * from questions_$lang WHERE category = ? LIMIT ?, ?;");
+                $query = $connection->prepare("SELECT * from questions_$lang WHERE category = ? ORDER BY $order LIMIT ?, ?;");
                 if ($query) {
                     $query->bind_param("sii", $category, $from, $to);
                     if($query->execute()) {
