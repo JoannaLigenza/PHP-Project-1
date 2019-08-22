@@ -97,6 +97,14 @@
                $_SESSION['queston-sort'] = "votes";
                header("Location: $getPathToNavigation");
             }
+            if (isset($_POST['answear-adding-date'])) {
+               $_SESSION['answear-sort'] = "date";
+               header("Location: $getPathToNavigation");
+            }
+            if (isset($_POST['answear-top-rated'])) {
+               $_SESSION['answear-sort'] = "votes";
+               header("Location: $getPathToNavigation");
+            }
         }
     }
 
@@ -302,7 +310,12 @@
             settype($from, "integer");
             settype($to, "integer");
             $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT * from answears_$lang WHERE to_question LIKE $toQuestion LIMIT ?, ?;");
+            if (!isset($_SESSION['answear-sort']) || $_SESSION['answear-sort'] === "date") {
+                $order = "date";
+            } else {
+                $order = $_SESSION['answear-sort']." DESC";
+            }
+            $query = $connection->prepare("SELECT * from answears_$lang WHERE to_question = $toQuestion ORDER BY $order LIMIT ?, ?;");
             if ($query) {
                 $query->bind_param("ii", $from, $to);
                 if($query->execute()) {

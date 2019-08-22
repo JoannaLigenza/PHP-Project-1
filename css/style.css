@@ -1,5 +1,6 @@
 html {
     --color-orange: #FFBE07;
+    --color-hover: rgb(255, 183, 0);
     /* font-size: 0.8rem; */
 }
 
@@ -24,22 +25,55 @@ footer {
     margin-left: auto;
 }
 
-.myBtnHover:hover{
-    background-color: rgb(255, 183, 0);
-    border-color: rgb(255, 183, 0);
+.myBtnHover:hover {
+    background-color: rgb(255, 183, 0)!important;
+    border-color: rgb(255, 183, 0)!important;
+    outline: none;
 }
 
-.btn:active, .btn:focus {
-    background-color: rgb(255, 183, 0);
-    border-color: rgb(255, 183, 0);
+.dropdown-item:active, .dropdown-item:focus {
+    color: #212529;
+    background-color: #fff;
+    outline: none;
 }
+
+.dropdown-item:hover, button.bg-light:focus, button.bg-light:hover , button.bg-warning:focus, button.bg-warning:hover {
+    color: #212529;
+    /* background-color: #F7F7F7 !important; */
+    background-color: #fff !important;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+}
+
+/* .dropdown-item:hover{
+    background-color: none;
+    border-color: none;
+    outline: none;
+}
+
+.dropdown-item.active, .dropdown-item:active, .dropdown-item:focus {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    outline: none;
+}
+
+.myBtnHover:hover, .btn:active, .btn:focus, a.bg-warning:focus, a.bg-warning:hover, button.bg-warning:focus, button.bg-warning:hover{
+    background-color: rgb(255, 183, 0)!important;
+    border-color: rgb(255, 183, 0)!important;
+    outline: none;
+} */
 
 .h2-size {
     font-size: 1rem;
 }
 
-.h6-size {
+.h4-size {
     font-size: 1rem;
+}
+
+.h6-size {
+    font-size: 0.9rem;
 }
 
 .card {
@@ -98,8 +132,12 @@ footer {
         font-size: 1.4rem;
     }
 
-    .h6-size {
+    .h4-size {
         font-size: 1.1rem;
+    }
+
+    .h6-size {
+        font-size: 1rem;
     }
 
     .break-div {

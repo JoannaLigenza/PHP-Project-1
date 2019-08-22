@@ -41,14 +41,10 @@
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $displayLang["sort"].":"  ?></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <form action="" method="post">
-                                            <button type="submit" name="adding-date" class="dropdown-item btn shadow-none"><?php echo $displayLang["adding_date"]; ?></button>
-                                            <button type="submit" name="most-answears" class="dropdown-item btn shadow-none"><?php echo $displayLang["most_answears"]; ?></button>
-                                            <button type="submit" name="top-rated" class="dropdown-item btn shadow-none"><?php echo $displayLang["top_rated"]; ?></button>
+                                            <button type="submit" name="adding-date" class=<?php echo (isset($_SESSION['queston-sort']) && $_SESSION['queston-sort'] === "date") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["adding_date"]; ?></button>
+                                            <button type="submit" name="most-answears" class=<?php echo (isset($_SESSION['queston-sort']) && $_SESSION['queston-sort'] === "answears") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["most_answears"]; ?></button>
+                                            <button type="submit" name="top-rated" class=<?php echo (isset($_SESSION['queston-sort']) && $_SESSION['queston-sort'] === "votes") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["top_rated"]; ?></button>
                                         </form>
-
-                                    <!-- <a class="dropdown-item" href="#"><?php echo $displayLang["top_rated"]; ?></a>
-                                    <a class="dropdown-item" href="#"><?php echo $displayLang["most_answears"]; ?></a>
-                                    <a class="dropdown-item" href="#"><?php echo $displayLang["adding_date"]; ?></a> -->
                                     </div>
                                 </li>
                             </ul>
@@ -80,7 +76,7 @@
                                     <div class="d-flex flex-row justify-content-center align-items-center">
                                         <img src="img/arr-down-b.svg" class="h-100" alt="arr-down-icon"> 
                                         <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$questionData[$i]['id'] ?> >
-                                            <div class="p-2 lead text-body h6-size"><?php echo $displayLang["answears"].": ".$questionData[$i]['answears']; ?></div>
+                                            <div class="p-2 lead text-body h4-size"><?php echo $displayLang["answears"].": ".$questionData[$i]['answears']; ?></div>
                                         </a>
                                     </div>
                                 </div>
