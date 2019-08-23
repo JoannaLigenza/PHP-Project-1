@@ -692,9 +692,25 @@
 
         public function getUserData($username) {
             $connection = $this->connectionToDb();
-            $query = $connection->prepare("SELECT * FROM users WHERE username = ?");
+            $query = $connection->prepare("SELECT id, username, site, date FROM users WHERE username = ?");
             if($query) {
                 $query->bind_param("s", $username);
+                //$userArr = [];
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    $result = $result->fetch_array(MYSQLI_ASSOC);
+                    $query->close();
+                    mysqli_close($connection);
+                } 
+            }
+            return $result;
+        }
+
+        public function getUserVeryficationData($email) {
+            $connection = $this->connectionToDb();
+            $query = $connection->prepare("SELECT username, email, pass FROM users WHERE email = ?");
+            if($query) {
+                $query->bind_param("s", $email);
                 //$userArr = [];
                 if($query->execute()) {
                     $result = $query->get_result();
