@@ -38,9 +38,9 @@
 
     $language = new Language();
     $language->redirect($_SERVER['REQUEST_URI']);
-    $lang = $language->setSessionLanguage($_SERVER['REQUEST_URI']);
+    $chooseLang = $language->setSessionLanguage($_SERVER['REQUEST_URI']);
 
-    require_once 'languages/'. $lang . ".php";
+    require_once 'languages/'. $chooseLang . ".php";
 
 
     class Path {
@@ -136,9 +136,9 @@
                 $order = $_SESSION['queston-sort']." DESC";
             }
             if (!isset($_SESSION['category']) || $_SESSION['category'] === "all") {
-                $query = $connection->prepare("SELECT * from questions_$lang ORDER BY $order LIMIT ?, ?;");
+                $query = $connection->prepare("SELECT * from questions WHERE lang = ? ORDER BY $order LIMIT ?, ?;");
                 if ($query) {
-                    $query->bind_param("ii", $from, $to);
+                    $query->bind_param("sii", $lang, $from, $to);
                     if($query->execute()) {
                         $result = $query->get_result();
                         while($row = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -151,9 +151,9 @@
                 return $questionsArr;
             } else {
                 $category = $_SESSION['category'];
-                $query = $connection->prepare("SELECT * from questions_$lang WHERE category = ? ORDER BY $order LIMIT ?, ?;");
+                $query = $connection->prepare("SELECT * from questions WHERE lang = ? AND category = ? ORDER BY $order LIMIT ?, ?;");
                 if ($query) {
-                    $query->bind_param("sii", $category, $from, $to);
+                    $query->bind_param("ssii", $lang, $category, $from, $to);
                     if($query->execute()) {
                         $result = $query->get_result();
                         while($row = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -176,9 +176,9 @@
             $category = htmlspecialchars($category, ENT_QUOTES);
             $title = htmlspecialchars($title, ENT_QUOTES);
             // Prepared Statement send query and the data to the database separatly, not as one query.
-            $query = $connection->prepare("INSERT INTO questions_$lang SET category = ?, title = ?, answears = 0, author = ?, date = ?, votes = 0;");
+            $query = $connection->prepare("INSERT INTO questions SET lang = ?, category = ?, title = ?, answears = 0, author = ?, date = ?, votes = 0;");
             if ($query) {
-                $query->bind_param("ssss", $category, $title, $author, $date);
+                $query->bind_param("sssss", $lang, $category, $title, $author, $date);
                 if($query->execute()) {
                     $res = true;
                 }
@@ -192,12 +192,11 @@
             $res = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
-            $lang = $_SESSION['lang'];
-            $query = $connection->prepare("DELETE from answears_$lang where to_question = ?");
+            $query = $connection->prepare("DELETE from answears where to_question = ?");
             if ($query) {
                 $query->bind_param("i", $id);
                 if($query->execute()) {
-                    $query = $connection->prepare("DELETE from questions_$lang where id = ?");
+                    $query = $connection->prepare("DELETE from questions where id = ?");
                     if ($query) {
                         $query->bind_param("i", $id);
                         if($query->execute()) {
@@ -215,10 +214,10 @@
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
             if (!isset($_SESSION['category']) || $_SESSION['category'] === "all") {
-                $query = "SELECT id from questions_$lang";
+                $query = "SELECT id from questions WHERE lang = '$lang'";
             } else {
                 $category = $_SESSION['category'];
-                $query = "SELECT id from questions_$lang WHERE category = '$category'";
+                $query = "SELECT id from questions WHERE category = '$category' AND lang = '$lang'";
             }
             $result = $connection->query($query);
             $numRows = mysqli_num_rows($result);
@@ -229,11 +228,10 @@
             $res = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
-            $lang = $_SESSION['lang'];
             if ($sign === "+") {
-                $query = "UPDATE questions_$lang SET answears = answears+1 WHERE id = ?";
+                $query = "UPDATE questions SET answears = answears+1 WHERE id = ?";
             } else if ($sign === "-") {
-                $query = "UPDATE questions_$lang SET answears = answears-1 WHERE id = ?";
+                $query = "UPDATE questions SET answears = answears-1 WHERE id = ?";
             }
             $query = $connection->prepare($query);
             if ($query) {
@@ -315,9 +313,9 @@
             } else {
                 $order = $_SESSION['answear-sort']." DESC";
             }
-            $query = $connection->prepare("SELECT * from answears_$lang WHERE to_question = $toQuestion ORDER BY $order LIMIT ?, ?;");
+            $query = $connection->prepare("SELECT * from answears WHERE to_question = $toQuestion AND lang = ? ORDER BY $order LIMIT ?, ?;");
             if ($query) {
-                $query->bind_param("ii", $from, $to);
+                $query->bind_param("sii", $lang, $from, $to);
                 if($query->execute()) {
                     $result = $query->get_result();
                     while($row = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -338,9 +336,9 @@
             $link = htmlspecialchars($link, ENT_QUOTES);
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
-            $query = $connection->prepare("INSERT INTO answears_$lang SET to_question = ?, answear_text = ?, link = ?, author = ?, date = ?, votes = 0");
+            $query = $connection->prepare("INSERT INTO answears SET lang = ?, to_question = ?, answear_text = ?, link = ?, author = ?, date = ?, votes = 0");
             if ($query) {
-                $query->bind_param("issss", $toQuestion, $answear, $link, $author, $date);
+                $query->bind_param("sissss", $lang, $toQuestion, $answear, $link, $author, $date);
                 if($query->execute()) {
                     $res = true;
                 }
@@ -354,8 +352,7 @@
             $res = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
-            $lang = $_SESSION['lang'];
-            $query = $connection->prepare("DELETE from answears_$lang where id = ?");
+            $query = $connection->prepare("DELETE from answears where id = ?");
             if ($query) {
                 $query->bind_param("i", $id);
                 if($query->execute()) {
@@ -372,9 +369,9 @@
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
             $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT id from answears_$lang WHERE to_question LIKE ?");
+            $query = $connection->prepare("SELECT id from answears WHERE to_question LIKE ? AND lang = ?");
             if ($query) {
-                $query->bind_param("i", $toQuestion);
+                $query->bind_param("is", $toQuestion, $lang);
                 if($query->execute()) {
                     $query->store_result();
                     $numRows = $query->num_rows;
@@ -389,11 +386,10 @@
             $res = false;
             $connection = $this->connectionToDb();
             settype($answearId, "integer");
-            $lang = $_SESSION['lang'];
             if ($sign === "+") {
-                $query = "UPDATE answears_$lang SET votes = votes+$difference WHERE id = ?";
+                $query = "UPDATE answears SET votes = votes+$difference WHERE id = ?";
             } else if ($sign === "-") {
-                $query = "UPDATE answears_$lang SET votes = votes-$difference WHERE id = ?";
+                $query = "UPDATE answears SET votes = votes-$difference WHERE id = ?";
             }
             $query = $connection->prepare($query);
             if ($query) {
@@ -559,7 +555,7 @@
         public function lastQuestionIndex() {
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
-            $res = $connection->query("SELECT id from questions_$lang ORDER BY id DESC LIMIT 1");
+            $res = $connection->query("SELECT id from questions WHERE lang = '$lang' ORDER BY id DESC LIMIT 1");
             $row = $res->fetch_row();
             return intval($row[0]);
         }
@@ -587,9 +583,9 @@
             $connection = $this->connectionToDb();
             settype($id, "integer");
             $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT * from questions_$lang WHERE id LIKE ?");
+            $query = $connection->prepare("SELECT * from questions WHERE id LIKE ? AND lang = ?");
             if ($query) {
-                $query->bind_param("i", $id);
+                $query->bind_param("is", $id, $lang);
                 if($query->execute()) {
                     $result = $query->get_result();
                     $result = $result->fetch_array(MYSQLI_ASSOC);
@@ -683,9 +679,9 @@
                 $query->bind_param("ssss", $userName, $email, $pass, $date);
                 if($query->execute()) {
                     $res = true;
-                    $query->close();
-                    mysqli_close($connection);
-                } 
+                }
+                $query->close();
+                mysqli_close($connection);
             }
             return $res;
         }
@@ -695,13 +691,12 @@
             $query = $connection->prepare("SELECT id, username, site, date FROM users WHERE username = ?");
             if($query) {
                 $query->bind_param("s", $username);
-                //$userArr = [];
                 if($query->execute()) {
                     $result = $query->get_result();
                     $result = $result->fetch_array(MYSQLI_ASSOC);
-                    $query->close();
-                    mysqli_close($connection);
-                } 
+                }
+                $query->close();
+                mysqli_close($connection);
             }
             return $result;
         }
@@ -711,13 +706,12 @@
             $query = $connection->prepare("SELECT username, email, pass FROM users WHERE email = ?");
             if($query) {
                 $query->bind_param("s", $email);
-                //$userArr = [];
                 if($query->execute()) {
                     $result = $query->get_result();
                     $result = $result->fetch_array(MYSQLI_ASSOC);
-                    $query->close();
-                    mysqli_close($connection);
-                } 
+                }
+                $query->close();
+                mysqli_close($connection);
             }
             return $result;
         }

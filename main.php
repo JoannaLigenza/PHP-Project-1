@@ -82,11 +82,11 @@
                                 </div>
                                 <div class="d-flex flex-column align-items-start py-2 px-3">
                                     <span data-toggle="tooltip" title="<?php echo $displayLang["add_to_favourites"] ?>" data-placement="bottom">
-                                        <form action="" method="post" class="log-in-message-form">
+                                        <form action="" method="post">
                                             <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
-                                                <input type="image" src=<?php echo $displayQuestionsData->isAddedToFavourites($_SESSION['username'], $questionData[$i]['id']) ? "img/heart-f.svg" : "img/heart-e.svg" ?> alt="heart-icon" id="heart-icon" class="add-to-favourites-img" name=<?php echo $questionData[$i]['id']; ?> >
+                                                <input type="image" src=<?php echo $displayQuestionsData->isAddedToFavourites($_SESSION['username'], $questionData[$i]['id']) ? "img/heart-f.svg" : "img/heart-e.svg" ?> alt="heart-icon" class="add-to-favourites-img" name=<?php echo $questionData[$i]['id']; ?> >
                                             <?php else: ?>
-                                                <input type="image" src="img/heart-e.svg" alt="heart-icon" id="heart-icon" class="add-to-favourites-img" name=<?php echo $questionData[$i]['id']; ?> >
+                                                <input type="image" src="img/heart-e.svg" alt="heart-icon" class="add-to-favourites-img" name=<?php echo $questionData[$i]['id']; ?> >
                                             <?php endif; ?>
                                         </form>
                                     </span>
