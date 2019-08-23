@@ -35,7 +35,7 @@
                 <div class="p-2 right">
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true ) :  ?>
                     <form action="" method="post">
-                        <button type="submit" class="btn btn-outline-warning" name="logout-button"><?php echo "Log Out" ?></button>
+                        <button type="submit" class="btn btn-outline-warning" name="logout-button"><?php echo $displayLang["log_out"] ?></button>
                     </form>
                     <?php else: ?>
                     <form action="" method="post">

@@ -4,6 +4,7 @@
         "title" => "To jest polski tytuł",
         "text" => "To jest polski text",
         "log_in" => "Zaloguj się",
+        "log_out" => "Wyloguj się",
         "sign_up" => "Zarejestruj się",
         "all" => "Wszystko",
         "add_question" => "Dodaj pytanie",
@@ -32,9 +33,11 @@
         "answears" => "Odpowiedzi",
         "email" => "email",
         "password" => "hasło",
-        "label_username" => "Login może zawierać litery, cyfry i myślnik",
+        "username" => "nazwa użytkownika",
+        "label_username" => "Nazwa użytkownika może zawierać litery, cyfry i myślnik",
         "label_email" => "Email jest potrzebny, by potwierdzić rejestrację",
         "label_password" => "Hasło może zawierać 6-30 znaków. Możesz użyć dużych i małych liter, cyfr i znaków ?!#",
+        "account-created" => "Twoje konto zostało utworzone!",
     ]
 
 

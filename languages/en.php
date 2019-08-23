@@ -4,6 +4,7 @@
         "title" => "This is english title",
         "text" => "This is english text :)",
         "log_in" => "Log In",
+        "log_out" => "Log Out",
         "sign_up" => "Sign Up",
         "all" => "All",
         "add_question" => "Add question",
@@ -32,9 +33,11 @@
         "answears" => "Answears",
         "email" => "email",
         "password" => "password",
+        "username" => "username",
         "label_username" => "Username can contain letters, numbers and dash character",
         "label_email" => "Email is needed to confirm registration",
         "label_password" => "Password can have 6-30 characters. You can use lower and upper case, digits and characters ?!#",
+        "account-created" => "Your account has been created!",
     ]
 
 

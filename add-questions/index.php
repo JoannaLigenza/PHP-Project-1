@@ -30,7 +30,7 @@
                     <div>
                         <form action="" method="post">
                             <!-- <label for="question-title">Add question:</label> -->
-                            <textarea type="text" name="question-title-textarea" class="form-control form-control-lg" placeholder="Add question"></textarea>
+                            <textarea type="text" name="question-title-textarea" class="form-control form-control-lg" <?php $placeholderText = $displayLang['add_question']; echo "placeholder='$placeholderText'" ?>></textarea>
                             <div>
                                 <select name="select-category" id="select-category" class="form-control my-4 shadow-none" required>
                                     <option value=""> --<?php echo $displayLang["choose-category"] ?>-- </option>
