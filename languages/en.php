@@ -30,7 +30,7 @@
         "adding_date" => "Adding date",
         "no-question" => "No questions yet",
         "answears" => "Answears",
-        "username" => "username",
+        "email" => "email",
         "password" => "password",
         "label_username" => "Username can contain letters, numbers and dash character",
         "label_email" => "Email is needed to confirm registration",

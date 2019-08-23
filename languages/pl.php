@@ -30,7 +30,7 @@
         "adding_date" => "Data dodania",
         "no-question" => "Nie dodano jeszcze pytań",
         "answears" => "Odpowiedzi",
-        "username" => "login",
+        "email" => "email",
         "password" => "hasło",
         "label_username" => "Login może zawierać litery, cyfry i myślnik",
         "label_email" => "Email jest potrzebny, by potwierdzić rejestrację",

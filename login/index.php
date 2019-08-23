@@ -9,7 +9,7 @@
         <div class="card-body py-5">
 
             <form action="" method="post" id="signin-form">
-                <input type="text" placeholder=<?php echo $displayLang["username"] ?> name="login-username" class="container form-control form-control-lg shadow-none" id="login-username" autofocus>
+                <input type="text" placeholder=<?php echo $displayLang["email"] ?> name="login-username" class="container form-control form-control-lg shadow-none" id="login-username" autofocus>
                 <input type="password" placeholder=<?php echo $displayLang["password"] ?> name="login-pass" class="container form-control form-control-lg my-3 shadow-none" id="login-pass" >
 
                 <p class='mt-3 text-danger'><?php echo $message ?> </p>
