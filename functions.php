@@ -296,6 +296,25 @@
             }
             return $res;
         }
+
+        public function getAddedQuestionsToProfileSite($username) {
+            $userQuestionsArr = [];
+            //$lang = $_SESSION['lang'];
+            $connection = $this->connectionToDb();
+            $query = $connection->prepare("SELECT category, title FROM questions WHERE author = ?");
+            if($query) {
+                $query->bind_param("s", $username);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                        array_push($userQuestionsArr, $row);
+                    }
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $userQuestionsArr;
+        }
     }
 
     $questionsData = new QuestionsData();
@@ -494,6 +513,25 @@
                 }
             }
             return $result;
+        }
+
+        public function getAddedQuestionsToProfileSite($username) {
+            $userAnswearsArr = [];
+            //$lang = $_SESSION['lang'];
+            $connection = $this->connectionToDb();
+            $query = $connection->prepare("SELECT id, to_question, answear_text FROM answears WHERE author = ?");
+            if($query) {
+                $query->bind_param("s", $username);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                        array_push($userAnswearsArr, $row);
+                    }
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $userAnswearsArr;
         }
     }
 
@@ -714,6 +752,26 @@
                 mysqli_close($connection);
             }
             return $result;
+        }
+
+        public function getFavouritesQuestions($username) {
+            $favouritesArr = [];
+            //$lang = $_SESSION['lang'];
+            $connection = $this->connectionToDb();
+            // $query = $connection->prepare("SELECT category, title FROM questions_$lang INNER JOIN favourites ON questions_$lang.id = favourites.question_number WHERE username = ?");
+            $query = $connection->prepare("SELECT questions.id, category, title FROM questions INNER JOIN favourites ON questions.id = favourites.question_number WHERE username = ?");
+            if($query) {
+                $query->bind_param("s", $username);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                        array_push($favouritesArr, $row);
+                    }
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $favouritesArr;
         }
     }
 
