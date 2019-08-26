@@ -724,6 +724,22 @@
             return $res;
         }
 
+        public function changeUserPasword($newPass, $username) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            $date=date("Y-m-d");
+            $query = $connection->prepare("UPDATE users SET pass = ? WHERE username = ?");
+            if ($query) {
+                $query->bind_param("ss", $newPass, $username);
+                if($query->execute()) {
+                    $res = true;
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $res;
+        }
+
         public function getUserData($username) {
             $connection = $this->connectionToDb();
             $query = $connection->prepare("SELECT id, username, site, date FROM users WHERE username = ?");

@@ -99,9 +99,10 @@
                     
                     <!-- QUESTION DATA -->
                     <div class="container-flex">
-                        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $questionData['author']) :  ?>
+                        <?php $pathToProfile = '../profile/?profile='.$questionData['author'];
+                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $questionData['author']) :  ?>
                         <p class="text-right text-muted pb-2">
-                            <small><?php echo $displayLang['author'].': '.$questionData['author'].", "; echo $displayLang['adding-date'].': '.$questionData['date']; ?> </small>
+                            <small><?php echo $displayLang['author'].": <a href='$pathToProfile'>".$questionData['author']."</a>, "; echo $displayLang['adding-date'].': '.$questionData['date']; ?> </small>
                             <div class="d-flex justify-content-end">
                                 <form action=<?php echo basename($_SERVER['REQUEST_URI']) ?> method="post">
                                     <button type="submit" name="delete-question" class="btn btn-warning my-2 shadow-none myBtnHover d-flex" > <img src="../img/delete.svg" alt="trash-icon"><?php echo $displayLang['delte-question'] ?></button>
@@ -118,7 +119,7 @@
                             <?php endif; ?>
                         </p>
                         <?php else: ?>
-                        <p class="text-right text-muted pb-2"><small><?php echo $displayLang['author'].': '.$questionData['author'].", "; echo $displayLang['adding-date'].': '.$questionData['date']; ?> </small></p>
+                        <p class="text-right text-muted pb-2"><small><?php echo $displayLang['author'].": <a href='$pathToProfile'>".$questionData['author']."</a>, "; echo $displayLang['adding-date'].': '.$questionData['date']; ?> </small></p>
                         <?php endif; ?>
                     </div>
 
@@ -175,12 +176,13 @@
                                     $id = $getAnswears[$i]['id'];
                                     $votes = $getAnswears[$i]['votes'];
                                     $answearText = $getAnswears[$i]['answear_text'];
+                                    $pathToProfile = '../profile/?profile='.$author;
                                 ?>
                                 <section class="container-fluid text-center p-0 pb-3 my-2" id=<?php echo $i ?> >
                                     <!--  AUTHOR, DATE, DELETE ICON FOR ANSWEAR  -->
                                     <p class=""><?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
                                     <div class="d-flex justify-content-between">
-                                        <div class="pl-2 text-muted"><small><?php echo $displayLang['author'].': '.$author.", "; echo $displayLang['adding-date'].': '.$date; ?> </small></div>
+                                        <div class="pl-2 text-muted"><small><?php echo $displayLang['author'].": <a href='$pathToProfile'>".$author."</a>, "; echo $displayLang['adding-date'].': '.$date; ?> </small></div>
                                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $author) :  ?>
                                         <div>
                                             <form action="" method="post"> 
