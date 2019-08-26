@@ -29,12 +29,15 @@
         <header>
             <div class="d-flex flex-sm-row justify-content-between border-bottom border-warning">
                 <div>
-                    <a class="navbar p-3" href=<?php echo '/'.$_SESSION['lang'] ?>>LOGO</a>
+                    <a class="navbar p-3" href=<?php echo '/'.$_SESSION['lang'] ?>>HOME</a>
                 </div>
                 
                 <div class="p-2 right">
-                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true ) :  ?>
+                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true ) :  
+                        $pathToProfile = '/'.$_SESSION['lang'].'/profile/?profile='.$_SESSION['username'];
+                    ?>
                     <form action="" method="post">
+                        <a href=<?php echo $pathToProfile; ?> class="btn btn-outline-warning">Profil</a>
                         <button type="submit" class="btn btn-outline-warning" name="logout-button"><?php echo $displayLang["log_out"] ?></button>
                     </form>
                     <?php else: ?>

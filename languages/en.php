@@ -10,6 +10,7 @@
         "add_question" => "Add question",
         "sort" => "Sort",
         "add_to_favourites" => "Add to favourites",
+        "delete_from_favourites" => "Delete from favourites",
         "add_answear" => "Add answear",
         "choose-category" => "Choose category",
         "developer-tools" => "Developer tools",
@@ -38,6 +39,13 @@
         "label_email" => "Email is needed to confirm registration",
         "label_password" => "Password can have 6-30 characters. You can use lower and upper case, digits and characters ?!#",
         "account-created" => "Your account has been created!",
+        "user_website" => "User Website",
+        "change_password" => "Change Password",
+        "old_password" => "Old password",
+        "new_password" => "New password",
+        "added_questions" => "Added questions:",
+        "added_answears" => "Added answears:",
+        "favourites_questions" => "Your favourites questions:",
     ]
 
 

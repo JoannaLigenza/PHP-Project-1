@@ -10,6 +10,7 @@
         "add_question" => "Dodaj pytanie",
         "sort" => "Sortowanie",
         "add_to_favourites" => "Dodaj do ulubionych",
+        "delete_from_favourites" => "Usuń z ulubionych",
         "add_answear" => "Dodaj odpowiedź",
         "choose-category" => "Wybierz kategorię",
         "developer-tools" => "Narzędzia programisty",
@@ -38,6 +39,13 @@
         "label_email" => "Email jest potrzebny, by potwierdzić rejestrację",
         "label_password" => "Hasło może zawierać 6-30 znaków. Możesz użyć dużych i małych liter, cyfr i znaków ?!#",
         "account-created" => "Twoje konto zostało utworzone!",
+        "user_website" => "Strona użytkownika",
+        "change_password" => "Zmień hasło",
+        "old_password" => "Stare hasło",
+        "new_password" => "Nowe hasło",
+        "added_questions" => "Dodane pytania:",
+        "added_answears" => "Dodane odpowiedzi:",
+        "favourites_questions" => "Twoje ulubione pytania:",
     ]
 
 

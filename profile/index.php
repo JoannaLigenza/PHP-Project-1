@@ -37,6 +37,19 @@
         }
     }
 
+    for($i=0; $i < count($favouritesQuestions); $i++) {
+        if(isset($_POST[$favouritesQuestions[$i]['id'].'_x'])){
+            if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) {
+                $user = $_SESSION['username'];
+                $toQuestion = $favouritesQuestions[$i]['id'];
+                $questionsData->addToFavourites($user, $toQuestion);
+                $favouritesQuestions = $userData->getFavouritesQuestions($getProfile);
+            } else {    
+                //echo 'Try again!';
+            }
+        }
+    }
+
 ?>
 
     <!-- MAIN  -->
@@ -45,17 +58,18 @@
                 <!-- LEFT COL -->
                 <div class="col-md-4 col-l-4 mb-5">
                     <?php echo "<h2 class='mb-5'> $username </h2>" ;
-                    echo (!empty($userSite)) ? "<p>Strona użytkownika: <a href=$userSite>$userSite</a></p>" : null ?>
-                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) : ?>
-                        <p>Change password:</p>
+                    echo (!empty($userSite)) ? "<p>".$displayLang['user_website'].": <a href=$userSite>$userSite</a></p>" : null ?>
+                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) : 
+                        echo '<p>'.$displayLang['change_password'].': </p>'
+                    ?>
                         <!-- <div class="border border-warning rounded d-md-inline-block text-center p-3"> -->
                         <div class="border border-warning rounded d-flex justify-content-center d-md-inline-flex p-3">
                             <form action="" method="post">
-                                <label for="old-pass" class="text-muted"><small>Old password</small></label><br>
+                                <label for="old-pass" class="text-muted"><small><?php echo $displayLang['old_password'] ?></small></label><br>
                                 <input type="password" name="old-pass" id="old-pass" ><br>
-                                <label for="new-pass" class="text-muted"><small>New password</small></label><br>
+                                <label for="new-pass" class="text-muted"><small><?php echo $displayLang['new_password'] ?></small></label><br>
                                 <input type="password" name="new-pass" id="new-pass" ><br>
-                                <button type="submit" name="change-password-button" class="btn btn-warning mt-4 shadow-none myBtnHover">Change Password</button>
+                                <button type="submit" name="change-password-button" class="btn btn-warning mt-4 shadow-none myBtnHover"><?php echo $displayLang['change_password'] ?></button>
                             </form>
                         </div>
                     <?php 
@@ -67,40 +81,44 @@
 
                 <!-- RIGHT COL -->
                 <div class="col-md-7 col-l-6 col-xl-5" >
+                    <!-- DISPLAYING ADDED QUESTIONS -->
                     <div class="mb-4">
-                        <p class="border-left border-warning px-2 font-weight-bold">Added questions:</p>
+                        <p class="border-left border-warning px-2 font-weight-bold"><?php echo $displayLang['added_questions'] ?></p>
                         <?php for ($i=0; $i < count($userQuestions); $i++) : ?>
                             <div class="px-2">
                                 <?php 
-                                echo ($i+1)." ".$userQuestions[$i]['category']." -> ";
-                                echo $userQuestions[$i]['title']."<br>";
+                                echo '<div class="bg-light my-1 p-1 rounded">'. ($i+1)." ".$userQuestions[$i]['category']." -> ";
+                                echo $userQuestions[$i]['title']."</div>";
                                 ?>
                             </div>
                         <?php endfor; ?>
                     </div>
 
+                    <!-- DISPLAYING ADDED ANSWEARS -->
                     <div class="mb-4">
-                        <p class="border-left border-warning px-2 font-weight-bold">Added answears:</p>
+                        <p class="border-left border-warning px-2 font-weight-bold"><?php echo $displayLang['added_answears'] ?></p>
                         <?php for ($i=0; $i < count($userAnswears); $i++) : ?>
                             <div class="px-2">
                                 <?php 
                                 $answearText = $userAnswears[$i]['answear_text'];
                                 $goToAnswear = dirname($getPathToNavigation).'/'.$loadSite->loadSite("show-question").'?id='.$userAnswears[$i]['to_question'];
                                 if(strlen($answearText)>20){
-                                    $answearText=substr($answearText,0,50)."<a href='$goToAnswear'> ...Read more</a>";
+                                    $answearText=substr($answearText,0,80)."<a href='$goToAnswear'> ...Read more</a>";
+                                    echo '<div class="bg-light my-1 p-1 rounded">'.$answearText.'</div>';
                                 } else
-                                echo $answearText;
+                                    echo '<div class="bg-light my-1 p-1 rounded">'.$answearText.'</div>';
                                 ?>
                             </div>
                         <?php endfor; ?>
                     </div>
 
+                    <!-- DISPLAYING USER FAVOURITES -->
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) :  
-                        echo "<p class='border-left border-warning px-2 font-weight-bold'> Your favourites questions:</p>";
+                        echo "<p class='border-left border-warning px-2 font-weight-bold'> ".$displayLang['favourites_questions']."</p>";
                         for ($i=0; $i < count($favouritesQuestions); $i++) : ?>
                         <div class="d-flex flex-row align-items-center">
                             <div class="d-flex flex-column align-items-start py-2 px-3">
-                                <span data-toggle="tooltip" title="<?php echo $displayLang["add_to_favourites"] ?>" data-placement="bottom">
+                                <span data-toggle="tooltip" title="<?php echo $displayLang["delete_from_favourites"] ?>" data-placement="bottom">
                                     <form action="" method="post" class="d-flex flex-row align-items-center">
                                             <input type="image" src="../img/heart-f.svg" alt="heart-icon" name=<?php echo $favouritesQuestions[$i]['id']; ?> >
                                     </form>
@@ -110,8 +128,6 @@
                                 <?php 
                                 echo ($i+1)." ".$favouritesQuestions[$i]['category']." -> ";
                                 echo $favouritesQuestions[$i]['title']."<br>";
-                                //echo $favouritesQuestions[$i]['id']."<br>";
-                                //print_r($favouritesQuestions[$i]."<br>");
                                 ?>
                             </div>
                         </div>
