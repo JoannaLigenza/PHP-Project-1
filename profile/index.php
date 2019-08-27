@@ -58,7 +58,7 @@
                 <!-- LEFT COL -->
                 <div class="col-md-4 col-l-4 mb-5">
                     <?php echo "<h2 class='mb-5'> $username </h2>" ;
-                    echo (!empty($userSite)) ? "<p>".$displayLang['user_website'].": <a href=$userSite>$userSite</a></p>" : null ?>
+                    echo (!empty($userSite)) ? "<p>".$displayLang['user_website'].": <a href=$userSite target='_blank' rel='nofollow noopener noreferrer'>$userSite</a></p>" : null ?>
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) : 
                         echo '<p>'.$displayLang['change_password'].': </p>'
                     ?>
@@ -134,7 +134,7 @@
                     <?php endfor; ?>
                         <!-- GET FAVOURITES TO PDF -->
                         <div class="py-5">
-                            <p>Download favourites queations to PDF</p>
+                            <p>Download favourites questions to PDF</p>
                             <a href="download-pdf.php" target="_blank"> <img src="../img/pdf.svg" alt="download-pdf-icon"> </a>
                         </div>
                     <?php endif; ?>
