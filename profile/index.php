@@ -132,6 +132,11 @@
                             </div>
                         </div>
                     <?php endfor; ?>
+                        <!-- GET FAVOURITES TO PDF -->
+                        <div class="py-5">
+                            <p>Download favourites queations to PDF</p>
+                            <a href="download-pdf.php" target="_blank"> <img src="../img/pdf.svg" alt="download-pdf-icon"> </a>
+                        </div>
                     <?php endif; ?>
                 </div>
                 <!-- END RIGHT COL -->

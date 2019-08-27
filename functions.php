@@ -667,7 +667,7 @@
         }
 
         public function getAnswears($getId) {
-            $getAnswears = $this->getAnswearsData($getId, $this->from, $this->to);
+            $getAnswears = $this->getAnswearsData($getId, $this->from=1, $this->to=50);
             $setAnswearsNumber = count($getAnswears);
             
             if ( $setAnswearsNumber < $this->answearsNumOnPage) {
