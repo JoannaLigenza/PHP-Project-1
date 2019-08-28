@@ -133,7 +133,7 @@
                     <div class="d-flex flex-row justify-content-end">
                         <div class="container-flex justify-content-center">
                             <a href="#add-answear-div">
-                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ". $displayLang["add_answear"]  ?> </button>
+                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover" id="scroll-to-add-answear-button"> <?php echo "+ ". $displayLang["add_answear"]  ?> </button>
                             </a>
                         </div>
                     </div>

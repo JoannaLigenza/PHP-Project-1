@@ -56,7 +56,7 @@
                         <p><?php echo $displayLang["no-question"]; ?></p>
                     <?php else : ?>   
                         <?php for($i=0; $i < $displayQuestionsData->questionsNumOnPage; $i++) : ?>
-                        <p class="log-in-message"><?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
+                        <p class="log-in-message" id=<?php echo "log-in-message-".$questionData[$i]['id']; ?> ><?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
                         <section class="container-fluid border border-warning rounded text-center p-0 my-2">
                             <div class="d-flex flex-row">
                                 <!-- <div class="d-flex flex-column justify-content-center px-2">
@@ -84,9 +84,9 @@
                                     <span data-toggle="tooltip" title="<?php echo $displayLang["add_to_favourites"] ?>" data-placement="bottom">
                                         <form action="" method="post">
                                             <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
-                                                <input type="image" src=<?php echo $displayQuestionsData->isAddedToFavourites($_SESSION['username'], $questionData[$i]['id']) ? "img/heart-f.svg" : "img/heart-e.svg" ?> alt="heart-icon" class="add-to-favourites-img" name=<?php echo $questionData[$i]['id']; ?> >
+                                                <input type="image" src=<?php echo $displayQuestionsData->isAddedToFavourites($_SESSION['username'], $questionData[$i]['id']) ? "img/heart-f.svg" : "img/heart-e.svg" ?> alt="heart-icon" class="add-to-favourites-img-login" name=<?php echo $questionData[$i]['id']; ?> >
                                             <?php else: ?>
-                                                <input type="image" src="img/heart-e.svg" alt="heart-icon" class="add-to-favourites-img" name=<?php echo $questionData[$i]['id']; ?> >
+                                                <input type="image" src="img/heart-e.svg" alt="heart-icon" class="add-to-favourites-img-notlogin" name=<?php echo $questionData[$i]['id']; ?> >
                                             <?php endif; ?>
                                         </form>
                                     </span>
