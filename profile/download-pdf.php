@@ -64,7 +64,7 @@ class PDF extends FPDF {
         $pdf->SetDrawColor(255,190,7);
         $pdf->SetTextColor(255,183,0);
         // print category
-        $pdf->Cell($cellWidth+5,10, ($i+1).". ".iconv('UTF-8', 'ISO-8859-2', $category),"LB",0);
+        $pdf->Cell($cellWidth+7,10, ($i+1).". ".iconv('UTF-8', 'ISO-8859-2', $category),"LB",0);
 
         // Set font and border color to title
         $pdf->SetTextColor(0);
