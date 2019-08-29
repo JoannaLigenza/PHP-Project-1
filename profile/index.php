@@ -62,9 +62,8 @@
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) : 
                         echo '<p>'.$displayLang['change_password'].': </p>'
                     ?>
-                        <!-- <div class="border border-warning rounded d-md-inline-block text-center p-3"> -->
-                        <div class="border border-warning rounded d-flex justify-content-center d-md-inline-flex p-3">
-                            <form action="" method="post">
+                        <div class="border border-warning rounded d-flex justify-content-center d-md-inline-flex p-3" id="change-password-div">
+                            <form action="#change-password-div" method="post">
                                 <label for="old-pass" class="text-muted"><small><?php echo $displayLang['old_password'] ?></small></label><br>
                                 <input type="password" name="old-pass" id="old-pass" ><br>
                                 <label for="new-pass" class="text-muted"><small><?php echo $displayLang['new_password'] ?></small></label><br>
@@ -116,10 +115,10 @@
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) :  
                         echo "<p class='border-left border-warning px-2 font-weight-bold'> ".$displayLang['favourites_questions']."</p>";
                         for ($i=0; $i < count($favouritesQuestions); $i++) : ?>
-                        <div class="d-flex flex-row align-items-center">
+                        <div class="d-flex flex-row align-items-center" id="show-favourites">
                             <div class="d-flex flex-column align-items-start py-2 px-3">
                                 <span data-toggle="tooltip" title="<?php echo $displayLang["delete_from_favourites"] ?>" data-placement="bottom">
-                                    <form action="" method="post" class="d-flex flex-row align-items-center">
+                                    <form action="#show-favourites" method="post" class="d-flex flex-row align-items-center">
                                             <input type="image" src="../img/heart-f.svg" alt="heart-icon" name=<?php echo $favouritesQuestions[$i]['id']; ?> >
                                     </form>
                                 </span>
