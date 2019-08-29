@@ -7,7 +7,7 @@
     //         $message = "Please fill all fields!";
     //     }
     // }
-
+function signInVeryfication($userData) {
     if (isset($_POST['signin-button'])) {
         $userName = htmlspecialchars($_POST['signin-username'], ENT_QUOTES);
         $email = htmlspecialchars($_POST['signin-email'], ENT_QUOTES);
@@ -25,7 +25,7 @@
                 $message = "This user name is already taken";
                 return;
             }
-            else if (!(preg_match('/^[a-zA-Z0-9-._]+@[a-zA-Z0-9-_.]+\.[a-zA-Z]{2,12}$/', $email))) {
+            else if (!(preg_match('/^[a-zA-Z0-9-._]+@[a-zA-Z0-9-_.]+\.[a-zA-Z]{2,25}$/', $email))) {
                 $message = "Please enter valid email. You can use lowercase and uppercase letters, digits, dots and dash";
                 return;
             }
@@ -36,9 +36,14 @@
             }
             // check if username is already taken
             else {
-                $rowsnum = $userData->checkUserName($userName);
-                if ($rowsnum > 0) {
-                    $message = "This user name is already taken";
+                $userRowsnum = $userData->checkUserName($userName, "username");
+                $emailRowsnum = $userData->checkUserName($email, "email");
+                if ($userRowsnum > 0) {
+                    $message = "This username is already taken";
+                    return;
+                } 
+                if ($emailRowsnum > 0) {
+                    $message = "This email address is already taken";
                     return;
                 } 
                 // if not taken then create account
@@ -59,4 +64,8 @@
 
         
     }
+    // echo "le";
+    return "le";
+}
+signInVeryfication($userData);
 ?>

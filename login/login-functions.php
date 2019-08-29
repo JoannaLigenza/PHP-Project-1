@@ -12,10 +12,6 @@
         } else {
             $userdata = $userData->getUserVeryficationData($email);
             $checkPass = password_verify($pass, $userdata['pass']);
-            //  echo "cookie  ". $_COOKIE['AuthCode']."<br>";
-            //  echo "code ".$authCode;
-            // echo "authCode  ".$authCode."<br>";
-            // print_r($_COOKIE);
             if ($checkPass && $userdata['email'] === $email) {
                 //echo "logged in!";
                 $_SESSION['loggedin'] = true;

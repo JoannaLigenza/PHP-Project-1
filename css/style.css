@@ -121,6 +121,15 @@ footer {
     width: 17px;
 }
 
+.focus-a:focus {
+    outline: none;
+    text-decoration: underline;
+} 
+
+.red-border {
+    border-color: red;
+}
+
 @media screen and (min-width: 768px) {
     .arr {
         width: 20px;

@@ -256,8 +256,8 @@
                     <!-- ADD ANSWEAR FORM -->
                     <div class="py-5" id="add-answear-div">
                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
-                        <form action="" method="post">
-                            <textarea type="text" name="answear-textarea" class="form-control form-control-lg" <?php $placeholderText = $displayLang['add_answear']; echo "placeholder='$placeholderText'" ?>></textarea>
+                        <form action="" method="post" id="add-answear-form">
+                            <textarea type="text" name="answear-textarea" id="answear-textarea" class="form-control form-control-lg" <?php $placeholderText = $displayLang['add_answear']; echo "placeholder='$placeholderText'" ?>></textarea>
                             <div class="d-flex flex-row justify-content-end">
                                     <div class="container-flex justify-content-center pt-3">
                                         <button type="submit" name="add-answear-button" id="add-answear-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ".$displayLang["add_answear"]  ?> </button>

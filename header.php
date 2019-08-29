@@ -27,8 +27,13 @@
         <!-- HEADER -->
         <header>
             <div class="d-flex flex-sm-row justify-content-between border-bottom border-warning">
-                <div>
-                    <a class="navbar p-3" href=<?php echo '/'.$_SESSION['lang'] ?>>HOME</a>
+                <div class="d-flex flex-column justify-content-center pl-2">
+                    <a class="navbar p-0" href=<?php echo '/'.$_SESSION['lang'] ?>>
+                        <picture>
+                                <source media="(max-width: 400px)" srcset="img/logo-80x40.jpg">
+                                <img src="/img/logo-100x50.jpg" style="width:auto" alt="logo">
+                        </picture>
+                    </a>
                 </div>
                 
                 <div class="p-2 right">
