@@ -124,7 +124,15 @@ footer {
 .focus-a:focus {
     outline: none;
     text-decoration: underline;
-} 
+}
+
+.box-shadow:focus {
+    box-shadow:none;
+}
+
+.box-shadow:hover {
+    text-decoration: underline;
+}
 
 .red-border {
     border-color: red;

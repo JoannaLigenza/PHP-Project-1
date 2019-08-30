@@ -246,6 +246,7 @@
         }
 
         public function addToFavourites($user, $toQuestion) {
+            $isAdded = false;
             $connection = $this->connectionToDb();
             $query = $connection->prepare("SELECT * FROM favourites WHERE username = ? AND question_number = ?");
             if($query) {
@@ -282,6 +283,7 @@
                 $query->close();
                 mysqli_close($connection);
             }
+            return $isAdded;
         }
 
         public function deleteFromFavourites($user, $toQuestion) {
@@ -667,7 +669,7 @@
         }
 
         public function getAnswears($getId) {
-            $getAnswears = $this->getAnswearsData($getId, $this->from=1, $this->to=50);
+            $getAnswears = $this->getAnswearsData($getId, $this->from=0, $this->to=50);
             $setAnswearsNumber = count($getAnswears);
             
             if ( $setAnswearsNumber < $this->answearsNumOnPage) {
@@ -690,10 +692,16 @@
     $displayAnswearsData = new DisplayAnswearsData();
 
     class UserData extends Data {
-        public function checkUserName($userName) {
+        public function checkUserName($userName, $option) {
             $connection = $this->connectionToDb();
             settype($userName, "string");
-            $query = $connection->prepare("SELECT * from users WHERE username LIKE ?");
+            settype($option, "string");
+            if ($option === "username") {
+                $query = $connection->prepare("SELECT * from users WHERE username LIKE ?");
+            } 
+            if ($option === "email") {
+                $query = $connection->prepare("SELECT * from users WHERE email LIKE ?");
+            } 
             if ($query) {
                 $query->bind_param("s", $userName);
                 if($query->execute()) {
@@ -789,6 +797,21 @@
             }
             return $favouritesArr;
         }
+
+        public function addUserSite($username, $site) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            $query = $connection->prepare("UPDATE users SET site = ? WHERE username = ?");
+            if($query) {
+                $query->bind_param("ss", $site, $username);
+                if($query->execute()) {
+                    $res = true;
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $res;
+        }
     }
 
     $userData = new UserData();
@@ -811,7 +834,7 @@
                 } else {
                     $this->loadSite = "question";
                 }
-            }
+            } 
         }
 
         public function loadSite($site) {

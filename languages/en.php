@@ -40,12 +40,16 @@
         "label_password" => "Password can have 6-30 characters. You can use lower and upper case, digits and characters ?!#",
         "account-created" => "Your account has been created!",
         "user_website" => "User Website",
+        "your_website" => "Your Website",
+        "change" => "Change",
         "change_password" => "Change Password",
         "old_password" => "Old password",
         "new_password" => "New password",
         "added_questions" => "Added questions:",
         "added_answears" => "Added answears:",
         "favourites_questions" => "Your favourites questions:",
+        "change_link" => "Change your site link",
+
     ]
 
 

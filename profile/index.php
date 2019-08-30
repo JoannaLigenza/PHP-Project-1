@@ -10,9 +10,27 @@
     $username = $userIdentity['username'];
     $userSite = $userIdentity['site'];
     $userQuestions = $questionsData->getAddedQuestionsToProfileSite($username);
-    //print_r($userQuestions);
     $userAnswears = $answearsData->getAddedQuestionsToProfileSite($username);
-    //print_r($userAnswears);
+    $showAddLink = false;
+
+
+    if (isset($_POST['show-add-link-div'])) {
+        $showAddLink = true;        
+    }
+
+    if (isset($_POST['add-link-button'])) {
+        $site = $_POST['url'];
+        if (empty($site)) {
+            $showAddLink = true;
+        } else {
+            if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) {
+                $username = $_SESSION['username'];
+                if ($userData->addUserSite($username, $site)) {
+                    $showAddLink = false;
+                }
+            }
+        }
+    }
 
     if (isset($_POST['change-password-button'])) {
         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) {
@@ -58,10 +76,22 @@
                 <!-- LEFT COL -->
                 <div class="col-md-4 col-l-4 mb-5">
                     <?php echo "<h2 class='mb-5'> $username </h2>" ;
-                    echo (!empty($userSite)) ? "<p>".$displayLang['user_website'].": <a href=$userSite target='_blank' rel='nofollow noopener noreferrer'>$userSite</a></p>" : null ?>
-                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) : 
-                        echo '<p>'.$displayLang['change_password'].': </p>'
-                    ?>
+                    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) : 
+                        echo (!empty($userSite)) ? "<p>".$displayLang['your_website'].": <a href=$userSite target='_blank' rel='nofollow noopener noreferrer'>$userSite</a></p>" : null
+                    ?>  
+                        <form action="" method="post">
+                            <button type="submit" name="show-add-link-div" id="show-add-link-div" class="btn p-0 box-shadow"><?php echo $displayLang['change_link'] ?></button>
+                        </form>
+                        <?php if ($showAddLink) : ?>
+                        <div class="border border-warning rounded d-flex justify-content-center d-md-inline-flex p-3">
+                            <form action="" method="post">
+                                <input type="url" name="url" id="url" placeholder="https://example.com" class="my-0"><br>
+                                <button type="submit" name="add-link-button" id="add-link-button" class="btn btn-warning mt-4 shadow-none myBtnHover"> <?php echo $displayLang['change'] ?> </button>
+                            </form>
+                        </div>
+                        <?php endif; ?>
+
+                        <p class="mt-5"><?php echo $displayLang['change_password'].':' ?></p>
                         <div class="border border-warning rounded d-flex justify-content-center d-md-inline-flex p-3" id="change-password-div">
                             <form action="#change-password-div" method="post">
                                 <label for="old-pass" class="text-muted"><small><?php echo $displayLang['old_password'] ?></small></label><br>
@@ -73,6 +103,8 @@
                         </div>
                     <?php 
                         echo "<div class='py-3'> $message </div>";
+                    else :
+                    echo (!empty($userSite)) ? "<p>".$displayLang['user_website'].": <a href=$userSite target='_blank' rel='nofollow noopener noreferrer'>$userSite</a></p>" : null;
                     endif; ?>
                 </div>
                 

@@ -40,12 +40,15 @@
         "label_password" => "Hasło może zawierać 6-30 znaków. Możesz użyć dużych i małych liter, cyfr i znaków ?!#",
         "account-created" => "Twoje konto zostało utworzone!",
         "user_website" => "Strona użytkownika",
+        "your_website" => "Twoja strona",
+        "change" => "Zmień",
         "change_password" => "Zmień hasło",
         "old_password" => "Stare hasło",
         "new_password" => "Nowe hasło",
         "added_questions" => "Dodane pytania:",
         "added_answears" => "Dodane odpowiedzi:",
         "favourites_questions" => "Twoje ulubione pytania:",
+        "change_link" => "Zmień link do swojej strony",
     ]
 
 
