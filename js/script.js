@@ -8,39 +8,41 @@ $("document").ready(function(){
 
 
     // scroll to section on page
-    function smoothScrollingToElement() {
-        $("#scroll-to-add-answear-button").on("click", function(e) {
+    function smoothScrollingToElement(scrollFrom, scrollTo) {
+        $(scrollFrom).on("click", function(e) {
 		    e.preventDefault();
-            scrollTo = $("#add-answear-div");
+            scrollTo = $(scrollTo);
             $('html, body').animate({
                 scrollTop: scrollTo.offset().top
             }, 600);
         });
     };
-    smoothScrollingToElement();
+    smoothScrollingToElement("#scroll-to-add-answear-button", "#add-answear-div");
     
 
     // load heart when click add to favourites icon
     function addToFavourites() {
         $(".add-to-favourites-img-login").on("click", function(e) {
             e.preventDefault();
-            const name_isLoggedIn = $(e.target).attr("name");
+            const isLoggedInName = $(e.target).attr("name");
             // setting ajax options - site to load, method, data passed in to .php file, 
             $.ajax({
                 url     :   '../favourites-js.php',
                 method  :   'post',
-                data    :   {name_isLoggedIn: name_isLoggedIn},
-                success :   function(response) {
-                                //console.log(response);
+                data    :   {'isLoggedInName': isLoggedInName},
+               // dataType:  'text',
+                success :   function(response, status, options) {
+                    //console.log(response);                              // ??????????????????????????????????????????
+                                // if (response === "1") {   
+                                // }
+                                const checkSrc = $(e.target).attr("src");
+                                if (checkSrc === "img/heart-e.svg") {
+                                    $(e.target).attr("src", "img/heart-f.svg");
+                                } else {
+                                    $(e.target).attr("src", "img/heart-e.svg");
+                                }
                             }
             })
-
-            const checkSrc = $(e.target).attr("src");
-            if (checkSrc === "img/heart-e.svg") {
-                $(e.target).attr("src", "img/heart-f.svg");
-            } else {
-                $(e.target).attr("src", "img/heart-e.svg");
-            }
         });
     }
     addToFavourites();
@@ -55,29 +57,40 @@ $("document").ready(function(){
     }
     showLogginMessage();
 
+    // FORM VALIDATION FUNCTIONS //
+    function checkValidation(hook) {
+        const inputValue =  $(hook).val();
+        let reg;
+        let text;
+        if (hook === "#signin-username") {
+            reg = /^[a-z0-9-]{3,30}$/i;
+            text = "username";
+        }
+        if (hook === "#signin-email") {
+            reg = /^[A-Z0-9-._]+@[A-Z0-9-._]+\.[A-Z]{2,25}$/i;
+            text = "email";
+        }
+        if (hook === "#signin-pass") {
+            reg = /^[a-zA-Z0-9?!#]{6,30}$/i;
+            text = "password";
+        }
+        if (!reg.test(inputValue)) {
+            $(hook).addClass("red-border");
+            $("#signin-button").prop("disabled",true);
+            $("#signin-form p").text("Please enter valid "+text);
+            return false;
+        } else {
+            $(hook).removeClass("red-border");
+            $("#signin-button").prop("disabled",false);
+            $("#signin-form p").text("");
+            return true;
+        }
+    }
+
     // validation inputs on signin form
     function validateInputs(hook)  {
         $(hook).on("input", function() {
-            const inputValue =  $(hook).val();
-            let reg;
-            let text;
-            if (hook === "#signin-username") {
-                reg = /^[a-z0-9-]{3,30}$/i;
-                text = "username";
-            }
-            if (hook === "#signin-email") {
-                reg = /^[A-Z0-9-._]+@[A-Z0-9-._]+\.[A-Z]{2,25}$/i;
-                text = "email";
-            }
-            if (hook === "#signin-pass") {
-                reg = /^[a-zA-Z0-9?!#]{6,30}$/i;
-                text = "password";
-            }
-            if (!reg.test(inputValue)) {
-                $("#signin-form p").text("Please enter valid "+text);
-            } else {
-                $("#signin-form p").text("");
-            }
+            checkValidation(hook);
         });
     }
     validateInputs("#signin-username");
@@ -88,6 +101,10 @@ $("document").ready(function(){
     // checking if username or email are already taken
     function isTaken(hook)  {
         $(hook).on("blur", function() {
+            if (!checkValidation(hook)) {
+                $("#signin-button").prop("disabled",true);
+                return
+            }
             const inputValue =  $(hook).val();
             const path = window.location.pathname;
             const lang = path.split("/")[1];
@@ -103,6 +120,7 @@ $("document").ready(function(){
                 method  :   'post',
                 data    :   passedData,
                 success :   function(response) {
+                   // console.log(response);
                     if (response === "1") {
                         if (lang === "pl") {
                             $(hook).addClass("red-border");
@@ -129,15 +147,15 @@ $("document").ready(function(){
 
     // signin form validation on submit 
     function submitValidation() {
-        $("#signin-button").on("submit", function(e) {
+        $("#signin-form").on("submit", function(e) {
             e.preventDefault();
+           // console.log("event ", e);
             const username = $("#signin-username").val();
             const email = $("#signin-email").val();
             const password = $("#signin-pass").val();
-            const signinButton = $("#signin-button");
+            const signinButton = $("#signin-button").attr('name');
 
             if (!username || !email || !password) {
-                console.log("empty!");
                 $("#signin-form p").text("Please fill all fields!");
             } else {
                 $.ajax({
@@ -145,12 +163,14 @@ $("document").ready(function(){
                     method  :   'post',
                     data    :   {signinButton: signinButton, 'signin-username': username, 'signin-email': email, 'signin-pass': password},
                     success :   function(response) {
-                        console.log(response);
-                        console.log("yeah");
+                        if (response === "1") {
+                            window.location.replace("?signup=success");
+                        } 
                     }
                 }) 
             }
         })
     }
     submitValidation();
+    // FORM VALIDATION FUNCTIONS - END //
 });
