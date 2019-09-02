@@ -817,7 +817,13 @@
                 } else {
                     $this->loadSite = "question";
                 }
-            } 
+            } else if ($site === "forgot-password") {
+                if ($lang === 'pl') {
+                    $this->loadSite = "przypomnij-haslo";
+                } else {
+                    $this->loadSite = "remind-password";
+                }
+            }
         }
 
         public function loadSite($site) {

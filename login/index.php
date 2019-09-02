@@ -17,6 +17,9 @@
                 <p class='mt-3 text-danger'><?php echo $message ?> </p>
                 <button type="submit" name="login-button" class="container btn btn-outline-warning my-2 py-2" id="login-button"><?php echo $displayLang["log_in"] ?></button>
             </form>
+            <div class="py-5">
+                <a href=<?php echo "../".$loadSite->loadSite('forgot-password'); ?> class="focus-a">Forgot your password?</a>
+            </div>
         </div>
     </div>
 </div>
