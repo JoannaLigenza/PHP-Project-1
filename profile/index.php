@@ -4,13 +4,19 @@
 
     $message= "";
     $getProfile = $_GET['profile'];
+
+    $loadSite = new LoadSites();
+    $userData = new UserData();
+    $questionsData = new QuestionsData();
+    $answearsData = new AnswearsData();
+    $path = new Path();
+    $getPathToNavigation = $path->getPath();
     $favouritesQuestions = $userData->getFavouritesQuestions($getProfile);
-    //print_r($favouritesQuestions);
     $userIdentity = $userData->getUserData($getProfile);
     $username = $userIdentity['username'];
     $userSite = $userIdentity['site'];
     $userQuestions = $questionsData->getAddedQuestionsToProfileSite($username);
-    $userAnswears = $answearsData->getAddedQuestionsToProfileSite($username);
+    $userAnswears = $answearsData->getAddedAnswearsToProfileSite($username);
     $showAddLink = false;
 
 
@@ -26,6 +32,8 @@
             if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) {
                 $username = $_SESSION['username'];
                 if ($userData->addUserSite($username, $site)) {
+                    $userIdentity = $userData->getUserData($getProfile);
+                    $userSite = $userIdentity['site'];
                     $showAddLink = false;
                 }
             }
@@ -79,11 +87,11 @@
                     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $username) : 
                         echo (!empty($userSite)) ? "<p>".$displayLang['your_website'].": <a href=$userSite target='_blank' rel='nofollow noopener noreferrer'>$userSite</a></p>" : null
                     ?>  
-                        <form action="" method="post">
+                        <form action=<?php echo basename($_SERVER['REQUEST_URI']) ?> method="post">
                             <button type="submit" name="show-add-link-div" id="show-add-link-div" class="btn p-0 box-shadow"><?php echo $displayLang['change_link'] ?></button>
                         </form>
                         <?php if ($showAddLink) : ?>
-                        <div class="border border-warning rounded d-flex justify-content-center d-md-inline-flex p-3">
+                        <div class="border border-warning rounded d-flex justify-content-center d-md-inline-flex p-3" id="hidden-div">
                             <form action="" method="post">
                                 <input type="url" name="url" id="url" placeholder="https://example.com" class="my-0"><br>
                                 <button type="submit" name="add-link-button" id="add-link-button" class="btn btn-warning mt-4 shadow-none myBtnHover"> <?php echo $displayLang['change'] ?> </button>

@@ -1,6 +1,6 @@
 <?php
     include "functions.php";
-
+    $questionsData = new QuestionsData();
     function setFavourites($questionsData) {
         $res = 0;
         if(isset($_POST['isLoggedInName'])) {

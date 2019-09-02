@@ -6,6 +6,7 @@
     if(isset($_GET['signup']) && $_GET['signup'] === "success") {
         $signupSuccess = true;
     }
+    //echo $message;
 ?>
 
 <div class="gray-background">

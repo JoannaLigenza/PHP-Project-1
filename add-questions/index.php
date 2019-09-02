@@ -3,6 +3,9 @@
     include "../header.php";
 
     $isQuestionAdded = false;
+    $displayQuestionsData = new DisplayQuestionsData();
+    //$pageNavigationNumberForQuestions = $displayQuestionsData->pageNavigationNumber();
+    //$questionData = $displayQuestionsData->getQuestions();
 
     if (isset($_POST["add-question-button"])) {
         $category = $_POST['select-category'];

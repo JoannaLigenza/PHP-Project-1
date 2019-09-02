@@ -1,20 +1,14 @@
 <?php
     include "../functions.php";
+    
+    $userData = new UserData();
     $message = "";
-    // if (isset($_GET['signup'])) {
-    //     $signup = $_GET['signup'];
-    //     if ($signup === 'empty') {
-    //         $message = "Please fill all fields!";
-    //     }
-    // }
-function signInVeryfication($userData) {
+    
     if (isset($_POST['signin-button'])) {
         $userName = htmlspecialchars($_POST['signin-username'], ENT_QUOTES);
         $email = htmlspecialchars($_POST['signin-email'], ENT_QUOTES);
         $pass = htmlspecialchars($_POST['signin-pass'], ENT_QUOTES);
         if (empty($userName) || empty($email) || empty($pass)) {
-            // $url = $_SERVER['REQUEST_URI'];
-            // header("Location: $url?signup=empty");
             $message = "Please fill all fields!";
         } else {
             if (!(preg_match('/^[a-zA-Z0-9-]{3,30}$/', $userName))) {
@@ -55,17 +49,7 @@ function signInVeryfication($userData) {
                     };
                 }
             }
-        }
-
-
-        // if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        //     $message = "Please write validate e-mail address";
-        // }
-
-        
+        }        
     }
-    // echo "le";
-    return "le";
-}
-signInVeryfication($userData);
+
 ?>

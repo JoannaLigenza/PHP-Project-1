@@ -1,5 +1,6 @@
 <?php
     include "functions.php";
+    $userData = new UserData();
 
     function checkIfIsTaken($userData, $option) {
         $getOption = $_POST[$option];

@@ -7,11 +7,33 @@
 
     $getId = $_GET['id'];
     $pageNumber = 1;
-    $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber($getId);        // this must be set before getAnswears, because it read page number from url and sets answears to display on page
-    $getAnswears = $displayAnswearsData->getAnswears($getId);
-    $questionData = $displayQuestionsData->questionDataOnAnswearPage(($getId));
     $deleteQuestion = false;
     $loginMessage = -1;
+
+    // New path to reload page
+    $path = new Path();
+    $getPathToNavigation = $path->getPath();
+
+    // Sorting answears
+    $setSession = new SetSession();
+    $setSession->setSessionParams($displayLang, $getPathToNavigation);
+
+    // Get question data
+    $questionsData = new QuestionsData();
+    $displayQuestionsData = new DisplayQuestionsData();
+    $questionData = $displayQuestionsData->questionDataOnAnswearPage(($getId));
+    
+    // Get answears data
+    $answearsData = new AnswearsData();
+    $displayAnswearsData = new DisplayAnswearsData();
+    $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber($getId);        // this must be set before getAnswears, because it read page number from url and sets answears to display on page
+    //echo $pageNavigationNumberForAnswears;
+    $getAnswears = $displayAnswearsData->getAnswears($getId);
+    
+    //print_r($getAnswears);
+
+    
+    
 
     if (isset($_POST['add-answear-button'])) {
         $answear = $_POST['answear-textarea'];
@@ -20,6 +42,15 @@
         if(!empty($answear)) {
             if ($displayAnswearsData->addAnswear($getId, $answear, $author)) {
                 $displayQuestionsData->setAnswearsNumber(($getId), '+');
+                $page;
+                if (empty($_GET['page'])) {
+                    $page = 1;
+                } else {
+                    $page = $_GET['page'];
+                }
+                if (ceil($displayAnswearsData->getAllAnswearsNum($getId)/$displayAnswearsData->answearsNumOnPage) > $page ) {
+                    header("Location: $getPathToNavigation&page=".($page+1));
+                }
             }
         }
     }
@@ -89,6 +120,13 @@
 
     $getAnswears = $displayAnswearsData->getAnswears($getId);
 
+    if (count($getAnswears) <= 0 && (!empty($_GET['page']) ) ) {
+        if ($_GET['page'] > 1) {
+            $redirectToPage = ceil($displayAnswearsData->getAllAnswearsNum($getId)/$displayAnswearsData->answearsNumOnPage);
+            header("Location: $getPathToNavigation&page=$redirectToPage");
+        }
+        
+    }
 ?>
 
         <!-- MAIN  -->
@@ -145,7 +183,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $displayLang["sort"].":"  ?></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <form action="" method="post">
+                                        <form action=<?php echo $getPathToNavigation ?> method="post">
                                             <button type="submit" name="answear-adding-date" class=<?php echo (isset($_SESSION['answear-sort']) && $_SESSION['answear-sort'] === "date") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["adding_date"]; ?></button>
                                             <button type="submit" name="answear-top-rated" class=<?php echo (isset($_SESSION['answear-sort']) && $_SESSION['answear-sort'] === "votes") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["top_rated"]; ?></button>
                                         </form>
@@ -195,7 +233,7 @@
                                     </div>
                                     
                                     <div class="d-flex flex-row">
-                                        <!--  RATES SYSTEM  -->
+                                        <!--  RATING SYSTEM  -->
                                         <div class="d-flex flex-column justify-content-start align-items-center bg-light rounded-left pl-1">
                                             <form action="" method="post">
                                                 <button type="submit" id=<?php echo 'arr-up-'.$id ?> name=<?php echo 'arr-up-'.$id ?> class="btn border-0 m-0 p-0 shadow-none d-flex align-items-center flex-column" >
@@ -256,7 +294,7 @@
                     <!-- ADD ANSWEAR FORM -->
                     <div class="py-5" id="add-answear-div">
                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
-                        <form action="" method="post" id="add-answear-form">
+                        <form action="#add-answear-div" method="post" id="add-answear-form">
                             <textarea type="text" name="answear-textarea" id="answear-textarea" class="form-control form-control-lg" <?php $placeholderText = $displayLang['add_answear']; echo "placeholder='$placeholderText'" ?>></textarea>
                             <div class="d-flex flex-row justify-content-end">
                                     <div class="container-flex justify-content-center pt-3">

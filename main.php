@@ -1,7 +1,11 @@
 <?php
+    $loadSite = new LoadSites();
+    $displayQuestionsData = new DisplayQuestionsData();
+    $pageNavigationNumberForQuestions = $displayQuestionsData->pageNavigationNumber();
+    $questionData = $displayQuestionsData->getQuestions();
     $loginMessage = -1;
     $pageNumber = 1;
-    for($i=0; $i < $displayQuestionsData->questionsNumOnPage; $i++) {
+    for($i=0; $i < count($questionData); $i++) {
         if(isset($_POST[$questionData[$i]['id'].'_x'])){
             if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 $user = $_SESSION['username'];
@@ -52,10 +56,10 @@
                     </div>
 
                     <!-- QUESTIONS FROM DATABASE -->
-                    <?php if ($displayQuestionsData->questionsNumOnPage === 0) : ?>
+                    <?php if (count($questionData) === 0) : ?>
                         <p><?php echo $displayLang["no-question"]; ?></p>
                     <?php else : ?>   
-                        <?php for($i=0; $i < $displayQuestionsData->questionsNumOnPage; $i++) : ?>
+                        <?php for($i=0; $i < count($questionData); $i++) : ?>
                         <p class="log-in-message" id=<?php echo "log-in-message-".$questionData[$i]['id']; ?> ><?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
                         <section class="container-fluid border border-warning rounded text-center p-0 my-2">
                             <div class="d-flex flex-row">

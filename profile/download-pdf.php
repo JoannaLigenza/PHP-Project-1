@@ -50,6 +50,7 @@ class PDF extends FPDF {
   $pdf->AddFont('Aleo','','Aleo.php');
   $pdf->SetFont('Aleo','',14);
   if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    $userData = new UserData();
     $favouritesQuestions = $userData->getFavouritesQuestions($_SESSION['username']);
     for($i=0;$i<count($favouritesQuestions);$i++) {
         // Add and set new font with polish signs
@@ -72,7 +73,8 @@ class PDF extends FPDF {
         $pdf->MultiCell(0,10, iconv('UTF-8', 'ISO-8859-2', $title),0,1);
 
         $getId = $favouritesQuestions[$i]["id"];
-        $getAnswears = $displayAnswearsData->getAnswears($getId);
+        $displayAnswearsData = new DisplayAnswearsData();
+        $getAnswears = $displayAnswearsData->getAllAnswearsToPDF($getId);
         foreach($getAnswears as $answear) {
             // Set font and border color to answear
             $pdf->SetFont('Aleo','',12);

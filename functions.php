@@ -59,9 +59,6 @@
         }
     }
 
-    $path = new Path();
-    $getPathToNavigation = $path->getPath();
-
 
     class SetSession {
         public function setSessionParams($displayLang, $getPathToNavigation) {
@@ -108,8 +105,6 @@
         }
     }
 
-    $setSession = new SetSession();
-    $setSession->setSessionParams($displayLang, $getPathToNavigation);
 
     class Data {
         protected function connectionToDb() {
@@ -263,7 +258,6 @@
                                 $isAdded = false;
                                 $query->close();
                                 mysqli_close($connection);
-                                //echo "<br>num rows ".$isAdded."<br>";
                                 return $isAdded;
                             } 
                         }
@@ -319,7 +313,6 @@
         }
     }
 
-    $questionsData = new QuestionsData();
 
     class AnswearsData extends Data {
         protected function getAnswearsData($toQuestion, $from, $to) {
@@ -517,9 +510,8 @@
             return $result;
         }
 
-        public function getAddedQuestionsToProfileSite($username) {
+        public function getAddedAnswearsToProfileSite($username) {
             $userAnswearsArr = [];
-            //$lang = $_SESSION['lang'];
             $connection = $this->connectionToDb();
             $query = $connection->prepare("SELECT id, to_question, answear_text FROM answears WHERE author = ?");
             if($query) {
@@ -537,12 +529,9 @@
         }
     }
 
-    $answearsData = new AnswearsData();
-    //$answearsData->isVoted("kal", 309);
-
 
     class DisplayQuestionsData extends QuestionsData {
-        public $questionsNumOnPage = 3;
+        private $questionsNumOnPage = 3;
         private $pageNumber;
         private $from;
         private $to;
@@ -562,11 +551,6 @@
 
         public function getQuestions() {
             $getQuestions = $this->getQuestionsData($this->from, $this->to);
-            $questionsNumber = count($getQuestions);
-            
-            if ( $questionsNumber < $this->questionsNumOnPage) {
-                $this->questionsNumOnPage = $questionsNumber;
-            }
             return $getQuestions;
         }
 
@@ -637,9 +621,6 @@
         }
     }
 
-    $displayQuestionsData = new DisplayQuestionsData();
-    $pageNavigationNumberForQuestions = $displayQuestionsData->pageNavigationNumber();
-    $questionData = $displayQuestionsData->getQuestions();
 
     class DisplayAnswearsData extends AnswearsData {
         public $answearsNumOnPage = 10;
@@ -647,7 +628,7 @@
         private $from;
         private $to;
 
-        private function setAnswearsNumber() {   
+        protected function setAnswearsNumber() {   
             if(isset($_GET['page'])) {
                 $this->pageNumber = $_GET['page'];
             }
@@ -669,12 +650,18 @@
         }
 
         public function getAnswears($getId) {
-            $getAnswears = $this->getAnswearsData($getId, $this->from=0, $this->to=50);
-            $setAnswearsNumber = count($getAnswears);
-            
-            if ( $setAnswearsNumber < $this->answearsNumOnPage) {
-                $this->answearsNumOnPage = $setAnswearsNumber;
-            }
+            $getAnswears = $this->getAnswearsData($getId, $this->from, $this->to);
+            return $getAnswears;
+        }
+
+        public function getAllAnswearsNum($getId) {     
+            $getAnswears = $this->answearRowsNum($getId);
+            return $getAnswears;
+        }
+
+        public function getAllAnswearsToPDF($getId) {
+            $getAnswears = $this->getAnswearsData($getId, 0, 10000);       
+            //$getAnswears = $this->answearRowsNum($getId);
             return $getAnswears;
         }
 
@@ -688,8 +675,6 @@
             return $res;
         }
     }
-
-    $displayAnswearsData = new DisplayAnswearsData();
 
     class UserData extends Data {
         public function checkUserName($userName, $option) {
@@ -814,8 +799,6 @@
         }
     }
 
-    $userData = new UserData();
-
 
     class LoadSites {
         private $loadSite;
@@ -844,6 +827,6 @@
 
     }
 
-    $loadSite = new LoadSites();
+
 
 ?>
