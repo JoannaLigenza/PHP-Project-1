@@ -1,15 +1,20 @@
 <?php
     $loadSite = new LoadSites();
     $displayQuestionsData = new DisplayQuestionsData();
+    $questionsData = new QuestionsData();
     $pageNavigationNumberForQuestions = $displayQuestionsData->pageNavigationNumber();
-    $questionData = $displayQuestionsData->getQuestions();
+    $getQuestionData = $displayQuestionsData->getQuestions();
     $loginMessage = -1;
     $pageNumber = 1;
-    for($i=0; $i < count($questionData); $i++) {
-        if(isset($_POST[$questionData[$i]['id'].'_x'])){
+    for($i=0; $i < count($getQuestionData); $i++) {
+        //echo $_SESSION['username'] ;
+        if(isset($_POST[$getQuestionData[$i]['id'].'_x'])){
+            
             if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+                //echo $_SESSION['username'] ;
                 $user = $_SESSION['username'];
-                $toQuestion = $questionData[$i]['id'];
+                $toQuestion = $getQuestionData[$i]['id'];
+                //echo $toQuestion;
                 $questionsData->addToFavourites($user, $toQuestion);
             } else {    
                 //echo 'Log in first!';
@@ -56,16 +61,16 @@
                     </div>
 
                     <!-- QUESTIONS FROM DATABASE -->
-                    <?php if (count($questionData) === 0) : ?>
+                    <?php if (count($getQuestionData) === 0) : ?>
                         <p><?php echo $displayLang["no-question"]; ?></p>
                     <?php else : ?>   
-                        <?php for($i=0; $i < count($questionData); $i++) : ?>
-                        <p class="log-in-message" id=<?php echo "log-in-message-".$questionData[$i]['id']; ?> ><?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
+                        <?php for($i=0; $i < count($getQuestionData); $i++) : ?>
+                        <p class="log-in-message" id=<?php echo "log-in-message-".$getQuestionData[$i]['id']; ?> ><?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
                         <section class="container-fluid border border-warning rounded text-center p-0 my-2">
                             <div class="d-flex flex-row">
                                 <!-- <div class="d-flex flex-column justify-content-center px-2">
                                     <div class="h-100 pb-2 d-flex flex-column justify-content-end">
-                                        <div><?php echo $questionData[$i]['votes']; ?></div>
+                                        <div><?php echo $getQuestionData[$i]['votes']; ?></div>
                                         <div><img src="img/arr-up.svg" class="p-2" alt="up-icon red "></div>
                                     </div>
                                     <div class="h-100 pt-2">
@@ -75,12 +80,12 @@
                                 </div> -->
                                 <div class="break-div"></div>
                                 <div class="flex-grow-1">
-                                    <div class="container-fluid bg-gradient-warning border-bottom border-warning py-1 h4"><h3 class="h2-size"> <?php echo $questionData[$i]['category']; ?> </h3></div>
-                                    <h2 class="p-2 text-left h2-size word-break"><?php echo nl2br($questionData[$i]['title']); ?></h2>
+                                    <div class="container-fluid bg-gradient-warning border-bottom border-warning py-1 h4"><h3 class="h2-size"> <?php echo $getQuestionData[$i]['category']; ?> </h3></div>
+                                    <h2 class="p-2 text-left h2-size word-break"><?php echo nl2br($getQuestionData[$i]['title']); ?></h2>
                                     <div class="d-flex flex-row justify-content-center align-items-center">
                                         <img src="img/arr-down-b.svg" class="h-100" alt="arr-down-icon"> 
-                                        <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$questionData[$i]['id'] ?> >
-                                            <div class="p-2 lead text-body h4-size"><?php echo $displayLang["answears"].": ".$questionData[$i]['answears']; ?></div>
+                                        <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$getQuestionData[$i]['id'] ?> >
+                                            <div class="p-2 lead text-body h4-size"><?php echo $displayLang["answears"].": ".$getQuestionData[$i]['answears']; ?></div>
                                         </a>
                                     </div>
                                 </div>
@@ -88,9 +93,9 @@
                                     <span data-toggle="tooltip" title="<?php echo $displayLang["add_to_favourites"] ?>" data-placement="bottom">
                                         <form action="" method="post">
                                             <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
-                                                <input type="image" src=<?php echo $displayQuestionsData->isAddedToFavourites($_SESSION['username'], $questionData[$i]['id']) ? "img/heart-f.svg" : "img/heart-e.svg" ?> alt="heart-icon" class="add-to-favourites-img-login" name=<?php echo $questionData[$i]['id']; ?> >
+                                                <input type="image" src=<?php echo $displayQuestionsData->isAddedToFavourites($_SESSION['username'], $getQuestionData[$i]['id']) ? "img/heart-f.svg" : "img/heart-e.svg" ?> alt="heart-icon" class="add-to-favourites-img-login" name=<?php echo $getQuestionData[$i]['id']; ?> >
                                             <?php else: ?>
-                                                <input type="image" src="img/heart-e.svg" alt="heart-icon" class="add-to-favourites-img-notlogin" name=<?php echo $questionData[$i]['id']; ?> >
+                                                <input type="image" src="img/heart-e.svg" alt="heart-icon" class="add-to-favourites-img-notlogin" name=<?php echo $getQuestionData[$i]['id']; ?> >
                                             <?php endif; ?>
                                         </form>
                                     </span>

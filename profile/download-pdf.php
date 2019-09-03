@@ -2,6 +2,9 @@
 include "../functions.php";
 require('../fpdf/fpdf.php');
 
+$language = new Language();
+$chooseLang = $language->setSessionLanguage($_SERVER['REQUEST_URI']);
+
 // This makes a new .php file for new font - got from google font with polish signs
 // require('fpdf/makefont/makefont.php');
 // MakeFont('fpdf/font/Aleo-Regular.ttf','ISO-8859-2');

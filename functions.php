@@ -36,11 +36,11 @@
         }
     }
 
-    $language = new Language();
-    $language->redirect($_SERVER['REQUEST_URI']);
-    $chooseLang = $language->setSessionLanguage($_SERVER['REQUEST_URI']);
+    // $language = new Language();
+    // $language->redirect($_SERVER['REQUEST_URI']);
+    // $chooseLang = $language->setSessionLanguage($_SERVER['REQUEST_URI']);
 
-    require_once 'languages/'. $chooseLang . ".php";
+    // require_once 'languages/'. $chooseLang . ".php";
 
 
     class Path {
@@ -831,6 +831,26 @@
             return $this->loadSite;
         }
 
+    }
+
+    class SetMetaData {
+        private $title;
+        private $description;
+
+        public function siteMetaData($title, $description) {
+            $this->title = $title;
+            $this->description = $description;
+            echo "bz ".$this->title;
+        }
+
+        public function getTitle() {
+            //echo "bz2 ".$this->title;
+            return $this->title;
+        }
+
+        public function getDescription() {
+            return $this->description;
+        }
     }
 
 

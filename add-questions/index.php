@@ -1,5 +1,12 @@
 <?php
     include "../functions.php";
+    include "../functions-run.php";
+
+    $setMetaData = new SetMetaData();
+    $title = "gg";
+    $description = "hh";
+    $setMetaData->siteMetaData($title, $description);
+
     include "../header.php";
 
     $isQuestionAdded = false;

@@ -3,6 +3,7 @@
     // include "../header.php";
 
     include "../functions.php";
+    include "../functions-run.php";
     include "../header.php";
 
     $getId = $_GET['id'];
@@ -42,6 +43,7 @@
         if(!empty($answear)) {
             if ($displayAnswearsData->addAnswear($getId, $answear, $author)) {
                 $displayQuestionsData->setAnswearsNumber(($getId), '+');
+                // if added answear appear on new page then go to this page
                 $page;
                 if (empty($_GET['page'])) {
                     $page = 1;
@@ -120,6 +122,7 @@
 
     $getAnswears = $displayAnswearsData->getAnswears($getId);
 
+    // if deleted answear was last one on page then go to previous page
     if (count($getAnswears) <= 0 && (!empty($_GET['page']) ) ) {
         if ($_GET['page'] > 1) {
             $redirectToPage = ceil($displayAnswearsData->getAllAnswearsNum($getId)/$displayAnswearsData->answearsNumOnPage);

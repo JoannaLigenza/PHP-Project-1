@@ -9,7 +9,7 @@
         if ($rowsnum > 0) {
             $res = 1;
         } 
-        echo $res;
+        echo json_encode($res);
         //return $res;
     }
 
@@ -21,7 +21,7 @@
             // $url = $_SERVER['REQUEST_URI'];
             // header("Location: $url?signup=success");     // this is made in script
         };
-        echo $res;
+        echo json_encode($res);
     }
 
     if (!empty($_POST['username'])) {
