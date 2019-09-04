@@ -60,7 +60,8 @@
         "change_link" => "Zmień link do swojej strony",
         "forgot_password" => "Hasło wyleciało Ci z pamięci?",
         "back_to" => "Powrót do",
-        "login" => "logowania"
+        "login" => "logowania",
+        "profil" => "Profil"
     ]
 
 

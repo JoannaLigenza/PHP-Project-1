@@ -60,7 +60,8 @@
         "change_link" => "Change your site link",
         "forgot_password" => "Forgot your password?",
         "back_to" => "Back to",
-        "login" => "login"
+        "login" => "login", 
+        "profil" => "Profile"
     ]
 
 
