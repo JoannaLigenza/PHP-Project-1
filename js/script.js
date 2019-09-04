@@ -51,8 +51,14 @@ $("document").ready(function(){
     function showLogginMessage() {
         $(".add-to-favourites-img-notlogin").on("click", function(e) {
             e.preventDefault();
+            const path = window.location.pathname;
+            const lang = path.split("/")[1];
             const name_notLoggedIn = $(e.target).attr("name");
-            $("#log-in-message-"+name_notLoggedIn).text("Log In First!");           
+            if (lang === "pl") {
+                    $("#log-in-message-"+name_notLoggedIn).text("Zaloguj się najpierw!");  
+                } else if (lang === "en") {
+                    $("#log-in-message-"+name_notLoggedIn).text("Log In First!");  
+                }         
         });
     }
     showLogginMessage();
