@@ -63,20 +63,25 @@ $("document").ready(function(){
         $(".rate-up, .rate-down").on("click", function(e) {
             e.preventDefault();
             const logoutButton = $("#logout-button");
-            const currentLang = window.location.pathname;
+            const path = window.location.pathname;
+            const lang = path.split("/")[1];
             const clickedButton = $(e.target.closest("button")).attr("name").split('-');
             const answearId = clickedButton[2];
             const arrDirection = clickedButton[1];
             const clickedArr = $(e.target.closest("button")).attr("name");
             if (logoutButton.length < 1) {
                 answearParagraphId = $("#login-first-message-"+answearId);
-                answearParagraphId.text("Log in first!");
+                if (lang === "pl") {
+                    answearParagraphId.text("Zaloguj się najpierw!");
+                } else if (lang === "en") {
+                    answearParagraphId.text("Log in first!");
+                }
             } else {
                 $.ajax({
                     url     :   '../favourites-js.php',
                     method  :   'post',
                     dataType:   'json',
-                    data    :   {clickedArr: clickedArr, answearId: answearId, arrDirection: arrDirection, currentLang: currentLang},
+                    data    :   {clickedArr: clickedArr, answearId: answearId, arrDirection: arrDirection, currentLang: path},
                     success :   function(response) {
                                     const votesDiv = $("#votes-"+answearId);
                                     const votesText = votesDiv.text();
@@ -117,6 +122,8 @@ $("document").ready(function(){
 
     // FORM VALIDATION FUNCTIONS //
     function checkValidation(hook) {
+        const path = window.location.pathname;
+        const lang = path.split("/")[1];
         const inputValue =  $(hook).val();
         let reg;
         let text;
@@ -135,7 +142,11 @@ $("document").ready(function(){
         if (!reg.test(inputValue)) {
             $(hook).addClass("red-border");
             $("#signin-button").prop("disabled",true);
-            $("#signin-form p").text("Please enter valid "+text);
+            if (lang === "pl") {
+                $("#signin-form p").text("Wprowadź poprawny "+text);
+            } else if (lang === "en") {
+                $("#signin-form p").text("Please enter valid "+text);
+            }
             return false;
         } else {
             $(hook).removeClass("red-border");
