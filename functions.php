@@ -451,6 +451,14 @@
                             $query->bind_param("i", $id);
                             if($query->execute()) {                             
                                 array_push($isVotesAdded, $up, $down, $difference);
+                                // if up and down are false then remove row
+                                if ($up === false && $down === false) {
+                                    $query = $connection->prepare("DELETE from votes WHERE username = ? AND answear_number = ?");
+                                    if($query) {
+                                        $query->bind_param("si", $user, $answearId);
+                                        $query->execute();
+                                    }
+                                }
                             }
                             $query->close();
                             mysqli_close($connection);
