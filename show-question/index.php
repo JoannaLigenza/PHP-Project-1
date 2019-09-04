@@ -223,7 +223,7 @@
                                 ?>
                                 <section class="container-fluid text-center p-0 pb-3 my-2" id=<?php echo $i ?> >
                                     <!--  AUTHOR, DATE, DELETE ICON FOR ANSWEAR  -->
-                                    <p class=""><?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
+                                    <p class="login-first-message" id=<?php echo 'login-first-message-'.$id ?>  > <?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
                                     <div class="d-flex justify-content-between">
                                         <div class="pl-2 text-muted"><small><?php echo $displayLang['author'].": <a href='$pathToProfile'>".$author."</a>, "; echo $displayLang['adding-date'].': '.$date; ?> </small></div>
                                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $author) :  ?>
@@ -241,21 +241,21 @@
                                         <!--  RATING SYSTEM  -->
                                         <div class="d-flex flex-column justify-content-start align-items-center bg-light rounded-left pl-1">
                                             <form action="" method="post">
-                                                <button type="submit" id=<?php echo 'arr-up-'.$id ?> name=<?php echo 'arr-up-'.$id ?> class="btn border-0 m-0 p-0 shadow-none d-flex align-items-center flex-column" >
+                                                <button type="submit" id=<?php echo 'arr-up-'.$id ?> name=<?php echo 'arr-up-'.$id ?> class="btn border-0 m-0 p-0 shadow-none d-flex align-items-center flex-column rate-up" >
                                                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
-                                                        <img src=<?php echo $answearsData->isVoted($_SESSION['username'], $id)["up"] ? "../img/arr-up.svg" : "../img/arr-up-grey.svg" ?> alt="arrow-up-icon" class="arr">
+                                                        <img src=<?php echo $answearsData->isVoted($_SESSION['username'], $id)["up"] ? "../img/arr-up.svg" : "../img/arr-up-grey.svg" ?> alt="arrow-up-icon" class="arr-up">
                                                     <?php else: ?>
-                                                        <img src="../img/arr-up-grey.svg" alt="arrow-up-icon" class="arr">
+                                                        <img src="../img/arr-up-grey.svg" alt="arrow-up-icon" class="arr-up">
                                                     <?php endif; ?>
                                                 </button>
                                                 
-                                                <div><p class="m-0 py-0"><?php echo $votes ?></p></div>
+                                                <div><p id=<?php echo 'votes-'.$id ?> class="m-0 py-0"><?php echo $votes ?></p></div>
                                                 
-                                                <button type="submit" id=<?php echo 'arr-down-'.$id ?> name=<?php echo 'arr-down-'.$id ?> class="btn border-0 m-0 p-0 shadow-none d-flex align-items-center flex-column" >
+                                                <button type="submit" id=<?php echo 'arr-down-'.$id ?> name=<?php echo 'arr-down-'.$id ?> class="btn border-0 m-0 p-0 shadow-none d-flex align-items-center flex-column rate-down" >
                                                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
-                                                        <img src=<?php echo $answearsData->isVoted($_SESSION['username'], $id)["down"] ? "../img/arr-down.svg" : "../img/arr-down-grey.svg" ?> alt="arrow-down-icon" class="arr">
+                                                        <img src=<?php echo $answearsData->isVoted($_SESSION['username'], $id)["down"] ? "../img/arr-down.svg" : "../img/arr-down-grey.svg" ?> alt="arrow-down-icon" class="arr-down">
                                                     <?php else: ?>
-                                                        <img src="../img/arr-down-grey.svg" alt="arrow-down-icon" class="arr">
+                                                        <img src="../img/arr-down-grey.svg" alt="arrow-down-icon" class="arr-down">
                                                     <?php endif; ?>
                                                 </button>
                                             </form>

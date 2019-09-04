@@ -32,7 +32,7 @@ $("document").ready(function(){
                 method  :   'post',
                 dataType:   'json',
                 data    :   {'isLoggedInName': isLoggedInName, currentLang: currentLang},
-                success :   function(response, status, options) {
+                success :   function(response) {
                                 if (response === "yes") {   
                                     const checkSrc = $(e.target).attr("src");
                                     if (checkSrc === "img/heart-e.svg") {
@@ -56,6 +56,64 @@ $("document").ready(function(){
         });
     }
     showLogginMessage();
+
+
+    // load up/down icon when click on rating system
+    function rateAnswear() {
+        $(".rate-up, .rate-down").on("click", function(e) {
+            e.preventDefault();
+            const logoutButton = $("#logout-button");
+            const currentLang = window.location.pathname;
+            const clickedButton = $(e.target.closest("button")).attr("name").split('-');
+            const answearId = clickedButton[2];
+            const arrDirection = clickedButton[1];
+            const clickedArr = $(e.target.closest("button")).attr("name");
+            if (logoutButton.length < 1) {
+                answearParagraphId = $("#login-first-message-"+answearId);
+                answearParagraphId.text("Log in first!");
+            } else {
+                $.ajax({
+                    url     :   '../favourites-js.php',
+                    method  :   'post',
+                    dataType:   'json',
+                    data    :   {clickedArr: clickedArr, answearId: answearId, arrDirection: arrDirection, currentLang: currentLang},
+                    success :   function(response) {
+                                    const votesDiv = $("#votes-"+answearId);
+                                    const votesText = votesDiv.text();
+                                    if (arrDirection === "up") {
+                                        if (response[0] === "orange") {   
+                                            $(e.target).attr("src", "../img/arr-up.svg");
+                                            // if arr up is orange change arr down to grey
+                                            $("#arr-down-"+answearId+" img").attr("src", "../img/arr-down-grey.svg");
+                                            // change number of votes
+                                            votesDiv.text(parseInt(votesText)+response[1]);
+                                        }
+                                        else if (response[0] === "grey") {   
+                                            $(e.target).attr("src", "../img/arr-up-grey.svg");
+                                            votesDiv.text(parseInt(votesText)-response[1]);
+                                        }
+                                    } else if (arrDirection === "down") {
+                                        if (response[0] === "orange") {   
+                                            $(e.target).attr("src", "../img/arr-down.svg");
+                                            // if arr down is orange change arr up to grey
+                                            $("#arr-up-"+answearId+" img").attr("src", "../img/arr-up-grey.svg");
+                                            // change number of votes
+                                            votesDiv.text(parseInt(votesText)-response[1]);
+                                        }
+                                        else if (response[0] === "grey") {   
+                                            $(e.target).attr("src", "../img/arr-down-grey.svg");
+                                            votesDiv.text(parseInt(votesText)+response[1]);
+                                        }
+                                    }
+                                    
+                                }
+                })
+            }
+
+        })
+    }
+    rateAnswear();
+
 
     // FORM VALIDATION FUNCTIONS //
     function checkValidation(hook) {

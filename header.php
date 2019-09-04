@@ -44,8 +44,8 @@
                         $pathToProfile = '/'.$_SESSION['lang'].'/profile/?profile='.$_SESSION['username'];
                     ?>
                     <form action="" method="post">
-                        <a href=<?php echo $pathToProfile; ?> class="btn btn-outline-warning">Profil</a>
-                        <button type="submit" class="btn btn-outline-warning" name="logout-button"><?php echo $displayLang["log_out"] ?></button>
+                        <a href=<?php echo $pathToProfile; ?> class="btn btn-outline-warning"><?php echo $displayLang["profil"] ?></a>
+                        <button type="submit" class="btn btn-outline-warning" name="logout-button" id="logout-button"><?php echo $displayLang["log_out"] ?></button>
                     </form>
                     <?php else: ?>
                     <form action="" method="post">
