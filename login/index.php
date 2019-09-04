@@ -28,6 +28,8 @@
         }
     }
 
+    $_SESSION['title'] = $displayLang["login_site_title"];
+    $_SESSION['description'] = $displayLang["login_site_desc"];
     include "../header.php";
 ?>
 
@@ -44,7 +46,7 @@
                 <button type="submit" name="login-button" class="container btn btn-outline-warning my-2 py-2" id="login-button"><?php echo $displayLang["log_in"] ?></button>
             </form>
             <div class="py-5">
-                <a href=<?php echo "../".$loadSite->loadSite('forgot-password'); ?> class="focus-a">Forgot your password?</a>
+                <a href=<?php echo "../".$loadSite->loadSite('forgot-password'); ?> class="focus-a"><?php echo $displayLang["forgot_password"]; ?></a>
             </div>
         </div>
     </div>

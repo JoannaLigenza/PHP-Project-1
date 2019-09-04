@@ -1,6 +1,8 @@
 <?php
     include "../functions.php";
     include "../functions-run.php";
+    $_SESSION['title'] = $displayLang["profile_site_title"];
+    $_SESSION['description'] = $displayLang["profile_site_desc"];
     include "../header.php";
 
     $message= "";

@@ -1,5 +1,7 @@
 <?php 
     include "signin-functions.php";
+    $_SESSION['title'] = $displayLang["signin_site_title"];
+    $_SESSION['signin_site_desc'] = $displayLang["site_desc"];
     include "../header.php";
 
     $signupSuccess = false;
@@ -11,7 +13,7 @@
 
 <div class="gray-background">
     <div class="card text-center py-5 gray-background vh-100">
-        <!-- <h3>Dołącz, by dodać nowe pytania i odpowiedzi do bazy wiedzy dla Junior Front-end Developerów</h3> -->
+        <h2 class="h4-size"><?php echo $displayLang["signin_site_title"]; ?></h2>
         <?php if (!$signupSuccess) : ?>
         <div class="card-body py-5">
 

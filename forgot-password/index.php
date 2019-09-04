@@ -1,6 +1,8 @@
 <?php 
     include "../functions.php";
     include "../functions-run.php";
+    $_SESSION['title'] = $displayLang["site_title"];
+    $_SESSION['description'] = $displayLang["site_desc"];
     include "../header.php";
 
     if (isset($_POST['resent-password-button'])) {
@@ -19,7 +21,7 @@
                 <button type="submit" name="resent-password-button" class="container btn btn-outline-warning my-2 py-2" id="resent-password-button">Send reset link</button>
             </form>
             <div class="py-5">
-                Back to <a href="../login">Login</a>
+                <?php echo $displayLang["back_to"] ?> <a href="../login"><?php echo $displayLang["login"] ?></a>
             </div>
         </div>
     </div>

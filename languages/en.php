@@ -1,8 +1,17 @@
 <?php   
     $displayLang = [
         "site_title" => "Front end developer interview questions and answers",
-        "title" => "This is english title",
-        "text" => "This is english text :)",
+        "site_desc" => "Front end developer interview questions and answears. Did you have a job interview? Add your questions! Know the answers? Add it!",
+        "add_site_title" => "Add new question from your interview",
+        "add_site_desc" => "Add question that you had on your interview, build a database of interview questions for front end developers with us!",
+        "answears_site_title" => "Add new answear to front end developer interview question",
+        "answears_site_desc" => "Know the answear? Share your knowledge and build a database of interview questions for front end developers with us!",
+        "profile_site_title" => "User profile - Front end developer interview questions and answers",
+        "profile_site_desc" => "View user profile with added questions and answears. Get favourites questions with answears to PDF",
+        "login_site_title" => "Log in to your account",
+        "login_site_desc" => "Log in to your account to add new question or answear and get your favourites questions in PDF format",
+        "signin_site_title" => "Sign in and get your favourites questions and answears in PDF",
+        "signin_site_desc" => "Sign in to add new questions and answears and get your favourites questions in PDF format",
         "log_in" => "Log In",
         "log_out" => "Log Out",
         "sign_up" => "Sign Up",
@@ -49,7 +58,9 @@
         "added_answears" => "Added answears:",
         "favourites_questions" => "Your favourites questions:",
         "change_link" => "Change your site link",
-
+        "forgot_password" => "Forgot your password?",
+        "back_to" => "Back to",
+        "login" => "login"
     ]
 
 

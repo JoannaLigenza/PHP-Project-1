@@ -1,8 +1,17 @@
 <?php   
     $displayLang = [
-        "site_title" => "Pytania rekrutacyjne + odpowiedzi - Junior Front end developer",
-        "title" => "To jest polski tytuł",
-        "text" => "To jest polski text",
+        "site_title" => "Front end developer pytania rekrutacyjne i odpowiedzi",
+        "site_desc" => "Front end developer pytania rekrutacyjne i odpowiedzi. Dodaj nowe pytania i odpowiedzi, twórz z nami bazę pytań rekrutacyjnych dla front end developerów!",
+        "add_site_title" => "Dodaj pytania ze swojej rozmowy rekrutacyjnej",
+        "add_site_desc" => "Dodaj pytania ze swojej rozmowy rekrutacyjnej, buduj z nami bazę pytań rekrutacyjnych dla front end developerów!",
+        "answears_site_title" => "Dodaj odpowiedź do bazy danych pytań i odpowiedzi dla front end developerow",
+        "answears_site_desc" => "Znasz odpowiedź? Podziel się wiedzą i buduj z nami bazę pytań rekrutacyjnych dla front end developerów!",
+        "profile_site_title" => "Profil użytkownika - pytania rekrutacyjne dla front end developerow",
+        "profile_site_desc" => "Zobacz dodane przez użytkownika pytania i odpowiedzi, pobierz swoje ulubione pytania wraz z odpowiedziami w formacie PDF",
+        "login_site_title" => "Zaloguj się na swoje konto",
+        "login_site_desc" => "Zaloguj się na swoje konto by dodać nowe pytania i odpowiedzi oraz pobrać ulubione pytania wraz z odpowiedziami w formacie PDF",
+        "signin_site_title" => "Zarejestruj się i pobierz ulubione pytania w formacie PDF",
+        "signin_site_desc" => "Zarejestruj się by dodać nowe pytania i odpowiedzi oraz pobrać ulubione pytania wraz z odpowiedziami w formacie PDF",
         "log_in" => "Zaloguj się",
         "log_out" => "Wyloguj się",
         "sign_up" => "Zarejestruj się",
@@ -49,6 +58,9 @@
         "added_answears" => "Dodane odpowiedzi:",
         "favourites_questions" => "Twoje ulubione pytania:",
         "change_link" => "Zmień link do swojej strony",
+        "forgot_password" => "Hasło wyleciało Ci z pamięci?",
+        "back_to" => "Powrót do",
+        "login" => "logowania"
     ]
 
 

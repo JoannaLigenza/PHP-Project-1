@@ -2,10 +2,8 @@
     include "../functions.php";
     include "../functions-run.php";
 
-    $setMetaData = new SetMetaData();
-    $title = "gg";
-    $description = "hh";
-    $setMetaData->siteMetaData($title, $description);
+    $_SESSION['title'] = $displayLang["add_site_title"];
+    $_SESSION['description'] = $displayLang["add_site_desc"];
 
     include "../header.php";
 

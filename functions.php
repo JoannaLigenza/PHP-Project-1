@@ -830,29 +830,6 @@
             $this->setSite($site);
             return $this->loadSite;
         }
-
     }
-
-    class SetMetaData {
-        private $title;
-        private $description;
-
-        public function siteMetaData($title, $description) {
-            $this->title = $title;
-            $this->description = $description;
-            echo "bz ".$this->title;
-        }
-
-        public function getTitle() {
-            //echo "bz2 ".$this->title;
-            return $this->title;
-        }
-
-        public function getDescription() {
-            return $this->description;
-        }
-    }
-
-
 
 ?>

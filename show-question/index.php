@@ -4,6 +4,8 @@
 
     include "../functions.php";
     include "../functions-run.php";
+    $_SESSION['title'] = $displayLang["answears_site_title"];
+    $_SESSION['description'] = $displayLang["answears_site_desc"];
     include "../header.php";
 
     $getId = $_GET['id'];
