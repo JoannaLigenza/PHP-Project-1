@@ -18,8 +18,6 @@
         $res = 0;
         if ($userData->addUser($userName, $email, $password)){
             $res = 1;
-            // $url = $_SERVER['REQUEST_URI'];
-            // header("Location: $url?signup=success");     // this is made in script
         };
         echo json_encode($res);
     }
