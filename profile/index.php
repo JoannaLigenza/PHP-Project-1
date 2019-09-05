@@ -3,7 +3,6 @@
     include "../functions-run.php";
     $_SESSION['title'] = $displayLang["profile_site_title"];
     $_SESSION['description'] = $displayLang["profile_site_desc"];
-    include "../header.php";
 
     $message= "";
     $getProfile = $_GET['profile'];
@@ -24,7 +23,7 @@
 
 
     if (isset($_POST['show-add-link-div'])) {
-        $showAddLink = true;        
+        $showAddLink = true;
     }
 
     if (isset($_POST['add-link-button'])) {
@@ -48,19 +47,19 @@
             $oldPass = $_POST['old-pass'];
             $newPass = htmlspecialchars($_POST['new-pass'], ENT_QUOTES);
             if (!(preg_match('/^[a-zA-Z0-9?!#]{6,30}$/', $newPass))) {
-                $message = "Please enter valid password. You can use lowercase and uppercase letters, digits and characters ?!#. Password must have at least 6 characters";
+                $message = $displayLang['valid_pass'];
             } else {
                 $userVerify = $userData->getUserVeryficationData($_SESSION['email']);
                 $checkPass = password_verify($oldPass, $userVerify['pass']);
                 if ($checkPass) {
                     $newPass = password_hash("$newPass", PASSWORD_ARGON2I);
                     if($userData->changeUserPasword($newPass, $username)) {
-                        $message = "Password successfully changed!";
+                        $message = $displayLang['pass_changed'];
                     } else {
-                        $message = "Password not changed, try again!";
+                        $message = $displayLang['pass_not_changed'];
                     }  
                 } else {
-                    $message = "Please write correct password";
+                    $message = $displayLang['correct_pass'];
                 }
             }            
         }
@@ -79,6 +78,7 @@
         }
     }
 
+    include "../header.php";
 ?>
 
     <!-- MAIN  -->
@@ -91,7 +91,7 @@
                         echo (!empty($userSite)) ? "<p>".$displayLang['your_website'].": <a href=$userSite target='_blank' rel='nofollow noopener noreferrer'>$userSite</a></p>" : null
                     ?>  
                         <form action=<?php echo basename($_SERVER['REQUEST_URI']) ?> method="post">
-                            <button type="submit" name="show-add-link-div" id="show-add-link-div" class="btn p-0 box-shadow"><?php echo $displayLang['change_link'] ?></button>
+                            <button type="submit" name="show-add-link-div" id="show-add-link-div" class="btn p-0 box-shadow" data-visible=<?php echo $showAddLink ?> > <?php echo $displayLang['change_link'] ?></button>
                         </form>
                         <?php if ($showAddLink) : ?>
                         <div class="border border-warning rounded d-flex justify-content-center d-md-inline-flex p-3" id="hidden-div">
@@ -138,7 +138,7 @@
 
                     <!-- DISPLAYING ADDED ANSWEARS -->
                     <div class="mb-4">
-                        <p class="border-left border-warning px-2 font-weight-bold"><?php echo $displayLang['added_answears'] ?></p>
+                        <p class="border-left border-warning px-2 font-weight-bold"><?php echo $displayLang['added_answears']; ?></p>
                         <?php for ($i=0; $i < count($userAnswears); $i++) : ?>
                             <div class="px-2">
                                 <?php 
@@ -176,7 +176,7 @@
                     <?php endfor; ?>
                         <!-- GET FAVOURITES TO PDF -->
                         <div class="py-5">
-                            <p>Download favourites questions to PDF</p>
+                            <p><?php echo $displayLang['download_favourites']; ?></p>
                             <a href="download-pdf.php" target="_blank"> <img src="../img/pdf.svg" alt="download-pdf-icon"> </a>
                         </div>
                     <?php endif; ?>

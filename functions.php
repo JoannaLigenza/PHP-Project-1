@@ -311,6 +311,25 @@
             }
             return $userQuestionsArr;
         }
+
+        public function getNewestQuestions($limit) {
+            $latestQuestionsArr = [];
+            settype($limit, "integer");
+            $connection = $this->connectionToDb();
+            $query = $connection->prepare("SELECT category, title FROM questions ORDER BY id DESC LIMIT ?");
+            if($query) {
+                $query->bind_param("i", $limit);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                        array_push($latestQuestionsArr, $row);
+                    }
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $latestQuestionsArr;
+        }
     }
 
 
@@ -535,6 +554,25 @@
             }
             return $userAnswearsArr;
         }
+
+        public function getNewestAnswears($limit) {
+            $latestAnswearsArr = [];
+            settype($limit, "integer");
+            $connection = $this->connectionToDb();
+            $query = $connection->prepare("SELECT answear_text, author FROM answears ORDER BY id DESC LIMIT ?");
+            if($query) {
+                $query->bind_param("i", $limit);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                        array_push($latestAnswearsArr, $row);
+                    }
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $latestAnswearsArr;
+        }
     }
 
 
@@ -570,12 +608,21 @@
         }
 
         public function addQuestion($category, $title, $author='anonim') {
-            $res = $this->putQuestionData($category, $title, $author);
+            //$res = $this->putQuestionData($category, $title, $author);
+            $res = false;
+            if ($this->putQuestionData($category, $title, $author)) {
+                $userData = new UserData();
+                $res = $userData->changeAddedQuestionsNumber($author, "+");
+            }
             return $res;
         }
 
-        public function deleteQuestion($id) {
-            $res = $this->removeQuestion($id);
+        public function deleteQuestion($id, $user) {
+            $res = false;
+            if ($this->removeQuestion($id)) {
+                $userData = new UserData();
+                $res = $userData->changeAddedQuestionsNumber($user, "-");
+            }
             return $res;
         }
 
@@ -674,12 +721,20 @@
         }
 
         public function addAnswear($toQuestion, $answear, $author='anonim', $link="") {
-            $res = $this->putAnswearData($toQuestion, $answear, $author);
+            $res = false;
+            if ($this->putAnswearData($toQuestion, $answear, $author)) {
+                $userData = new UserData();
+                $res = $userData->changeAddedAnswearsNumber($author, "+");
+            }
             return $res;
         }
 
-        public function deleteAnswear($id) {
-            $res = $this->removeAnswear($id);
+        public function deleteAnswear($id, $user) {
+            $res = false;
+            if ($this->removeAnswear($id)) {
+                $userData = new UserData();
+                $res = $userData->changeAddedAnswearsNumber($user, "-");
+            }
             return $res;
         }
     }
@@ -804,6 +859,66 @@
                 mysqli_close($connection);
             }
             return $res;
+        }
+
+        public function changeAddedQuestionsNumber($username, $sign) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            if ($sign === "+") {
+                $query = $connection->prepare("UPDATE users SET added_questions=added_questions+1 WHERE username = ?");
+            } else {
+                $query = $connection->prepare("UPDATE users SET added_questions=added_questions-1 WHERE username = ?");
+            }
+            if($query) {
+                $query->bind_param("s", $username);
+                if($query->execute()) {
+                    $res = true;
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $res;
+        }
+
+        public function changeAddedAnswearsNumber($username, $sign) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            if ($sign === "+") {
+                $query = $connection->prepare("UPDATE users SET added_answears=added_answears+1 WHERE username = ?");
+            } else {
+                $query = $connection->prepare("UPDATE users SET added_answears=added_answears-1 WHERE username = ?");
+            }
+            if($query) {
+                $query->bind_param("s", $username);
+                if($query->execute()) {
+                    $res = true;
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $res;
+        }
+
+        public function getMostAdded($added, $limit) {
+            $mostAdded = [];
+            $connection = $this->connectionToDb();
+            if ($added === "questions") {
+                $query = $connection->prepare("SELECT username, added_questions FROM users ORDER BY added_questions DESC LIMIT ?");
+            } else if ($added === "answears") {
+                $query = $connection->prepare("SELECT username, added_answears FROM users ORDER BY added_answears DESC LIMIT ?");
+            }
+            if($query) {
+                $query->bind_param("i", $limit);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                        array_push($mostAdded, $row);
+                    }
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $mostAdded;
         }
     }
 

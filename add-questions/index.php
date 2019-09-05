@@ -79,8 +79,8 @@
                 <!-- END LEFT COL -->
 
                 <!-- RIGHT COL -->
-                <div class="col-md-4 col-xl-3 border-left border-warning">
-                    asd
+                <div class="col-md-4 col-xl-3">
+                    <?php include "../right-col.php" ?>
                 </div>
                 <!-- END RIGHT COL -->
 

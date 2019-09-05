@@ -72,8 +72,11 @@
     }
 
     if (isset($_POST['delete-question-yes'])) {
-        if ($displayQuestionsData->deleteQuestion($getId)) {
-            $questionsData->deleteFromFavourites($_SESSION['username'], $getId);
+        $user = $_SESSION['username'];
+        echo "deleted 1";
+        if ($displayQuestionsData->deleteQuestion($getId, $user)) {
+            echo "deleted 2";
+            $questionsData->deleteFromFavourites($user, $getId);
             $lang = $_SESSION['lang'];
             header("Location: /".$lang);
         } 
@@ -85,7 +88,7 @@
             $user = $_SESSION['username'];
         }
         if (isset($_POST['delete-answear-'.$answearId])) {
-            if ($displayAnswearsData->deleteAnswear($getAnswears[$i]['id'])) {
+            if ($displayAnswearsData->deleteAnswear($getAnswears[$i]['id'], $user)) {
                 $displayQuestionsData->setAnswearsNumber(($getId), '-');
                 $answearsData->deleteVote($user, $answearId);
             }
@@ -319,8 +322,8 @@
                 <!-- END LEFT COL -->
 
                 <!-- RIGHT COL -->
-                <div class="col-md-4 col-xl-3 border-left border-warning">
-                    asd
+                <div class="col-md-4 col-xl-3">
+                    <?php include "../right-col.php" ?>
                 </div>
                 <!-- END RIGHT COL -->
 

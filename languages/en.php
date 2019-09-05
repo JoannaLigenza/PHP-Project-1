@@ -61,7 +61,19 @@
         "forgot_password" => "Forgot your password?",
         "back_to" => "Back to",
         "login" => "login", 
-        "profil" => "Profile"
+        "profil" => "Profile",
+        "valid_pass" => "Please enter valid new password. You can use lowercase and uppercase letters, digits and characters ?!#. Password must have at least 6 characters",
+        "pass_changed" => "Password successfully changed!",
+        "pass_not_changed" => "Password not changed, try again!",
+        "correct_pass" => "Please enter correct password", 
+        "download_favourites" => "Download favourites questions to PDF",
+        "statistics" => "Statisctics",
+        "last_added_questions" => "Last added questions:",
+        "last_added_answears" => "Last added answears:",
+        "most_questions_added_by" => "Most questions added by:",
+        "most_answears_added_by" => "Most answears added by:",
+        "download_basic_git_command" => "Download basic git commands in PDF",
+
     ]
 
 

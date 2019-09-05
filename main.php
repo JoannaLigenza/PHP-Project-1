@@ -37,7 +37,7 @@
                     <div class="d-flex flex-row justify-content-end">
                         <div class="container-flex justify-content-center">
                             <a href=<?php echo $loadSite->loadSite('add-question') ?> >
-                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ".$displayLang["add_question"]  ?> </button>
+                                <button type="button" class="btn btn-warning mb-2 shadow-none myBtnHover"> <?php echo "+ ".$displayLang["add_question"]  ?> </button>
                             </a>
                         </div>
                     </div>
@@ -93,9 +93,9 @@
                                     <span data-toggle="tooltip" title="<?php echo $displayLang["add_to_favourites"] ?>" data-placement="bottom">
                                         <form action="" method="post">
                                             <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
-                                                <input type="image" src=<?php echo $displayQuestionsData->isAddedToFavourites($_SESSION['username'], $getQuestionData[$i]['id']) ? "img/heart-f.svg" : "img/heart-e.svg" ?> alt="heart-icon" class="add-to-favourites-img-login" name=<?php echo $getQuestionData[$i]['id']; ?> >
+                                                <input type="image" src=<?php echo $displayQuestionsData->isAddedToFavourites($_SESSION['username'], $getQuestionData[$i]['id']) ? "img/heart-f.svg" : "img/heart-e.svg" ?> alt="heart-icon" class="add-to-favourites-img-login heart-icon" name=<?php echo $getQuestionData[$i]['id']; ?> >
                                             <?php else: ?>
-                                                <input type="image" src="img/heart-e.svg" alt="heart-icon" class="add-to-favourites-img-notlogin" name=<?php echo $getQuestionData[$i]['id']; ?> >
+                                                <input type="image" src="img/heart-e.svg" alt="heart-icon" class="add-to-favourites-img-notlogin heart-icon" name=<?php echo $getQuestionData[$i]['id']; ?> >
                                             <?php endif; ?>
                                         </form>
                                     </span>
@@ -130,8 +130,8 @@
                 <!-- END LEFT COL -->
 
                 <!-- RIGHT COL -->
-                <div class="col-md-4 col-xl-3 border-left border-warning">
-                    asd
+                <div class="col-md-4 col-xl-3">
+                    <?php include "right-col.php" ?>
                 </div>
                 <!-- END RIGHT COL -->
 

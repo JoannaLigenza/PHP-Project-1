@@ -61,7 +61,18 @@
         "forgot_password" => "Hasło wyleciało Ci z pamięci?",
         "back_to" => "Powrót do",
         "login" => "logowania",
-        "profil" => "Profil"
+        "profil" => "Profil",
+        "valid_pass" => "Wprowadź poprawne nowe hasło. Możesz użyć małych małych i dużych liter, cyfr oraz znaków ?!#. Nowe hasło musi mieć przynajmniej 6 znaków",
+        "pass_changed" => "Hasło zostało poprawnie zmienione!",
+        "pass_not_changed" => "Hasło nie zostało zmienione, spróbuj jeszcze raz!",
+        "correct_pass" => "Wpisz poprawne hasło",
+        "download_favourites" => "Pobierz listę ulubionych pytań w PDF",
+        "statistics" => "Statystyki",
+        "last_added_questions" => "Ostatnio dodane pytania:",
+        "last_added_answears" => "Ostatnio dodane odpowiedzi:",
+        "most_questions_added_by" => "Najwięcej pytań dodali:",
+        "most_answears_added_by" => "Najwięcej odpowiedzi dodali:",
+        "download_basic_git_command" => "Pobierz podstawowe komendy git w PDF",
     ]
 
 
