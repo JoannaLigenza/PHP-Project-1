@@ -4,6 +4,15 @@
 
     <!-- FOOTER -->
     <footer class="container-fluid">
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-6">
+                    <a href="" class="text-white">Kontakt</a>
+                </div>
+            </div>
+            
+        </div>
+
         <div class="right py-3">
             <a href="/en/" class="focus-a"><?php echo $displayLang['english'] ?></a> | <a href="/pl/" class="focus-a"><?php echo $displayLang['polish'] ?></a>
         </div>

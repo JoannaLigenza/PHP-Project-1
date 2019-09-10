@@ -73,6 +73,7 @@
         "most_questions_added_by" => "Most questions added by:",
         "most_answears_added_by" => "Most answears added by:",
         "download_basic_git_command" => "Download basic git commands in PDF",
+        "contact" => "Contact"
 
     ]
 

@@ -7,18 +7,21 @@ html {
 
 body {
     position: relative;
-    padding-bottom: 100px;
+    /* padding-bottom: 100px; */
     min-height: 100%;
 }
 
 footer {
     position: absolute;
     bottom: -20px;
-    height: 120px;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     background-color: rgb(61, 60, 60);
+    /* because footer has absolute position it covers body, so it must be translated down about 100% its height */
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
 }
 
 .right {
