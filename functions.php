@@ -780,13 +780,13 @@
             return $res;
         }
 
-        public function changeUserPasword($newPass, $username) {
+        public function changeUserPasword($newPass, $email) {
             $res = false;
             $connection = $this->connectionToDb();
             $date=date("Y-m-d");
-            $query = $connection->prepare("UPDATE users SET pass = ? WHERE username = ?");
+            $query = $connection->prepare("UPDATE users SET pass = ? WHERE email = ?");
             if ($query) {
-                $query->bind_param("ss", $newPass, $username);
+                $query->bind_param("ss", $newPass, $email);
                 if($query->execute()) {
                     $res = true;
                 }
@@ -798,7 +798,7 @@
 
         public function getUserData($username) {
             $connection = $this->connectionToDb();
-            $query = $connection->prepare("SELECT id, username, site, date FROM users WHERE username = ?");
+            $query = $connection->prepare("SELECT id, username, email, site, date FROM users WHERE username = ?");
             if($query) {
                 $query->bind_param("s", $username);
                 if($query->execute()) {
@@ -922,6 +922,105 @@
         }
     }
 
+    class RemindPassword extends Data {
+        public function addToken($email, $token) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            $date = date("Y-m-d h:i:s");
+            $time = strtotime($date);
+            $query = $connection->prepare("INSERT INTO remind_password SET email = ?, token = ?, date = ?, time = ?");
+            if ($query) {
+                $query->bind_param("sssi", $email, $token, $date, $time );
+                if($query->execute()) {
+                    $res = true;
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $res;
+        }
+
+        public function changeToken($email, $token) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            $date = date("Y-m-d h:i:s");
+            $time = strtotime($date);
+            $query = $connection->prepare("UPDATE remind_password SET token = ?, date = ?, time = ? WHERE email = ?");
+            if ($query) {
+                $query->bind_param("ssis", $token, $date, $time, $email);
+                if($query->execute()) {
+                    $res = true;
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $res;
+        }
+
+        public function checkToken($token) {
+            $result = [];
+            $connection = $this->connectionToDb();
+            $query = $connection->prepare("SELECT * FROM remind_password WHERE token = ?");
+            if ($query) {
+                $query->bind_param("s", $token);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    $result = $result->fetch_array(MYSQLI_ASSOC);
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $result;
+        }
+
+        public function checkIfUserHasToken($email) {
+            $result = [];
+            $connection = $this->connectionToDb();
+            $query = $connection->prepare("SELECT * FROM remind_password WHERE email = ?");
+            if ($query) {
+                $query->bind_param("s", $email);
+                if($query->execute()) {
+                    $result = $query->get_result();
+                    $result = $result->fetch_array(MYSQLI_ASSOC);
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $result;
+        }
+
+        public function deleteToken($token) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            $query = $connection->prepare("DELETE FROM remind_password WHERE token = ?");
+            if ($query) {
+                $query->bind_param("s", $token);
+                if($query->execute()) {
+                    $res = true;
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $res;
+        }
+
+        public function automaticallyDeleteToken($time) {
+            $res = false;
+            $connection = $this->connectionToDb();
+            $query = $connection->prepare("DELETE FROM remind_password WHERE time < ?");
+            if ($query) {
+                $query->bind_param("i", $time);
+                if($query->execute()) {
+                    $res = true;
+                }
+                $query->close();
+                mysqli_close($connection);
+            }
+            return $res;
+        }
+
+    }
+
 
     class LoadSites {
         private $loadSite;
@@ -953,6 +1052,33 @@
             $this->setSite($site);
             return $this->loadSite;
         }
+    }
+
+    class ValidateData {
+        public function validateName($name) {
+            $res = false;
+            if (preg_match('/^[a-zA-Z0-9-]{3,30}$/', $name)) {
+               $res = true;
+            }
+            return $res; 
+        }
+
+        public function validateEmail($email) {
+            $res = false;
+            if (preg_match('/^[a-zA-Z0-9-._]+@[a-zA-Z0-9-_.]+\.[a-zA-Z]{2,25}$/', $email)) {
+               $res = true;
+            }
+            return $res; 
+        }
+
+        public function validatePassword($pass) {
+            $res = false;
+            if (preg_match('/^[a-zA-Z0-9?!#]{6,30}$/', $pass)) {
+               $res = true;
+            }
+            return $res; 
+        }
+
     }
 
 ?>

@@ -16,6 +16,7 @@
     $favouritesQuestions = $userData->getFavouritesQuestions($getProfile);
     $userIdentity = $userData->getUserData($getProfile);
     $username = $userIdentity['username'];
+    $email = $userIdentity['email'];
     $userSite = $userIdentity['site'];
     $userQuestions = $questionsData->getAddedQuestionsToProfileSite($username);
     $userAnswears = $answearsData->getAddedAnswearsToProfileSite($username);
@@ -53,7 +54,7 @@
                 $checkPass = password_verify($oldPass, $userVerify['pass']);
                 if ($checkPass) {
                     $newPass = password_hash("$newPass", PASSWORD_ARGON2I);
-                    if($userData->changeUserPasword($newPass, $username)) {
+                    if($userData->changeUserPasword($newPass, $email)) {
                         $message = $displayLang['pass_changed'];
                     } else {
                         $message = $displayLang['pass_not_changed'];

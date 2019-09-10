@@ -12,7 +12,8 @@
         if (empty($userName) || empty($email) || empty($pass)) {
             $message = "Please fill all fields!";
         } else {
-            if (!(preg_match('/^[a-zA-Z0-9-]{3,30}$/', $userName))) {
+            $validateData = new ValidateData();
+            if (!$validateData->validateName($userName)) {
                 $message = "Please enter valid username. You can use lowercase and uppercase letters, digits and dash";
                 return;
             } 
@@ -20,12 +21,12 @@
                 $message = "This user name is already taken";
                 return;
             }
-            else if (!(preg_match('/^[a-zA-Z0-9-._]+@[a-zA-Z0-9-_.]+\.[a-zA-Z]{2,25}$/', $email))) {
+            else if (!$validateData->validateEmail($email)) {
                 $message = "Please enter valid email. You can use lowercase and uppercase letters, digits, dots and dash";
                 return;
             }
             // password must have 6-30 characters and only letters, numbers or characters ?!#
-            else if (!(preg_match('/^[a-zA-Z0-9?!#]{6,30}$/', $pass))) {
+            else if (!$validateData->validatePassword($pass)) {
                 $message = "Please enter valid password. You can use lowercase and uppercase letters, digits and characters ?!#. Password must have at least 6 characters";
                 return;
             }
