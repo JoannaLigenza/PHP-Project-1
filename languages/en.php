@@ -52,6 +52,7 @@
         "your_website" => "Your Website",
         "change" => "Change",
         "change_password" => "Change Password",
+        "confirm_password" => "confirm password",
         "old_password" => "Old password",
         "new_password" => "New password",
         "added_questions" => "Added questions:",
@@ -73,7 +74,16 @@
         "most_questions_added_by" => "Most questions added by:",
         "most_answears_added_by" => "Most answears added by:",
         "download_basic_git_command" => "Download basic git commands in PDF",
-        "contact" => "Contact"
+        "contact" => "Contact",
+        "send_reset_link" => "Send reset link", 
+        "forgot_pass_paragraph" => "Enter your email below and check your email account to reset your password",
+        "fill_fields_to_send_message" => "Please fill all fields to send message",
+        "fill_fields_to_change_password" => "Please fill all fields to change password",
+        "pass_is_not_the_same" => "Password is not the same",
+        "pass_changed" => "Your password was successfully changed!",
+        "link_expired" => "This link has expired or is invalid",
+        "send_another_link" => "Send another link",
+
 
     ]
 

@@ -6,12 +6,12 @@
     $_SESSION['index'] = "noindex";
     include "../header.php";
 
-    function clickResetPassButton() {
+    function clickResetPassButton($displayLang) {
         $messageInfo = "";
         if (isset($_POST['reset-password-button'])) {
             $email = htmlspecialchars($_POST['forgot-pass-email-input'], ENT_QUOTES);
             if (empty($email)) {
-                $messageInfo = "Please fill all fields to send message";
+                $messageInfo = $displayLang["fill_fields_to_send_message"];
             } else {
                 include "../contact/send-message.php";
                 $remindPassword = new RemindPassword();
@@ -31,7 +31,7 @@
         }
         return $messageInfo;
     }
-    $messageInfo = clickResetPassButton();
+    $messageInfo = clickResetPassButton($displayLang);
 
     function randomString() {
         $n = 20;
@@ -48,10 +48,10 @@
 <div class="gray-background">
     <div class="card text-center py-5 gray-background vh-100">
         <div class="card-body py-5">
-            <p class="pb-4">Enter your email below and check your email account to reset your password.</p>
+            <p class="pb-4"> <?php echo $displayLang["forgot_pass_paragraph"] ?> </p>
             <form action="" method="post">
                 <input type="email" placeholder=<?php echo $displayLang["email"] ?> name="forgot-pass-email-input" id="forgot-pass-email-input" class="container form-control form-control-lg shadow-none" autofocus>
-                <button type="submit" name="reset-password-button" class="container btn btn-outline-warning my-2 py-2" id="reset-password-button">Send reset link</button>
+                <button type="submit" name="reset-password-button" class="container btn btn-outline-warning my-2 py-2" id="reset-password-button"> <?php echo $displayLang["send_reset_link"] ?> </button>
             </form>
             <p class="mt-5"> <?php echo $messageInfo ?> </p>
             <div class="py-5">

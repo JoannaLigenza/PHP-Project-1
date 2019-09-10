@@ -52,6 +52,7 @@
         "your_website" => "Twoja strona",
         "change" => "Zmień",
         "change_password" => "Zmień hasło",
+        "confirm_password" => "potwierdź hasło",
         "old_password" => "Stare hasło",
         "new_password" => "Nowe hasło",
         "added_questions" => "Dodane pytania:",
