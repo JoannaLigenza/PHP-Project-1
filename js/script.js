@@ -28,7 +28,7 @@ $("document").ready(function(){
             const currentLang = window.location.pathname;
             // setting ajax options - site to load, method, data passed in to .php file, 
             $.ajax({
-                url     :   '../favourites-js.php',
+                url     :   '../form-veryfication/favourites-js.php',
                 method  :   'post',
                 dataType:   'json',
                 data    :   {'isLoggedInName': isLoggedInName, currentLang: currentLang},
@@ -84,7 +84,7 @@ $("document").ready(function(){
                 }
             } else {
                 $.ajax({
-                    url     :   '../favourites-js.php',
+                    url     :   '../form-veryfication/favourites-js.php',
                     method  :   'post',
                     dataType:   'json',
                     data    :   {clickedArr: clickedArr, answearId: answearId, arrDirection: arrDirection, currentLang: path},
@@ -127,6 +127,7 @@ $("document").ready(function(){
 
 
     // FORM VALIDATION FUNCTIONS //
+    // SIGNIN FORM
     function checkValidation(hook) {
         const path = window.location.pathname;
         const lang = path.split("/")[1];
@@ -135,23 +136,35 @@ $("document").ready(function(){
         let text;
         if (hook === "#signin-username") {
             reg = /^[a-z0-9-]{3,30}$/i;
-            text = "username";
+            if (lang === "pl") {
+                text = "Wprowadź poprawną nazwę użytkownika";
+            } else {
+                text = "Please enter valid username";
+            }
         }
         if (hook === "#signin-email") {
             reg = /^[A-Z0-9-._]+@[A-Z0-9-._]+\.[A-Z]{2,25}$/i;
-            text = "email";
+            if (lang === "pl") {
+                text = "Wprowadź poprawny email";
+            } else {
+                text = "Please enter valid email";
+            }
         }
         if (hook === "#signin-pass") {
             reg = /^[a-zA-Z0-9?!#]{6,30}$/i;
-            text = "password";
+            if (lang === "pl") {
+                text = "Wprowadź poprawne hasło";
+            } else {
+                text = "Please enter valid password";
+            }
         }
         if (!reg.test(inputValue)) {
             $(hook).addClass("red-border");
             $("#signin-button").prop("disabled",true);
             if (lang === "pl") {
-                $("#signin-form p").text("Wprowadź poprawny "+text);
+                $("#signin-form p").text(text);
             } else if (lang === "en") {
-                $("#signin-form p").text("Please enter valid "+text);
+                $("#signin-form p").text(text);
             }
             return false;
         } else {
@@ -163,14 +176,14 @@ $("document").ready(function(){
     }
 
     // validation inputs on signin form
-    function validateInputs(hook)  {
+    function signinValidateInputs(hook)  {
         $(hook).on("input", function() {
             checkValidation(hook);
         });
     }
-    validateInputs("#signin-username");
-    validateInputs("#signin-email");
-    validateInputs("#signin-pass");
+    signinValidateInputs("#signin-username");
+    signinValidateInputs("#signin-email");
+    signinValidateInputs("#signin-pass");
     
 
     // checking if username or email are already taken
@@ -191,7 +204,7 @@ $("document").ready(function(){
                 passedData = {email: inputValue}
             }
             let options = {
-                url     :   '../userdata-veryfication-js.php',
+                url     :   '../form-veryfication/userdata-veryfication-js.php',
                 method  :   'post',
                 dataType:   'json',
                 data    :   passedData,
@@ -221,7 +234,7 @@ $("document").ready(function(){
 
 
     // signin form validation on submit 
-    function submitValidation() {
+    function signinSubmitValidation() {
         $("#signin-form").on("submit", function(e) {
             e.preventDefault();
            // console.log("event ", e);
@@ -229,12 +242,18 @@ $("document").ready(function(){
             const email = $("#signin-email").val();
             const password = $("#signin-pass").val();
             const signinButton = $("#signin-button").attr('name');
+            const path = window.location.pathname;
+            const lang = path.split("/")[1];
 
             if (!username || !email || !password) {
-                $("#signin-form p").text("Please fill all fields!");
+                if (lang === "pl") {
+                    $("#signin-form p").text("Proszę, wypełnij wszystkie pola!");
+                } else {
+                    $("#signin-form p").text("Please fill all fields!");
+                }
             } else {
                 $.ajax({
-                    url     :   '../userdata-veryfication-js.php',
+                    url     :   '../form-veryfication/userdata-veryfication-js.php',
                     method  :   'post',
                     dataType:   'json',
                     data    :   {signinButton: signinButton, 'signin-username': username, 'signin-email': email, 'signin-pass': password},
@@ -247,6 +266,118 @@ $("document").ready(function(){
             }
         })
     }
-    submitValidation();
+    signinSubmitValidation();
+
+    // LOGIN FORM
+    // login form validation on submit
+    function loginSubmitValidation() {
+        $("#login-form").on("submit", function(e) {
+            e.preventDefault();
+           // console.log("event ", e);
+            const email = $("#login-email").val();
+            const password = $("#login-pass").val();
+            const loginButton = $("#login-button").attr('name');
+            const path = window.location.pathname;
+            const lang = path.split("/")[1];
+
+            if (!email || !password) {
+                if (lang === "pl") {
+                    $("#login-form p").text("Proszę, wypełnij wszystkie pola!");
+                } else {
+                    $("#login-form p").text("Please fill all fields!");
+                }
+            } else {
+                $.ajax({
+                    url     :   '../form-veryfication/login-veryfication-js.php',
+                    method  :   'post',
+                    dataType:   'json',
+                    data    :   {loginButton: loginButton, 'login-email': email, 'login-pass': password},
+                    success :   function(response) {
+                        if (response === 1) {
+                            window.location.replace("/"+lang+"/");
+                        } else {
+                            if (lang === "pl") {
+                                $("#login-form p").text("Wprowadź poprawny email i hasło");
+                            } else {
+                                $("#login-form p").text("Please enter valid email and password");
+                            }
+                        }
+                    }
+                }) 
+            }
+        })
+    }
+    loginSubmitValidation();
+
+    // forgot password validation on submit
+    function forgotPassSubmitValidation() {
+        $("#forgot-password-form").on("submit", function(e) {
+            e.preventDefault();
+            const email = $("#forgot-pass-email-input").val();
+            const sendLinkButton = $("#remind-password-button").attr('name');
+            const path = window.location.pathname;
+            const lang = path.split("/")[1];
+
+            if (!email) {
+                if (lang === "pl") {
+                    $("#forgot-password-form p").text("Podaj adres email");
+                } else {
+                    $("#forgot-password-form p").text("Enter email address");
+                }
+            } else {
+                $("#forgot-password-form p").text(lang === "pl" ? "Czekaj chwilkę..." : "Wait a moment...");
+                $.ajax({
+                    url     :   '../form-veryfication/login-veryfication-js.php',
+                    method  :   'post',
+                    dataType:   'json',
+                    data    :   {sendLinkButton: sendLinkButton, 'forgot-pass-email': email, "lang": lang},
+                    success :   function(response) {
+                        if (response[0] === 1) {
+                            $("#forgot-password-form p").text(response[1]);
+                        }
+                    }
+                }) 
+            }
+        })
+    }
+    forgotPassSubmitValidation();
+
+    // reset password validation on submit
+    function resetPassValidation() {
+        $("#reset-password-form").on("submit", function(e) {
+            e.preventDefault();
+            const newPass = $("#change-pass-input").val();
+            const newPassConfirm = $("#confirm-change-pass-input").val();
+            const resetPassButton = $("#change-password-button").attr('name');
+            const path = window.location.pathname;
+            const lang = path.split("/")[1];
+            const url = window.location.href;
+            const token = url.split("=")[1];
+
+            if (!newPass || !newPassConfirm) {
+                if (lang === "pl") {
+                    $("#reset-password-form p").text("Proszę, wypełnij wszystkie pola!");
+                } else {
+                    $("#reset-password-form p").text("Please fill all fields");
+                }
+            } else {
+                $.ajax({
+                    url     :   '../form-veryfication/login-veryfication-js.php',
+                    method  :   'post',
+                    dataType:   'json',
+                    data    :   {resetPassButton: resetPassButton, 'reset-pass-email': newPass, 'reset-pass-email-confirm': newPassConfirm, 'token': token},
+                    success :   function(response) {
+                        if (response[0] === 1) {
+                            $("#reset-password-form p").text(response[1]);
+                        }
+                    }
+                }) 
+            }
+        })
+    }
+    resetPassValidation();
+
     // FORM VALIDATION FUNCTIONS - END //
+
+
 });

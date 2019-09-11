@@ -8,11 +8,11 @@
     $loadSite = new LoadSites();
 
     if (isset($_POST['login-button'])) {
-        $email = htmlspecialchars($_POST['login-username'], ENT_QUOTES);
+        $email = htmlspecialchars($_POST['login-email'], ENT_QUOTES);
         $pass = htmlspecialchars($_POST['login-pass'], ENT_QUOTES);
 
         if (empty($email) || empty($pass)) {
-            $message = "Please fill all fields!";
+            $message = $displayLang["fill_all_fields"];
         } else {
             $userdata = $userData->getUserVeryficationData($email);
             $checkPass = password_verify($pass, $userdata['pass']);
@@ -23,7 +23,7 @@
                 $url = $_SERVER['REQUEST_URI'];
                 header('Location: /'.$_SESSION['lang'].'/');
             } else {
-                $message = "Please enter valid email and password";
+                $message = $displayLang["enter_valid_email_and_password"];
             }
         }
     }
@@ -39,7 +39,7 @@
         <div class="card-body py-5">
 
             <form action="" method="post" id="login-form">
-                <input type="email" placeholder=<?php echo $displayLang["email"] ?> name="login-username" class="container form-control form-control-lg shadow-none" id="login-username" autofocus>
+                <input type="email" placeholder=<?php echo $displayLang["email"] ?> name="login-email" class="container form-control form-control-lg shadow-none" id="login-email" autofocus>
                 <input type="password" placeholder=<?php echo $displayLang["password"] ?> name="login-pass" class="container form-control form-control-lg my-3 shadow-none" id="login-pass" >
 
                 <p class='mt-3 text-danger'><?php echo $message ?> </p>

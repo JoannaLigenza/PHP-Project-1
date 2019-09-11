@@ -56,12 +56,12 @@
         <?php else : ?>
             <div class="card-body py-5">
                 <!-- <p class="pb-4">Enter your email below and check your email account to reset your password.</p> -->
-                <form action="" method="post">
+                <form action="" method="post" id="reset-password-form">
                     <input type="password" placeholder=<?php echo "'".$displayLang["new_password"]."'" ?> name="change-pass-input" id="change-pass-input" class="container form-control form-control-lg shadow-none mb-3" autofocus>
                     <input type="password" placeholder=<?php echo "'".$displayLang["confirm_password"]."'" ?> name="confirm-change-pass-input" id="confirm-change-pass-input" class="container form-control form-control-lg shadow-none mb-3">
                     <button type="submit" name="change-password-button" class="container btn btn-outline-warning my-2 py-2" id="change-password-button"><?php echo $displayLang["change_password"] ?></button>
+                    <p class="mt-5"> <?php echo $messageInfo ?> </p>
                 </form>
-                <p class="mt-5"> <?php echo $messageInfo ?> </p>
                 <div class="py-5">
                     <?php echo $displayLang["back_to"] ?> <a href="../login"><?php echo $displayLang["login"] ?></a>
                 </div>

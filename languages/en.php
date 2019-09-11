@@ -77,12 +77,15 @@
         "contact" => "Contact",
         "send_reset_link" => "Send reset link", 
         "forgot_pass_paragraph" => "Enter your email below and check your email account to reset your password",
+        "fill_all_fields" => "Please fill all fields!",
         "fill_fields_to_send_message" => "Please fill all fields to send message",
         "fill_fields_to_change_password" => "Please fill all fields to change password",
         "pass_is_not_the_same" => "Password is not the same",
         "pass_changed" => "Your password was successfully changed!",
         "link_expired" => "This link has expired or is invalid",
         "send_another_link" => "Send another link",
+        "enter_valid_email_and_password" => "Please enter valid email and password",
+        "user_dont_exist" => "User don't exist. Please sign in first"
 
 
     ]
