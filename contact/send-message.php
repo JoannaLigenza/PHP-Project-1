@@ -19,13 +19,13 @@
         $mail->SMTPAuth = true;
         $mail->SMTPSecure = 'tls';                                              // or: "ssl" (with: $mail->Port = 465;)
         $mail->Port = 587;                                                      // or: 465  (with $mail->SMTPSecure = 'ssl';)
-        $mail->Username = $mail;
+        $mail->Username = $from ;
         $mail->Password = $mailPass;
 
         //Email settings
         $mail->isHTML(true);
         $mail->setFrom($email, $name);
-        $mail->addAddress($mail, "love-coding.pl");         // user address / user name
+        $mail->addAddress($from , "love-coding.pl");         // user address / user name
         $mail->addReplyTo($email, $name);                                       // email address / decription
         $mail->addBCC($mailBCC);
         if ($lang === "pl") {
@@ -67,14 +67,14 @@
         $mail->SMTPAuth = true;
         $mail->SMTPSecure = 'tls';                                              // or: "ssl" (with: $mail->Port = 465;)
         $mail->Port = 587;                                                      // or: 465  (with $mail->SMTPSecure = 'ssl';)
-        $mail->Username = $mail;
+        $mail->Username = $from ;
         $mail->Password = $mailPass;
 
         //Email settings
         $mail->isHTML(true);
-        $mail->setFrom($mail, "love-coding.pl");
+        $mail->setFrom($from, "love-coding.pl");
         $mail->addAddress($email, $email);                  // user address / user name
-        $mail->addReplyTo($mail, "love-coding.pl");        // email address / decription
+        $mail->addReplyTo($from, "love-coding.pl");        // email address / decription
         $mail->addBCC($mailBCC);
         if ($lang === "pl") {
             $mail->Subject = "Instrukcja zmiany hasła - love-coding.pl pytania rekrutacyjne dla Front-end developerów";
