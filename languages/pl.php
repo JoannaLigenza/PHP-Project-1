@@ -74,7 +74,15 @@
         "most_questions_added_by" => "Najwięcej pytań dodali:",
         "most_answears_added_by" => "Najwięcej odpowiedzi dodali:",
         "download_basic_git_command" => "Pobierz podstawowe komendy git w PDF",
-        "contact" => "Kontakt"
+        "contact" => "Kontakt",
+        "send_reset_link" => "Wyślij link resetujący", 
+        "forgot_pass_paragraph" => "Aby ustawić nowe hasło podaj swój email i sprawdź skrzynkę pocztową",
+        "fill_fields_to_send_message" => "Wypełnij wszystkie pola by wysłać wiadomość",
+        "fill_fields_to_change_password" => "Wypełnij wszystkie pola by zmienić hasło",
+        "pass_is_not_the_same" => "Wprowadzono dwa różne hasła",
+        "pass_changed" => "Hasło zostało pomyślnie zmienione!",
+        "link_expired" => "Ten link wygasł lub jest nieprawidłowy",
+        "send_another_link" => "Wyślij kolejny link resetujący hasło",
     ]
 
 
