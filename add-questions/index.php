@@ -13,8 +13,9 @@
     //$questionData = $displayQuestionsData->getQuestions();
 
     if (isset($_POST["add-question-button"])) {
-        $category = $_POST['select-category'];
-        $title = $_POST['question-title-textarea'];
+        // Convert special characters like < " > to HTML entities ( &lt; &quot; &gt;), so user cannot make script injections
+        $category = htmlspecialchars($_POST['select-category'], ENT_QUOTES);
+        $title = htmlspecialchars($_POST['question-title-textarea'], ENT_QUOTES);
         $author = $_SESSION['username'];
         if ($displayQuestionsData->addQuestion($category, $title, $author)){
             $isQuestionAdded = true;
