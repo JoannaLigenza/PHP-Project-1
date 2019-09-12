@@ -32,7 +32,7 @@
         <div class="container-fluid p-0">
             <div class="row justify-content-center my-4 mx-0">
                 <!-- LEFT COL -->
-                <main class="col-md-7 col-xl-6">
+                <main class="col-md-7 col-xl-6 pb-5">
 
                     <div class="d-flex flex-row justify-content-end">
                         <div class="container-flex justify-content-center">
@@ -81,8 +81,13 @@
                                 </div> -->
                                 <div class="break-div"></div>
                                 <div class="flex-grow-1">
+                                    <!-- question category -->
                                     <div class="container-fluid bg-gradient-warning border-bottom border-warning py-1 h4"><h3 class="h2-size"> <?php echo $getQuestionData[$i]['category']; ?> </h3></div>
-                                    <h2 class="p-2 text-left h2-size word-break"><?php echo nl2br($getQuestionData[$i]['title']); ?></h2>
+                                    <!-- question title -->
+                                    <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$getQuestionData[$i]['id'] ?> style="color: #212529">
+                                        <h2 class="p-2 text-left h2-size word-break"><?php echo nl2br($getQuestionData[$i]['title']); ?></h2>
+                                    </a>
+                                    <!-- question answears number -->
                                     <div class="d-flex flex-row justify-content-center align-items-center">
                                         <img src="img/arr-down-b.svg" class="h-100" alt="arr-down-icon"> 
                                         <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$getQuestionData[$i]['id'] ?> >
@@ -90,6 +95,7 @@
                                         </a>
                                     </div>
                                 </div>
+                                <!-- add to favourites -->
                                 <div class="d-flex flex-column align-items-start py-2 px-3">
                                     <span data-toggle="tooltip" title="<?php echo $displayLang["add_to_favourites"] ?>" data-placement="bottom">
                                         <form action="" method="post">

@@ -92,7 +92,7 @@
                         echo (!empty($userSite)) ? "<p>".$displayLang['your_website'].": <a href=$userSite target='_blank' rel='nofollow noopener noreferrer'>$userSite</a></p>" : null
                     ?>  
                         <form action=<?php echo basename($_SERVER['REQUEST_URI']) ?> method="post">
-                            <button type="submit" name="show-add-link-div" id="show-add-link-div" class="btn p-0 box-shadow" data-visible=<?php echo $showAddLink ?> > <?php echo $displayLang['change_link'] ?></button>
+                            <button type="submit" name="show-add-link-div" id="show-add-link-div" class="btn p-0 pb-3 box-shadow " data-visible=<?php echo $showAddLink ?> ><u> <?php echo $displayLang['change_link'] ?> </u></button>
                         </form>
                         <?php if ($showAddLink) : ?>
                         <div class="border border-warning rounded d-flex justify-content-center d-md-inline-flex p-3" id="hidden-div">

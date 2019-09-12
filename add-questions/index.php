@@ -17,15 +17,17 @@
         $category = htmlspecialchars($_POST['select-category'], ENT_QUOTES);
         $title = htmlspecialchars($_POST['question-title-textarea'], ENT_QUOTES);
         $author = $_SESSION['username'];
-        if ($displayQuestionsData->addQuestion($category, $title, $author)){
-            $isQuestionAdded = true;
-            $lang = $_SESSION['lang'];
-            $lastIndex = $displayQuestionsData->lastQuestionIndex();
-            $site = "question";
-            if ($_SESSION['lang'] === 'pl') {
-                $site = "pytanie";
+        if(!empty($title)) {
+            if ($displayQuestionsData->addQuestion($category, $title, $author)){
+                $isQuestionAdded = true;
+                $lang = $_SESSION['lang'];
+                $lastIndex = $displayQuestionsData->lastQuestionIndex();
+                $site = "question";
+                if ($_SESSION['lang'] === 'pl') {
+                    $site = "pytanie";
+                }
+                header("Location: /".$lang."/".$site."?id=".$lastIndex);
             }
-            header("Location: /".$lang."/".$site."?id=".$lastIndex);
         }
     }
     
@@ -34,7 +36,7 @@
         <div class="container-fluid">
             <div class="row justify-content-center my-4 mx-0">
                 <!-- LEFT COL -->
-                <main class="col-md-7 col-xl-6">
+                <main class="col-md-7 col-xl-6 mb-5">
                     <?php if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']===true): ?>
                     <div>
                         <form action="" method="post">
@@ -80,7 +82,7 @@
                 <!-- END LEFT COL -->
 
                 <!-- RIGHT COL -->
-                <div class="col-md-4 col-xl-3">
+                <div class="d-none d-md-block col-md-4 col-xl-3">
                     <?php include "../right-col.php" ?>
                 </div>
                 <!-- END RIGHT COL -->

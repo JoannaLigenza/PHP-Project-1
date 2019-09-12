@@ -320,7 +320,7 @@
                 <!-- END LEFT COL -->
 
                 <!-- RIGHT COL -->
-                <div class="col-md-4 col-xl-3">
+                <div class="d-none d-md-block col-md-4 col-xl-3">
                     <?php include "../right-col.php" ?>
                 </div>
                 <!-- END RIGHT COL -->
