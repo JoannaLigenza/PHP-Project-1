@@ -167,9 +167,6 @@
             $connection = $this->connectionToDb();
             $lang = $_SESSION['lang'];
             $date = date("Y-m-d");
-            // Convert special characters like < " > to HTML entities ( &lt; &quot; &gt;), so user cannot make script injections
-            $category = htmlspecialchars($category, ENT_QUOTES);
-            $title = htmlspecialchars($title, ENT_QUOTES);
             // Prepared Statement send query and the data to the database separatly, not as one query.
             $query = $connection->prepare("INSERT INTO questions SET lang = ?, category = ?, title = ?, answears = 0, author = ?, date = ?, votes = 0;");
             if ($query) {
@@ -365,7 +362,6 @@
             $res = false;
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
-            $answear = htmlspecialchars($answear, ENT_QUOTES);
             $link = htmlspecialchars($link, ENT_QUOTES);
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");

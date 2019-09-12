@@ -39,7 +39,7 @@
     
 
     if (isset($_POST['add-answear-button'])) {
-        $answear = $_POST['answear-textarea'];
+        $answear = htmlspecialchars($_POST['answear-textarea'], ENT_QUOTES);
         $author = $_SESSION['username'];
         //echo $answear;
         if(!empty($answear)) {
@@ -266,10 +266,8 @@
                                         
                                         <!--  ANSWEAR TEXT  -->
                                         <div class="bg-light rounded-right p-2 text-left flex-fill">
-                                            <p class="word-break"> 
-                                                <!-- nl2br() - displays enters -->
-                                                <?php echo nl2br($getAnswears[$i]['answear_text'], false) ; ?>
-                                            </p>
+                                            <!-- white-space: pre-wrap - displays indentation (wciecia tekstu). Below code must be written in one line // or may use nl2br() - to displays enters -->
+                                            <p class="word-break" style="white-space: pre-wrap;"><?php echo $getAnswears[$i]['answear_text'] ; ?></p>
                                         </div>
                                     </div>                                   
                                 </section>
