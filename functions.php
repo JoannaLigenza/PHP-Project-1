@@ -316,7 +316,7 @@
             $latestQuestionsArr = [];
             settype($limit, "integer");
             $connection = $this->connectionToDb();
-            $query = $connection->prepare("SELECT category, title FROM questions ORDER BY id DESC LIMIT ?");
+            $query = $connection->prepare("SELECT id, author, title, lang FROM questions ORDER BY id DESC LIMIT ?");
             if($query) {
                 $query->bind_param("i", $limit);
                 if($query->execute()) {
@@ -559,7 +559,7 @@
             $latestAnswearsArr = [];
             settype($limit, "integer");
             $connection = $this->connectionToDb();
-            $query = $connection->prepare("SELECT answear_text, author FROM answears ORDER BY id DESC LIMIT ?");
+            $query = $connection->prepare("SELECT answear_text, to_question, lang, author FROM answears ORDER BY id DESC LIMIT ?");
             if($query) {
                 $query->bind_param("i", $limit);
                 if($query->execute()) {
