@@ -1045,6 +1045,12 @@
                 } else {
                     $this->loadSite = "remind-password";
                 }
+            } else if ($site === "contact") {
+                if ($lang === 'pl') {
+                    $this->loadSite = "kontakt";
+                } else {
+                    $this->loadSite = "contact";
+                }
             }
         }
 
@@ -1057,7 +1063,7 @@
     class ValidateData {
         public function validateName($name) {
             $res = false;
-            if (preg_match('/^[a-zA-Z0-9-]{3,30}$/', $name)) {
+            if (preg_match('/^[a-z0-9-śćąężźńłó]{3,30}$/i', $name)) {
                $res = true;
             }
             return $res; 

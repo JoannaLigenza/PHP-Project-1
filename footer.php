@@ -1,4 +1,6 @@
-        
+<?php
+    $loadSites = new LoadSites();
+?>
 
     </div>
 
@@ -7,7 +9,7 @@
         <div class="container mt-3">
             <div class="row">
                 <div class="col-6">
-                    <a href="" class="text-white">Kontakt</a>
+                    <a href=<?php echo "/".$_SESSION['lang']."/".$loadSites->loadSite("contact") ?> class="text-white">Kontakt</a>
                 </div>
             </div>
             

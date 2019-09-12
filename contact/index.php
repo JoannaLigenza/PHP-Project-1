@@ -9,9 +9,9 @@
 
     function clickContactButton() {
         $messageInfo = "";
-        if (isset($_POST['send-message-button'])) {
-            $name = htmlspecialchars($_POST['user-name'], ENT_QUOTES);
-            $email = htmlspecialchars($_POST['send-email'], ENT_QUOTES);
+        if (isset($_POST['send-contact-message-button'])) {
+            $name = htmlspecialchars($_POST['user-name-contact-input'], ENT_QUOTES);
+            $email = htmlspecialchars($_POST['email-contact-input'], ENT_QUOTES);
             $message = htmlspecialchars($_POST['contact-textarea'], ENT_QUOTES);
             if (empty($name) || empty($email) || empty($message)) {
                 $messageInfo = "Please fill all fields to send message";
@@ -39,14 +39,14 @@
         <!-- <h3>Dołącz, by dodać nowe pytania i odpowiedzi do bazy wiedzy dla Junior Front-end Developerów</h3> -->
         <div class="card-body py-5">
             <p class="pb-4">Jeśli masz jakieś pytania lub uwagi, napisz do mnie :)</p>
-            <form action="" method="post">
-                <input type="text" name="user-name" placeholder="name" class="container form-control form-control-lg shadow-none mb-2" >
-                <input type="email" name="send-email" placeholder=<?php echo $displayLang["email"] ?> class="container form-control form-control-lg shadow-none mb-2" >
+            <form action="" method="post" id="contact-form">
+                <input type="text" name="user-name-contact-input" placeholder="name" class="container form-control form-control-lg shadow-none mb-2" id="user-name-contact-input">
+                <input type="email" name="email-contact-input" placeholder=<?php echo $displayLang["email"] ?> class="container form-control form-control-lg shadow-none mb-2" id="email-contact-input">
                 <textarea name="contact-textarea" id="contact-textarea" cols="30" rows="7" class="container form-control form-control-lg shadow-none" ></textarea>
-                <button type="submit" name="send-message-button" class="container btn btn-outline-warning my-2 py-2" id="send-message-button">Send</button>
+                <button type="submit" name="send-contact-message-button" class="container btn btn-outline-warning my-2 py-2" id="send-contact-message-button">Send</button>
+                <p class="mt-4"> <?php echo $messageInfo ?> </p>
             </form>
         </div>
-        <p> <?php echo $messageInfo ?> </p>
     </div>
 </div>
 

@@ -135,7 +135,7 @@ $("document").ready(function(){
         let reg;
         let text;
         if (hook === "#signin-username") {
-            reg = /^[a-z0-9-]{3,30}$/i;
+            reg = /^[a-z0-9-śćąężźńłó]{3,30}$/i;
             if (lang === "pl") {
                 text = "Wprowadź poprawną nazwę użytkownika";
             } else {
@@ -309,7 +309,7 @@ $("document").ready(function(){
     }
     loginSubmitValidation();
 
-    // forgot password validation on submit
+    // password validation on submit on forgot password page
     function forgotPassSubmitValidation() {
         $("#forgot-password-form").on("submit", function(e) {
             e.preventDefault();
@@ -327,13 +327,14 @@ $("document").ready(function(){
             } else {
                 $("#forgot-password-form p").text(lang === "pl" ? "Czekaj chwilkę..." : "Wait a moment...");
                 $.ajax({
-                    url     :   '../form-veryfication/login-veryfication-js.php',
+                    url     :   '../form-veryfication/forgot-reset-password-js.php',
                     method  :   'post',
                     dataType:   'json',
                     data    :   {sendLinkButton: sendLinkButton, 'forgot-pass-email': email, "lang": lang},
                     success :   function(response) {
                         if (response[0] === 1) {
                             $("#forgot-password-form p").text(response[1]);
+                            $("#forgot-pass-email-input").val("");
                         }
                     }
                 }) 
@@ -342,7 +343,7 @@ $("document").ready(function(){
     }
     forgotPassSubmitValidation();
 
-    // reset password validation on submit
+    // password validation on submit on reset password page
     function resetPassValidation() {
         $("#reset-password-form").on("submit", function(e) {
             e.preventDefault();
@@ -353,6 +354,7 @@ $("document").ready(function(){
             const lang = path.split("/")[1];
             const url = window.location.href;
             const token = url.split("=")[1];
+            const regPass = /^[a-zA-Z0-9?!#]{6,30}$/i;
 
             if (!newPass || !newPassConfirm) {
                 if (lang === "pl") {
@@ -360,15 +362,23 @@ $("document").ready(function(){
                 } else {
                     $("#reset-password-form p").text("Please fill all fields");
                 }
+            } else if (!regPass.test(newPass)) {
+                if (lang === "pl") {
+                    $("#reset-password-form p").text("Wprowadź poprawne hasło. Możesz użyć dużych i małych liter, cyfr oraz znaków ?!# . Hasło musi mieć od 6 do 30 znaków");
+                } else {
+                    $("#reset-password-form p").text("Please enter valid password. You can use lowercase, uppercase, digits and ?!# signs. Password must have from6 to 30 signs");
+                }
             } else {
                 $.ajax({
-                    url     :   '../form-veryfication/login-veryfication-js.php',
+                    url     :   '../form-veryfication/forgot-reset-password-js.php',
                     method  :   'post',
                     dataType:   'json',
                     data    :   {resetPassButton: resetPassButton, 'reset-pass-email': newPass, 'reset-pass-email-confirm': newPassConfirm, 'token': token},
                     success :   function(response) {
                         if (response[0] === 1) {
                             $("#reset-password-form p").text(response[1]);
+                            $("#change-pass-input").val("");
+                            $("#confirm-change-pass-input").val("");
                         }
                     }
                 }) 
@@ -376,6 +386,56 @@ $("document").ready(function(){
         })
     }
     resetPassValidation();
+
+    // contact form validation 
+    function contactFormValidation() {
+        $("#contact-form").on("submit", function(e) {
+            e.preventDefault();
+            const userName = $("#user-name-contact-input").val();
+            const userEmail = $("#email-contact-input").val();
+            const textareaMessage = $("#contact-textarea").val();
+            const sendMessageButton = $("#send-contact-message-button").attr('name');
+            const path = window.location.pathname;
+            const lang = path.split("/")[1];
+            const regName = /^[a-zśćąężźńłó]{3,30}$/i;
+            const regEmail = /^[A-Z0-9-._]+@[A-Z0-9-._]+\.[A-Z]{2,25}$/i;
+
+            if (!userName || !userEmail || !textareaMessage) {
+                if (lang === "pl") {
+                    $("#contact-form p").text("Proszę, wypełnij wszystkie pola");
+                } else {
+                    $("#contact-form p").text("Please fill all fields");
+                }
+            } else if (!regName.test(userName)) {
+                if (lang === "pl") {
+                    $("#contact-form p").text("Wprowadź poprawne imię. Możesz użyć dużych i małych liter");
+                } else {
+                    $("#contact-form p").text("Please enter valid name");
+                }
+            } else if (!regEmail.test(userEmail)) {
+                if (lang === "pl") {
+                    $("#contact-form p").text("Wprowadź poprawny email");
+                } else {
+                    $("#contact-form p").text("Please enter valid email");
+                }
+            } else {
+                $("#contact-form p").text(lang === "pl" ? "Czekaj chwilkę..." : "Wait a moment...");
+                $.ajax({
+                    url     :   '../form-veryfication/contact-form-js.php',
+                    method  :   'post',
+                    dataType:   'json',
+                    data    :   {sendMessageButton: sendMessageButton, userName: userName, userEmail: userEmail, textareaMessage: textareaMessage},
+                    success :   function(response) {
+                        $("#contact-form p").text(response);
+                        $("#user-name-contact-input").val("");
+                        $("#email-contact-input").val("");
+                        $("#contact-textarea").val("");
+                    }
+                }) 
+            }
+        })
+    }
+    contactFormValidation();
 
     // FORM VALIDATION FUNCTIONS - END //
 
