@@ -39,6 +39,7 @@
         "top_rated" => "Najlepiej oceniane",
         "most_answears" => "Najwięcej odpowiedzi",
         "adding_date" => "Data dodania",
+        "adding_date_newest" => "Najnowsze",
         "no-question" => "Nie dodano jeszcze pytań",
         "answears" => "Odpowiedzi",
         "email" => "email",

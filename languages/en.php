@@ -39,6 +39,7 @@
         "top_rated" => "Top rated",
         "most_answears" => "Most Answears",
         "adding_date" => "Adding date",
+        "adding_date_newest" => "Newest",
         "no-question" => "No questions yet",
         "answears" => "Answears",
         "email" => "email",

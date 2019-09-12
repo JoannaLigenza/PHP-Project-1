@@ -86,6 +86,10 @@
                $_SESSION['queston-sort'] = "date";
                header("Location: $getPathToNavigation");
             }
+            if (isset($_POST['adding-date-newest'])) {
+               $_SESSION['queston-sort'] = "date-newest";
+               header("Location: $getPathToNavigation");
+            }
             if (isset($_POST['most-answears'])) {
                $_SESSION['queston-sort'] = "answears";
                header("Location: $getPathToNavigation");
@@ -127,6 +131,8 @@
             $lang = $_SESSION['lang'];
             if (!isset($_SESSION['queston-sort']) || $_SESSION['queston-sort'] === "date") {
                 $order = "date";
+            } else if ($_SESSION['queston-sort'] === "date-newest") {
+                $order = "date DESC";
             } else {
                 $order = $_SESSION['queston-sort']." DESC";
             }
