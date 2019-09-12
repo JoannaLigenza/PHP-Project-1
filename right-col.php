@@ -76,8 +76,8 @@
             </div>
         <?php endfor; ?>
     </div>
-
+    <!-- download pdf git commands -->
     <div class="bg-warning p-2 rounded mb-3"><?php echo $displayLang['developer-tools'].":"; ?></div>
     <div><h3 class="border-left border-warning px-2 font-weight-bold h6-size"><?php echo $displayLang['download_basic_git_command']; ?></h3></div>
-    <a href="/basic_git_command_pl.pdf" target="_blank"> <img src="../img/pdf.svg" alt="download-pdf-icon"> </a>
+    <a href=<?php echo "/basic_git_commands_".$_SESSION['lang'].".pdf" ?>  target="_blank"> <img src="../img/pdf.svg" alt="download-pdf-icon"> </a>
 </div>
