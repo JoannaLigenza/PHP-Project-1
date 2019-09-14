@@ -3,6 +3,7 @@
     include "../functions-run.php";
     $_SESSION['title'] = $displayLang["contact"];
     $_SESSION['description'] = $displayLang["contact"];
+    $_SESSION['index'] = "index";
     include "../header.php";
 
     //$messageInfo = "";

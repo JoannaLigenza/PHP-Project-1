@@ -2,6 +2,7 @@
     include "signin-functions.php";
     $_SESSION['title'] = $displayLang["signin_site_title"];
     $_SESSION['signin_site_desc'] = $displayLang["site_desc"];
+    $_SESSION['index'] = "index";
     include "../header.php";
 
     $signupSuccess = false;

@@ -4,6 +4,7 @@
 
     $_SESSION['title'] = $displayLang["add_site_title"];
     $_SESSION['description'] = $displayLang["add_site_desc"];
+    $_SESSION['index'] = "index";
 
     include "../header.php";
 

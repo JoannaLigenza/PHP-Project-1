@@ -30,6 +30,7 @@
 
     $_SESSION['title'] = $displayLang["login_site_title"];
     $_SESSION['description'] = $displayLang["login_site_desc"];
+    $_SESSION['index'] = "index";
     include "../header.php";
 ?>
 

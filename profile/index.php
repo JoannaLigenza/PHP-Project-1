@@ -3,6 +3,7 @@
     include "../functions-run.php";
     $_SESSION['title'] = $displayLang["profile_site_title"];
     $_SESSION['description'] = $displayLang["profile_site_desc"];
+    $_SESSION['index'] = "index";
 
     $message= "";
     $getProfile = $_GET['profile'];

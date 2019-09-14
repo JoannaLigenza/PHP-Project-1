@@ -1,6 +1,11 @@
 html {
     --color-orange: #FFBE07;
     --color-hover: rgb(255, 183, 0);
+    --light-gray-color: #ccc;
+    --white-color: #fff;
+    --gray-background-color: #F7F7F7;
+    --dark-gray-color: #212529;
+
     /* font-size: 0.8rem; */
 }
 
@@ -29,23 +34,23 @@ footer {
 }
 
 .myBtnHover:hover {
-    background-color: rgb(255, 183, 0)!important;
-    border-color: rgb(255, 183, 0)!important;
+    background-color: var(--color-hover)!important;
+    border-color: var(--color-hover)!important;
     outline: none;
 }
 
 .dropdown-item:active, .dropdown-item:focus {
-    color: #212529;
-    background-color: #fff;
+    color: var(--dark-gray-color);
+    background-color: var(--white-color);
     outline: none;
 }
 
 .dropdown-item:hover, button.bg-light:focus, button.bg-light:hover , button.bg-warning:focus, button.bg-warning:hover {
-    color: #212529;
+    color: var(--dark-gray-color);
     /* background-color: #F7F7F7 !important; */
-    background-color: #fff !important;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    background-color: var(--white-color)!important;
+    border-top: 1px solid var(--light-gray-color);
+    border-bottom: 1px solid var(--light-gray-color);
     outline: none;
 }
 
@@ -70,16 +75,16 @@ footer {
 }
 
 .gray-background {
-    background-color: #F7F7F7;
+    background-color: var(--gray-background-color);
 }
 
-.log-in-message-form {
+/* .log-in-message-form {
     position: relative;
 }
 
 .log-in-message {
     text-align: center;
-}
+} */
 
 .pagination {
     padding: 10px 15px;
@@ -98,7 +103,6 @@ footer {
 }
 
 .break-div {
-    /* width: 3%; */
     margin-left: 2%;
 }
 

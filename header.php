@@ -11,6 +11,10 @@
         //echo "session new id ". session_id();
         header('Location: /'.$_SESSION['lang']);
     }
+
+    if (!isset($_SESSION['index'])) {
+        $_SESSION['index'] = "index";
+    }
     //print_r($_COOKIE);
     $title = $_SESSION['title'];
     $description = $_SESSION['description'];
@@ -21,6 +25,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <?php if ($_SESSION['index'] === "noindex") : ?>
+    <meta name="robots" content="noindex" />
+    <?php endif; ?>
     <title><?php echo "$title"  ?></title>
     <meta name="description" content=<?php echo "'$description'" ?> >
     <!-- Bootstrap CSS -->
