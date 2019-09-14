@@ -46,8 +46,8 @@
         "password" => "hasło",
         "username" => "nazwa użytkownika",
         "label_username" => "Nazwa użytkownika może zawierać litery, cyfry i myślnik",
-        "label_email" => "Email jest potrzebny, by potwierdzić rejestrację",
-        "label_password" => "Hasło może zawierać 6-30 znaków. Możesz użyć dużych i małych liter, cyfr i znaków ?!#",
+        "label_email" => "Email jest potrzebny do logowania",
+        "label_password" => "Hasło może zawierać 6-30 znaków. Musisz użyć co najmniej jednej dużej i jednej małej litery oraz jednej cyfry. Opcjonalnie możesz użyć znaków ?!#",
         "account-created" => "Twoje konto zostało utworzone!",
         "user_website" => "Strona użytkownika",
         "your_website" => "Twoja strona",
@@ -64,7 +64,7 @@
         "back_to" => "Powrót do",
         "login" => "logowania",
         "profil" => "Profil",
-        "valid_pass" => "Wprowadź poprawne nowe hasło. Możesz użyć małych małych i dużych liter, cyfr oraz znaków ?!#. Nowe hasło musi mieć przynajmniej 6 znaków",
+        "valid_pass" => "Wprowadź poprawne nowe hasło. Musisz użyć co najmniej jednej dużej i jednej małej litery oraz jednej cyfry. Hasło może zawierać 6-30 znaków.",
         "pass_changed" => "Hasło zostało poprawnie zmienione!",
         "pass_not_changed" => "Hasło nie zostało zmienione, spróbuj jeszcze raz!",
         "correct_pass" => "Wpisz poprawne hasło",
@@ -86,7 +86,13 @@
         "link_expired" => "Ten link wygasł lub jest nieprawidłowy",
         "send_another_link" => "Wyślij kolejny link resetujący hasło",
         "enter_valid_email_and_password" => "Wprowadź poprawny email i hasło",
-        "user_dont_exist" => "Użytkownik nie istnieje. Zarejestruj się najpierw"
+        "user_dont_exist" => "Użytkownik nie istnieje. Zarejestruj się najpierw",
+        "enter_valid_username" => "Wprowadź poprawną nazwę użytkownika. Możesz użyć dużych i małych liter, cyfr i myślnika",
+        "username_taken" => "Ta nazwa użytkownika jest już zajęta, zmień ją", 
+        "email_taken" =>"Ten adres email jest już zajęty",
+        "enter_valid_email" => "Wprowadź poprawny adres email. Możesz użyć małych i dużych liter, cyfr, kropki i myślnika",
+        "enter_valid_password" => "Wprowadź poprawne hasło. Hasło musi mieć co najmniej 6 znaków i zawierać co najmniej jedną małą i jedną dużą literę oraz jedną cyfrę. Opcjonalnie możesz użyć znaków ?!#. ",
+        "confirm_privacy_policy" => "Potwierdź, że zapoznałeś/zapoznałaś się z polityką prywatności",
     ]
 
 

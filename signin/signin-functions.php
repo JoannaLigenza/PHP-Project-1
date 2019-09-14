@@ -10,29 +10,29 @@
         $email = htmlspecialchars($_POST['signin-email'], ENT_QUOTES);
         $pass = htmlspecialchars($_POST['signin-pass'], ENT_QUOTES);
         if (empty($userName) || empty($email) || empty($pass)) {
-            $message = "Please fill all fields!";
+            $message = $displayLang["fill_all_fields"];
         } else {
             $validateData = new ValidateData();
             if (!$validateData->validateName($userName)) {
-                $message = "Please enter valid username. You can use lowercase and uppercase letters, digits and dash";
+                $message = $displayLang["enter_valid_username"];
                 return;
             } 
             else if (preg_match('/^(admin|administrator)$/i', $userName)) {
-                $message = "This user name is already taken";
+                $message = $displayLang["username_taken"];
                 return;
             }
             else if (!$validateData->validateEmail($email)) {
-                $message = "Please enter valid email. You can use lowercase and uppercase letters, digits, dots and dash";
+                $message = $displayLang["enter_valid_email"];
                 return;
             }
             // password must have 6-30 characters and only letters, numbers or characters ?!#
             else if (!$validateData->validatePassword($pass)) {
-                $message = "Please enter valid password. Password must have at least 6 characters and it must contais at least one lowercase and one uppercase letter and one digit. Optionally you can add characters ?!#. ";
+                $message = $displayLang["enter_valid_password"];
                 return;
             }
             // check if checkbox input is checked
             else if ($_POST['checkbox-privacy-policy'] !== "on") {
-                $message = "Please confirm that you have read the privacy policy";
+                $message = $displayLang["confirm_privacy_policy"];
                 return;
             }
             // check if username is already taken
@@ -40,11 +40,11 @@
                 $userRowsnum = $userData->checkUserName($userName, "username");
                 $emailRowsnum = $userData->checkUserName($email, "email");
                 if ($userRowsnum > 0) {
-                    $message = "This username is already taken";
+                    $message = $displayLang["username_taken"];
                     return;
                 } 
                 if ($emailRowsnum > 0) {
-                    $message = "This email address is already taken";
+                    $message = $displayLang["email_taken"];
                     return;
                 } 
                 // if not taken then create account

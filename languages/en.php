@@ -46,8 +46,8 @@
         "password" => "password",
         "username" => "username",
         "label_username" => "Username can contain letters, numbers and dash character",
-        "label_email" => "Email is needed to confirm registration",
-        "label_password" => "Password can have 6-30 characters. You can use lower and upper case, digits and characters ?!#",
+        "label_email" => "Email is needed to login",
+        "label_password" => "Password must have 6-30 characters and it must contais at least one small letter, one big letter and one digit. Optionally you can add characters ?!#.",
         "account-created" => "Your account has been created!",
         "user_website" => "User Website",
         "your_website" => "Your Website",
@@ -64,7 +64,7 @@
         "back_to" => "Back to",
         "login" => "login", 
         "profil" => "Profile",
-        "valid_pass" => "Please enter valid new password. You can use lowercase and uppercase letters, digits and characters ?!#. Password must have at least 6 characters",
+        "valid_pass" => "Please enter valid new password. You must use at least one small letter, one big letter and one digit. Password must have at least 6 characters",
         "pass_changed" => "Password successfully changed!",
         "pass_not_changed" => "Password not changed, try again!",
         "correct_pass" => "Please enter correct password", 
@@ -86,9 +86,13 @@
         "link_expired" => "This link has expired or is invalid",
         "send_another_link" => "Send another link",
         "enter_valid_email_and_password" => "Please enter valid email and password",
-        "user_dont_exist" => "User don't exist. Please sign in first"
-
-
+        "user_dont_exist" => "User don't exist. Please sign in first",
+        "enter_valid_username" => "Please enter valid username. You can use lowercase and uppercase letters, digits and dash",
+        "username_taken" => "This user name is already taken", 
+        "email_taken" =>"This email address is already taken",
+        "enter_valid_email" => "Please enter valid email. You can use lowercase and uppercase letters, digits, dots and dash",
+        "enter_valid_password" => "Please enter valid password. Password must have at least 6 characters and it must contais at least one lowercase and one uppercase letter and one digit. Optionally you can add characters ?!#. ",
+        "confirm_privacy_policy" => "Please confirm that you have read the privacy policy",
     ]
 
 
