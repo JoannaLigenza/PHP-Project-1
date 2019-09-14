@@ -1081,7 +1081,8 @@
 
         public function validatePassword($pass) {
             $res = false;
-            if (preg_match('/^[a-zA-Z0-9?!#]{6,30}$/', $pass)) {
+            // password must have at least one small and one large letter and one number
+            if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9?!#]{6,30}$/', $pass)) {
                $res = true;
             }
             return $res; 

@@ -27,7 +27,12 @@
             }
             // password must have 6-30 characters and only letters, numbers or characters ?!#
             else if (!$validateData->validatePassword($pass)) {
-                $message = "Please enter valid password. You can use lowercase and uppercase letters, digits and characters ?!#. Password must have at least 6 characters";
+                $message = "Please enter valid password. Password must have at least 6 characters and it must contais at least one lowercase and one uppercase letter and one digit. Optionally you can add characters ?!#. ";
+                return;
+            }
+            // check if checkbox input is checked
+            else if ($_POST['checkbox-privacy-policy'] !== "on") {
+                $message = "Please confirm that you have read the privacy policy";
                 return;
             }
             // check if username is already taken

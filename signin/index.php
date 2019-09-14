@@ -28,6 +28,11 @@
                 <input type="password" placeholder=<?php echo $displayLang["password"] ?> name="signin-pass" class="container form-control form-control-lg shadow-none" id="signin-pass" >
                 <label for="pass" class="container-fluid text-left text-muted "><small><?php echo $displayLang["label_password"] ?></small></label>
 
+                <label class="text-muted py-3" style="font-size: 0.95rem"><input type="checkbox" name="checkbox-privacy-policy" id="checkbox-privacy-policy">
+                 * Potwierdzam, że zapoznałem/zapoznałam się z <a href="https://love-coding.pl/polityka-prywatnosci/" target="_blank">polityką prywatności</a> 
+                 i opisanymi w niej sposobami przetwarzania i ochrony danych osobowych
+                </label>
+
                 <p class='mt-3 text-danger'><?php echo $message ?> </p>
                 <button type="submit" name="signin-button" class="container btn btn-outline-warning my-2 py-2" id="signin-button"><?php echo $displayLang["sign_up"] ?></button>
             </form>
