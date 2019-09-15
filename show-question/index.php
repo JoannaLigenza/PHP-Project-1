@@ -4,8 +4,8 @@
 
     include "../functions.php";
     include "../functions-run.php";
-    $_SESSION['title'] = $displayLang["answears_site_title"];
-    $_SESSION['description'] = $displayLang["answears_site_desc"];
+    $_SESSION['title'] = $displayLang["answers_site_title"];
+    $_SESSION['description'] = $displayLang["answers_site_desc"];
     $_SESSION['index'] = "index";
     include "../header.php";
 
@@ -18,42 +18,42 @@
     $path = new Path();
     $getPathToNavigation = $path->getPath();
 
-    // Sorting answears
+    // Sorting answers
     $setSession = new SetSession();
     $setSession->setSessionParams($displayLang, $getPathToNavigation);
 
     // Get question data
     $questionsData = new QuestionsData();
     $displayQuestionsData = new DisplayQuestionsData();
-    $questionData = $displayQuestionsData->questionDataOnAnswearPage(($getId));
+    $questionData = $displayQuestionsData->questionDataOnanswerPage(($getId));
     
-    // Get answears data
-    $answearsData = new AnswearsData();
-    $displayAnswearsData = new DisplayAnswearsData();
-    $pageNavigationNumberForAnswears = $displayAnswearsData->pageNavigationNumber($getId);        // this must be set before getAnswears, because it read page number from url and sets answears to display on page
-    //echo $pageNavigationNumberForAnswears;
-    $getAnswears = $displayAnswearsData->getAnswears($getId);
+    // Get answers data
+    $answersData = new answersData();
+    $displayanswersData = new DisplayanswersData();
+    $pageNavigationNumberForanswers = $displayanswersData->pageNavigationNumber($getId);        // this must be set before getanswers, because it read page number from url and sets answers to display on page
+    //echo $pageNavigationNumberForanswers;
+    $getanswers = $displayanswersData->getanswers($getId);
     
-    //print_r($getAnswears);
+    //print_r($getanswers);
 
     
     
 
-    if (isset($_POST['add-answear-button'])) {
-        $answear = htmlspecialchars($_POST['answear-textarea'], ENT_QUOTES);
+    if (isset($_POST['add-answer-button'])) {
+        $answer = htmlspecialchars($_POST['answer-textarea'], ENT_QUOTES);
         $author = $_SESSION['username'];
-        //echo $answear;
-        if(!empty($answear)) {
-            if ($displayAnswearsData->addAnswear($getId, $answear, $author)) {
-                $displayQuestionsData->setAnswearsNumber(($getId), '+');
-                // if added answear appear on new page then go to this page
+        //echo $answer;
+        if(!empty($answer)) {
+            if ($displayanswersData->addanswer($getId, $answer, $author)) {
+                $displayQuestionsData->setanswersNumber(($getId), '+');
+                // if added answer appear on new page then go to this page
                 $page;
                 if (empty($_GET['page'])) {
                     $page = 1;
                 } else {
                     $page = $_GET['page'];
                 }
-                if (ceil($displayAnswearsData->getAllAnswearsNum($getId)/$displayAnswearsData->answearsNumOnPage) > $page ) {
+                if (ceil($displayanswersData->getAllanswersNum($getId)/$displayanswersData->answersNumOnPage) > $page ) {
                     header("Location: $getPathToNavigation&page=".($page+1));
                 }
             }
@@ -83,42 +83,42 @@
         } 
     }
 
-    for($i=0; $i < count($getAnswears); $i++) {
-        $answearId = $getAnswears[$i]['id'];
+    for($i=0; $i < count($getanswers); $i++) {
+        $answerId = $getanswers[$i]['id'];
         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $user = $_SESSION['username'];
         }
-        if (isset($_POST['delete-answear-'.$answearId])) {
-            if ($displayAnswearsData->deleteAnswear($getAnswears[$i]['id'], $user)) {
-                $displayQuestionsData->setAnswearsNumber(($getId), '-');
-                $answearsData->deleteVote($user, $answearId);
+        if (isset($_POST['delete-answer-'.$answerId])) {
+            if ($displayanswersData->deleteanswer($getanswers[$i]['id'], $user)) {
+                $displayQuestionsData->setanswersNumber(($getId), '-');
+                $answersData->deleteVote($user, $answerId);
             }
         }
-        if (isset($_POST['arr-up-'.$getAnswears[$i]['id']])) {
+        if (isset($_POST['arr-up-'.$getanswers[$i]['id']])) {
             if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-                $res = $answearsData->addVote($user, $answearId, "+");
+                $res = $answersData->addVote($user, $answerId, "+");
                 $up = $res[0];
                 $down = $res[1];
                 $difference = $res[2];
                 if ($up) {
-                    $answearsData->changeAnswearVotesNumber($answearId, "+", $difference);
+                    $answersData->changeanswerVotesNumber($answerId, "+", $difference);
                 } else {
-                    $answearsData->changeAnswearVotesNumber($answearId, "-", $difference);
+                    $answersData->changeanswerVotesNumber($answerId, "-", $difference);
                 }
             } else {
                 $loginMessage = $i;
             }
         }
-        if (isset($_POST['arr-down-'.$getAnswears[$i]['id']])) {
+        if (isset($_POST['arr-down-'.$getanswers[$i]['id']])) {
             if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-                $res = $answearsData->addVote($user, $answearId, "-");
+                $res = $answersData->addVote($user, $answerId, "-");
                 $up = $res[0];
                 $down = $res[1];
                 $difference = $res[2];
                 if ($down) {
-                    $answearsData->changeAnswearVotesNumber($answearId, "-", $difference);
+                    $answersData->changeanswerVotesNumber($answerId, "-", $difference);
                 } else {
-                    $answearsData->changeAnswearVotesNumber($answearId, "+", $difference);
+                    $answersData->changeanswerVotesNumber($answerId, "+", $difference);
                 }
             } else {
                 $loginMessage = $i;
@@ -126,12 +126,12 @@
         }
     }
 
-    $getAnswears = $displayAnswearsData->getAnswears($getId);
+    $getanswers = $displayanswersData->getanswers($getId);
 
-    // if deleted answear was last one on page then go to previous page
-    if (count($getAnswears) <= 0 && (!empty($_GET['page']) ) ) {
+    // if deleted answer was last one on page then go to previous page
+    if (count($getanswers) <= 0 && (!empty($_GET['page']) ) ) {
         if ($_GET['page'] > 1) {
-            $redirectToPage = ceil($displayAnswearsData->getAllAnswearsNum($getId)/$displayAnswearsData->answearsNumOnPage);
+            $redirectToPage = ceil($displayanswersData->getAllanswersNum($getId)/$displayanswersData->answersNumOnPage);
             header("Location: $getPathToNavigation&page=$redirectToPage");
         }
         
@@ -176,16 +176,16 @@
                         <h3 class="word-break h2-size"><?php echo nl2br($questionData['title']); ?></h3>
                     </div>
                     
-                    <!-- ADD ANSWEAR BUTTON -->
+                    <!-- ADD answer BUTTON -->
                     <div class="d-flex flex-row justify-content-end">
                         <div class="container-flex justify-content-center">
-                            <a href="#add-answear-div">
-                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover" id="scroll-to-add-answear-button"> <?php echo "+ ". $displayLang["add_answear"]  ?> </button>
+                            <a href="#add-answer-div">
+                                <button type="button" class="btn btn-warning my-2 shadow-none myBtnHover" id="scroll-to-add-answer-button"> <?php echo "+ ". $displayLang["add_answer"]  ?> </button>
                             </a>
                         </div>
                     </div>
 
-                    <!--  SORTING ANSWEARS  -->
+                    <!--  SORTING answerS  -->
                     <div class="my-3">
                         <div class="d-flex flex-row justify-content-end">
                             <ul class="nav nav-tabs">
@@ -193,8 +193,8 @@
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $displayLang["sort"].":"  ?></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <form action=<?php echo $getPathToNavigation ?> method="post">
-                                            <button type="submit" name="answear-adding-date" class=<?php echo (isset($_SESSION['answear-sort']) && $_SESSION['answear-sort'] === "date") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["adding_date"]; ?></button>
-                                            <button type="submit" name="answear-top-rated" class=<?php echo (isset($_SESSION['answear-sort']) && $_SESSION['answear-sort'] === "votes") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["top_rated"]; ?></button>
+                                            <button type="submit" name="answer-adding-date" class=<?php echo (isset($_SESSION['answer-sort']) && $_SESSION['answer-sort'] === "date") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["adding_date"]; ?></button>
+                                            <button type="submit" name="answer-top-rated" class=<?php echo (isset($_SESSION['answer-sort']) && $_SESSION['answer-sort'] === "votes") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["top_rated"]; ?></button>
                                         </form>
                                     </div>
                                 </li>
@@ -204,36 +204,36 @@
                     <!-- <div "> 
                         <form action="" method="post" class="d-flex flex-row justify-content-end pt-3">
                             <p class="btn shadow-none h6-size">Sort:</p>
-                            <button type="submit" name="answear-adding-date" class="btn shadow-none h6-size"><?php echo $displayLang["adding_date"]; ?></button>
-                            <button type="submit" name="answear-top-rated" class="btn shadow-none h6-size"><?php echo $displayLang["top_rated"]; ?></button>
+                            <button type="submit" name="answer-adding-date" class="btn shadow-none h6-size"><?php echo $displayLang["adding_date"]; ?></button>
+                            <button type="submit" name="answer-top-rated" class="btn shadow-none h6-size"><?php echo $displayLang["top_rated"]; ?></button>
                         </form>
                     </div> -->
                     
 
-                    <!-- ANSWEARS -->
+                    <!-- answerS -->
                     <div class="py-5">
-                        <?php if (count($getAnswears) === 0) : ?>
-                            <p><?php echo $displayLang["no-answear"] ?> </p>
+                        <?php if (count($getanswers) === 0) : ?>
+                            <p><?php echo $displayLang["no-answer"] ?> </p>
                         <?php else : ?>   
-                            <!-- LOOP FOR ANSWEARS -->
-                            <?php for($i=0; $i < count($getAnswears); $i++) : ?>
+                            <!-- LOOP FOR answerS -->
+                            <?php for($i=0; $i < count($getanswers); $i++) : ?>
                                 <?php 
-                                    $author = $getAnswears[$i]['author'];
-                                    $date = $getAnswears[$i]['date'];
-                                    $id = $getAnswears[$i]['id'];
-                                    $votes = $getAnswears[$i]['votes'];
-                                    $answearText = $getAnswears[$i]['answear_text'];
+                                    $author = $getanswers[$i]['author'];
+                                    $date = $getanswers[$i]['date'];
+                                    $id = $getanswers[$i]['id'];
+                                    $votes = $getanswers[$i]['votes'];
+                                    $answerText = $getanswers[$i]['answer_text'];
                                     $pathToProfile = '../profile/?profile='.$author;
                                 ?>
                                 <section class="container-fluid text-center p-0 pb-3 my-2" id=<?php echo $i ?> >
-                                    <!--  AUTHOR, DATE, DELETE ICON FOR ANSWEAR  -->
+                                    <!--  AUTHOR, DATE, DELETE ICON FOR answer  -->
                                     <p class="login-first-message" id=<?php echo 'login-first-message-'.$id ?>  > <?php echo $loginMessage === $i ? $displayLang['log_in_first'] : ''; ?></p>
                                     <div class="d-flex justify-content-between">
                                         <div class="pl-2 text-muted"><small><?php echo $displayLang['author'].": <a href='$pathToProfile'>".$author."</a>, "; echo $displayLang['adding-date'].': '.$date; ?> </small></div>
                                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $author) :  ?>
                                         <div>
                                             <form action="" method="post"> 
-                                                <button type="submit" id=<?php echo 'delete-answear-'.$id ?> name="<?php echo 'delete-answear-'.$id ?>" class="d-flex flex-column justify-content-center btn m-2 p-0 shadow-none" value="delete-answear">
+                                                <button type="submit" id=<?php echo 'delete-answer-'.$id ?> name="<?php echo 'delete-answer-'.$id ?>" class="d-flex flex-column justify-content-center btn m-2 p-0 shadow-none" value="delete-answer">
                                                     <img src="../img/delete.svg" alt="trash-icon">
                                                 </button>
                                             </form>
@@ -247,7 +247,7 @@
                                             <form action="" method="post">
                                                 <button type="submit" id=<?php echo 'arr-up-'.$id ?> name=<?php echo 'arr-up-'.$id ?> class="btn border-0 m-0 p-0 shadow-none d-flex align-items-center flex-column rate-up" >
                                                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
-                                                        <img src=<?php echo $answearsData->isVoted($_SESSION['username'], $id)["up"] ? "../img/arr-up.svg" : "../img/arr-up-grey.svg" ?> alt="arrow-up-icon" class="arr-up">
+                                                        <img src=<?php echo $answersData->isVoted($_SESSION['username'], $id)["up"] ? "../img/arr-up.svg" : "../img/arr-up-grey.svg" ?> alt="arrow-up-icon" class="arr-up">
                                                     <?php else: ?>
                                                         <img src="../img/arr-up-grey.svg" alt="arrow-up-icon" class="arr-up">
                                                     <?php endif; ?>
@@ -257,7 +257,7 @@
                                                 
                                                 <button type="submit" id=<?php echo 'arr-down-'.$id ?> name=<?php echo 'arr-down-'.$id ?> class="btn border-0 m-0 p-0 shadow-none d-flex align-items-center flex-column rate-down" >
                                                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
-                                                        <img src=<?php echo $answearsData->isVoted($_SESSION['username'], $id)["down"] ? "../img/arr-down.svg" : "../img/arr-down-grey.svg" ?> alt="arrow-down-icon" class="arr-down">
+                                                        <img src=<?php echo $answersData->isVoted($_SESSION['username'], $id)["down"] ? "../img/arr-down.svg" : "../img/arr-down-grey.svg" ?> alt="arrow-down-icon" class="arr-down">
                                                     <?php else: ?>
                                                         <img src="../img/arr-down-grey.svg" alt="arrow-down-icon" class="arr-down">
                                                     <?php endif; ?>
@@ -265,10 +265,10 @@
                                             </form>
                                         </div>
                                         
-                                        <!--  ANSWEAR TEXT  -->
+                                        <!--  answer TEXT  -->
                                         <div class="bg-light rounded-right p-2 text-left flex-fill">
                                             <!-- white-space: pre-wrap - displays indentation (wciecia tekstu). Below code must be written in one line // or may use nl2br() - to displays enters -->
-                                            <p class="word-break" style="white-space: pre-wrap;"><?php echo $getAnswears[$i]['answear_text'] ; ?></p>
+                                            <p class="word-break" style="white-space: pre-wrap;"><?php echo $getanswers[$i]['answer_text'] ; ?></p>
                                         </div>
                                     </div>                                   
                                 </section>
@@ -279,44 +279,44 @@
 
                     <!-- NUMERIC PAGE NAVIGATION -->
                     <div class="d-flex flex-row justify-content-center justify-content-lg-end flex-wrap py-4">
-                        <?php if ($pageNavigationNumberForAnswears > 1) : ?>
+                        <?php if ($pageNavigationNumberForanswers > 1) : ?>
                             <a href=<?php echo $getPathToNavigation ?> >
                                 <div class="pagination first"> <?php echo 1; ?> </div>
                             </a>
                             <?php echo $pageNumber > 4 ? "<div class='pagination'> ... </div>" : null ?>
                             <?php for($i=$pageNumber-3; $i < $pageNumber+2; $i++) : ?>
-                                <?php if ($i < 0 || $i >= $pageNavigationNumberForAnswears || $i===0 || $i===intval($pageNavigationNumberForAnswears-1)) {continue;} ?>
+                                <?php if ($i < 0 || $i >= $pageNavigationNumberForanswers || $i===0 || $i===intval($pageNavigationNumberForanswers-1)) {continue;} ?>
                                     <a href=<?php echo ($i === 0) ? $getPathToNavigation : $getPathToNavigation.'&page='.($i+1) ?> >
                                         <div class="pagination"> <?php echo ($i+1); ?> </div>
                                     </a>
                             <?php endfor; ?>
-                            <?php echo $pageNumber < $pageNavigationNumberForAnswears-3 ? "<div class='pagination'> ... </div>" : null ?>
-                            <a href=<?php echo $getPathToNavigation.'&page='.$pageNavigationNumberForAnswears ?> >
-                                <div class="pagination last"> <?php echo $pageNavigationNumberForAnswears; ?> </div>
+                            <?php echo $pageNumber < $pageNavigationNumberForanswers-3 ? "<div class='pagination'> ... </div>" : null ?>
+                            <a href=<?php echo $getPathToNavigation.'&page='.$pageNavigationNumberForanswers ?> >
+                                <div class="pagination last"> <?php echo $pageNavigationNumberForanswers; ?> </div>
                             </a>
                         <?php endif; ?>
                     </div>
 
 
-                    <!-- ADD ANSWEAR FORM -->
-                    <div class="py-5" id="add-answear-div">
+                    <!-- ADD answer FORM -->
+                    <div class="py-5" id="add-answer-div">
                         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
-                        <form action="#add-answear-div" method="post" id="add-answear-form">
-                            <textarea type="text" name="answear-textarea" id="answear-textarea" class="form-control form-control-lg" <?php $placeholderText = $displayLang['add_answear']; echo "placeholder='$placeholderText'" ?>></textarea>
+                        <form action="#add-answer-div" method="post" id="add-answer-form">
+                            <textarea type="text" name="answer-textarea" id="answer-textarea" class="form-control form-control-lg" <?php $placeholderText = $displayLang['add_answer']; echo "placeholder='$placeholderText'" ?>></textarea>
                             <div class="d-flex flex-row justify-content-end">
                                     <div class="container-flex justify-content-center pt-3">
-                                        <button type="submit" name="add-answear-button" id="add-answear-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ".$displayLang["add_answear"]  ?> </button>
+                                        <button type="submit" name="add-answer-button" id="add-answer-button" class="btn btn-warning my-2 shadow-none myBtnHover"> <?php echo "+ ".$displayLang["add_answer"]  ?> </button>
                                     </div>
                             </div>
                         </form>
                         <?php else: ?>   
                             <div class="container-fluid text-center my-2" id="log-in-first">
-                                <p class="py-3"><?php echo $displayLang["log_in_to_add_answear"] ?></p>
+                                <p class="py-3"><?php echo $displayLang["log_in_to_add_answer"] ?></p>
                                 <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a>
                             </div>
                         <?php endif; ?>
                     </div>
-                    <!-- END ANSWEARS -->
+                    <!-- END answerS -->
                 </main>
                 <!-- END LEFT COL -->
 

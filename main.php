@@ -52,7 +52,7 @@
                                         <form action="" method="post">
                                             <button type="submit" name="adding-date" class=<?php echo (isset($_SESSION['queston-sort']) && $_SESSION['queston-sort'] === "date") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["adding_date"]; ?></button>
                                             <button type="submit" name="adding-date-newest" class=<?php echo (isset($_SESSION['queston-sort']) && $_SESSION['queston-sort'] === "date-newest") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["adding_date_newest"]; ?></button>
-                                            <button type="submit" name="most-answears" class=<?php echo (isset($_SESSION['queston-sort']) && $_SESSION['queston-sort'] === "answears") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["most_answears"]; ?></button>
+                                            <button type="submit" name="most-answers" class=<?php echo (isset($_SESSION['queston-sort']) && $_SESSION['queston-sort'] === "answers") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["most_answers"]; ?></button>
                                             <!-- <button type="submit" name="top-rated" class=<?php echo (isset($_SESSION['queston-sort']) && $_SESSION['queston-sort'] === "votes") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["top_rated"]; ?></button> -->
                                         </form>
                                     </div>
@@ -87,11 +87,11 @@
                                     <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$getQuestionData[$i]['id'] ?> style="color: #212529">
                                         <h2 class="p-2 text-left h2-size word-break"><?php echo nl2br($getQuestionData[$i]['title']); ?></h2>
                                     </a>
-                                    <!-- question answears number -->
+                                    <!-- question answers number -->
                                     <div class="d-flex flex-row justify-content-center align-items-center">
                                         <img src="img/arr-down-b.svg" class="h-100" alt="arr-down-icon"> 
                                         <a href=<?php echo $loadSite->loadSite('show-question').'?id='.$getQuestionData[$i]['id'] ?> >
-                                            <div class="p-2 lead text-body h4-size"><?php echo $displayLang["answears"].": ".$getQuestionData[$i]['answears']; ?></div>
+                                            <div class="p-2 lead text-body h4-size"><?php echo $displayLang["answers"].": ".$getQuestionData[$i]['answers']; ?></div>
                                         </a>
                                     </div>
                                 </div>

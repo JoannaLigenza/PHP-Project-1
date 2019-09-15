@@ -17,7 +17,7 @@ $("document").ready(function(){
             }, 600);
         });
     };
-    smoothScrollingToElement("#scroll-to-add-answear-button", "#add-answear-div");
+    smoothScrollingToElement("#scroll-to-add-answer-button", "#add-answer-div");
     
 
     // load heart when click add to favourites icon
@@ -65,37 +65,37 @@ $("document").ready(function(){
 
 
     // load up/down icon when click on rating system
-    function rateAnswear() {
+    function rateanswer() {
         $(".rate-up, .rate-down").on("click", function(e) {
             e.preventDefault();
             const logoutButton = $("#logout-button");
             const path = window.location.pathname;
             const lang = path.split("/")[1];
             const clickedButton = $(e.target.closest("button")).attr("name").split('-');
-            const answearId = clickedButton[2];
+            const answerId = clickedButton[2];
             const arrDirection = clickedButton[1];
             const clickedArr = $(e.target.closest("button")).attr("name");
             if (logoutButton.length < 1) {
-                answearParagraphId = $("#login-first-message-"+answearId);
+                answerParagraphId = $("#login-first-message-"+answerId);
                 if (lang === "pl") {
-                    answearParagraphId.text("Zaloguj się najpierw!");
+                    answerParagraphId.text("Zaloguj się najpierw!");
                 } else if (lang === "en") {
-                    answearParagraphId.text("Log in first!");
+                    answerParagraphId.text("Log in first!");
                 }
             } else {
                 $.ajax({
                     url     :   '../form-veryfication/favourites-js.php',
                     method  :   'post',
                     dataType:   'json',
-                    data    :   {clickedArr: clickedArr, answearId: answearId, arrDirection: arrDirection, currentLang: path},
+                    data    :   {clickedArr: clickedArr, answerId: answerId, arrDirection: arrDirection, currentLang: path},
                     success :   function(response) {
-                                    const votesDiv = $("#votes-"+answearId);
+                                    const votesDiv = $("#votes-"+answerId);
                                     const votesText = votesDiv.text();
                                     if (arrDirection === "up") {
                                         if (response[0] === "orange") {   
                                             $(e.target).attr("src", "../img/arr-up.svg");
                                             // if arr up is orange change arr down to grey
-                                            $("#arr-down-"+answearId+" img").attr("src", "../img/arr-down-grey.svg");
+                                            $("#arr-down-"+answerId+" img").attr("src", "../img/arr-down-grey.svg");
                                             // change number of votes
                                             votesDiv.text(parseInt(votesText)+response[1]);
                                         }
@@ -107,7 +107,7 @@ $("document").ready(function(){
                                         if (response[0] === "orange") {   
                                             $(e.target).attr("src", "../img/arr-down.svg");
                                             // if arr down is orange change arr up to grey
-                                            $("#arr-up-"+answearId+" img").attr("src", "../img/arr-up-grey.svg");
+                                            $("#arr-up-"+answerId+" img").attr("src", "../img/arr-up-grey.svg");
                                             // change number of votes
                                             votesDiv.text(parseInt(votesText)-response[1]);
                                         }
@@ -123,7 +123,7 @@ $("document").ready(function(){
 
         })
     }
-    rateAnswear();
+    rateanswer();
 
 
     // FORM VALIDATION FUNCTIONS //

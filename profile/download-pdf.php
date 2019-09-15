@@ -76,16 +76,16 @@ class PDF extends FPDF {
         $pdf->MultiCell(0,10, iconv('UTF-8', 'ISO-8859-2', $title),0,1);
 
         $getId = $favouritesQuestions[$i]["id"];
-        $displayAnswearsData = new DisplayAnswearsData();
-        $getAnswears = $displayAnswearsData->getAllAnswearsToPDF($getId);
-        foreach($getAnswears as $answear) {
-            // Set font and border color to answear
+        $displayanswersData = new DisplayanswersData();
+        $getanswers = $displayanswersData->getAllanswersToPDF($getId);
+        foreach($getanswers as $answer) {
+            // Set font and border color to answer
             $pdf->SetFont('Aleo','',12);
             $pdf->SetFillColor(248,249,250);
 
-            $answear = $answear['answear_text'];
-            // Print cell with answear
-            $pdf->MultiCell(0,10, "- ".iconv('UTF-8', 'ISO-8859-2', $answear),0,1, "L", true);
+            $answer = $answer['answer_text'];
+            // Print cell with answer
+            $pdf->MultiCell(0,10, "- ".iconv('UTF-8', 'ISO-8859-2', $answer),0,1, "L", true);
         }
         // new line
         $pdf->Ln();

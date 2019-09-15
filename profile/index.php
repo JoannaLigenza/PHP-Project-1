@@ -11,7 +11,7 @@
     $loadSite = new LoadSites();
     $userData = new UserData();
     $questionsData = new QuestionsData();
-    $answearsData = new AnswearsData();
+    $answersData = new answersData();
     $path = new Path();
     $getPathToNavigation = $path->getPath();
     $favouritesQuestions = $userData->getFavouritesQuestions($getProfile);
@@ -20,7 +20,7 @@
     $email = $userIdentity['email'];
     $userSite = $userIdentity['site'];
     $userQuestions = $questionsData->getAddedQuestionsToProfileSite($username);
-    $userAnswears = $answearsData->getAddedAnswearsToProfileSite($username);
+    $useranswers = $answersData->getAddedanswersToProfileSite($username);
     $showAddLink = false;
 
 
@@ -138,19 +138,19 @@
                         <?php endfor; ?>
                     </div>
 
-                    <!-- DISPLAYING ADDED ANSWEARS -->
+                    <!-- DISPLAYING ADDED answerS -->
                     <div class="mb-4">
-                        <p class="border-left border-warning px-2 font-weight-bold"><?php echo $displayLang['added_answears']; ?></p>
-                        <?php for ($i=0; $i < count($userAnswears); $i++) : ?>
+                        <p class="border-left border-warning px-2 font-weight-bold"><?php echo $displayLang['added_answers']; ?></p>
+                        <?php for ($i=0; $i < count($useranswers); $i++) : ?>
                             <div class="px-2">
                                 <?php 
-                                $answearText = $userAnswears[$i]['answear_text'];
-                                $goToAnswear = dirname($getPathToNavigation).'/'.$loadSite->loadSite("show-question").'?id='.$userAnswears[$i]['to_question'];
-                                if(strlen($answearText)>20){
-                                    $answearText=substr($answearText,0,80)."<a href='$goToAnswear'> ...Read more</a>";
-                                    echo '<div class="bg-light my-1 p-1 rounded">'.$answearText.'</div>';
+                                $answerText = $useranswers[$i]['answer_text'];
+                                $goToanswer = dirname($getPathToNavigation).'/'.$loadSite->loadSite("show-question").'?id='.$useranswers[$i]['to_question'];
+                                if(strlen($answerText)>20){
+                                    $answerText=substr($answerText,0,80)."<a href='$goToanswer'> ...Read more</a>";
+                                    echo '<div class="bg-light my-1 p-1 rounded">'.$answerText.'</div>';
                                 } else
-                                    echo '<div class="bg-light my-1 p-1 rounded">'.$answearText.'</div>';
+                                    echo '<div class="bg-light my-1 p-1 rounded">'.$answerText.'</div>';
                                 ?>
                             </div>
                         <?php endfor; ?>

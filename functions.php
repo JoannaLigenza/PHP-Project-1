@@ -90,20 +90,20 @@
                $_SESSION['queston-sort'] = "date-newest";
                header("Location: $getPathToNavigation");
             }
-            if (isset($_POST['most-answears'])) {
-               $_SESSION['queston-sort'] = "answears";
+            if (isset($_POST['most-answers'])) {
+               $_SESSION['queston-sort'] = "answers";
                header("Location: $getPathToNavigation");
             }
             if (isset($_POST['top-rated'])) {
                $_SESSION['queston-sort'] = "votes";
                header("Location: $getPathToNavigation");
             }
-            if (isset($_POST['answear-adding-date'])) {
-               $_SESSION['answear-sort'] = "date";
+            if (isset($_POST['answer-adding-date'])) {
+               $_SESSION['answer-sort'] = "date";
                header("Location: $getPathToNavigation");
             }
-            if (isset($_POST['answear-top-rated'])) {
-               $_SESSION['answear-sort'] = "votes";
+            if (isset($_POST['answer-top-rated'])) {
+               $_SESSION['answer-sort'] = "votes";
                header("Location: $getPathToNavigation");
             }
         }
@@ -174,7 +174,7 @@
             $lang = $_SESSION['lang'];
             $date = date("Y-m-d");
             // Prepared Statement send query and the data to the database separatly, not as one query.
-            $query = $connection->prepare("INSERT INTO questions SET lang = ?, category = ?, title = ?, answears = 0, author = ?, date = ?, votes = 0;");
+            $query = $connection->prepare("INSERT INTO questions SET lang = ?, category = ?, title = ?, answers = 0, author = ?, date = ?, votes = 0;");
             if ($query) {
                 $query->bind_param("sssss", $lang, $category, $title, $author, $date);
                 if($query->execute()) {
@@ -190,7 +190,7 @@
             $res = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
-            $query = $connection->prepare("DELETE from answears where to_question = ?");
+            $query = $connection->prepare("DELETE from answers where to_question = ?");
             if ($query) {
                 $query->bind_param("i", $id);
                 if($query->execute()) {
@@ -222,14 +222,14 @@
             return $numRows;
         }
 
-        protected function changeAnswearsNumber($id, $sign) {
+        protected function changeanswersNumber($id, $sign) {
             $res = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
             if ($sign === "+") {
-                $query = "UPDATE questions SET answears = answears+1 WHERE id = ?";
+                $query = "UPDATE questions SET answers = answers+1 WHERE id = ?";
             } else if ($sign === "-") {
-                $query = "UPDATE questions SET answears = answears-1 WHERE id = ?";
+                $query = "UPDATE questions SET answers = answers-1 WHERE id = ?";
             }
             $query = $connection->prepare($query);
             if ($query) {
@@ -336,44 +336,44 @@
     }
 
 
-    class AnswearsData extends Data {
-        protected function getAnswearsData($toQuestion, $from, $to) {
-            $answearsArr = [];
+    class answersData extends Data {
+        protected function getanswersData($toQuestion, $from, $to) {
+            $answersArr = [];
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
             settype($from, "integer");
             settype($to, "integer");
             $lang = $_SESSION['lang'];
-            if (!isset($_SESSION['answear-sort']) || $_SESSION['answear-sort'] === "date") {
+            if (!isset($_SESSION['answer-sort']) || $_SESSION['answer-sort'] === "date") {
                 $order = "date";
             } else {
-                $order = $_SESSION['answear-sort']." DESC";
+                $order = $_SESSION['answer-sort']." DESC";
             }
-            $query = $connection->prepare("SELECT * from answears WHERE to_question = $toQuestion AND lang = ? ORDER BY $order LIMIT ?, ?;");
+            $query = $connection->prepare("SELECT * from answers WHERE to_question = $toQuestion AND lang = ? ORDER BY $order LIMIT ?, ?;");
             if ($query) {
                 $query->bind_param("sii", $lang, $from, $to);
                 if($query->execute()) {
                     $result = $query->get_result();
                     while($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                        array_push($answearsArr, $row);
+                        array_push($answersArr, $row);
                     }
                 }
                 $query->close();
                 mysqli_close($connection);
             }
-            return $answearsArr;
+            return $answersArr;
         }
 
-        protected function putAnswearData($toQuestion, $answear, $author, $link="" ) {
+        protected function putanswerData($toQuestion, $answer, $author, $link="" ) {
             $res = false;
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
             $link = htmlspecialchars($link, ENT_QUOTES);
             $lang = $_SESSION['lang'];
             $date=date("Y-m-d");
-            $query = $connection->prepare("INSERT INTO answears SET lang = ?, to_question = ?, answear_text = ?, link = ?, author = ?, date = ?, votes = 0");
+            $query = $connection->prepare("INSERT INTO answers SET lang = ?, to_question = ?, answer_text = ?, link = ?, author = ?, date = ?, votes = 0");
             if ($query) {
-                $query->bind_param("sissss", $lang, $toQuestion, $answear, $link, $author, $date);
+                $query->bind_param("sissss", $lang, $toQuestion, $answer, $link, $author, $date);
                 if($query->execute()) {
                     $res = true;
                 }
@@ -383,11 +383,11 @@
             return $res;
         }
 
-        protected function removeAnswear($id) {
+        protected function removeanswer($id) {
             $res = false;
             $connection = $this->connectionToDb();
             settype($id, "integer");
-            $query = $connection->prepare("DELETE from answears where id = ?");
+            $query = $connection->prepare("DELETE from answers where id = ?");
             if ($query) {
                 $query->bind_param("i", $id);
                 if($query->execute()) {
@@ -399,12 +399,12 @@
             return $res;
         }
 
-        protected function answearRowsNum($toQuestion) {
+        protected function answerRowsNum($toQuestion) {
             $numRows = 0;
             $connection = $this->connectionToDb();
             settype($toQuestion, "integer");
             $lang = $_SESSION['lang'];
-            $query = $connection->prepare("SELECT id from answears WHERE to_question LIKE ? AND lang = ?");
+            $query = $connection->prepare("SELECT id from answers WHERE to_question LIKE ? AND lang = ?");
             if ($query) {
                 $query->bind_param("is", $toQuestion, $lang);
                 if($query->execute()) {
@@ -417,18 +417,18 @@
             return $numRows;
         }
 
-        public function changeAnswearVotesNumber($answearId, $sign, $difference) {
+        public function changeanswerVotesNumber($answerId, $sign, $difference) {
             $res = false;
             $connection = $this->connectionToDb();
-            settype($answearId, "integer");
+            settype($answerId, "integer");
             if ($sign === "+") {
-                $query = "UPDATE answears SET votes = votes+$difference WHERE id = ?";
+                $query = "UPDATE answers SET votes = votes+$difference WHERE id = ?";
             } else if ($sign === "-") {
-                $query = "UPDATE answears SET votes = votes-$difference WHERE id = ?";
+                $query = "UPDATE answers SET votes = votes-$difference WHERE id = ?";
             }
             $query = $connection->prepare($query);
             if ($query) {
-                $query->bind_param("i", $answearId);
+                $query->bind_param("i", $answerId);
                 if($query->execute()) {
                     $res = true;
                 }
@@ -438,12 +438,12 @@
             return $res;
         }
 
-        public function addVote($user, $answearId, $sign) {
+        public function addVote($user, $answerId, $sign) {
             $isVotesAdded = [];
             $connection = $this->connectionToDb();
-            $query = $connection->prepare("SELECT * FROM votes WHERE username = ? AND answear_number = ?");
+            $query = $connection->prepare("SELECT * FROM votes WHERE username = ? AND answer_number = ?");
             if($query) {
-                $query->bind_param("si", $user, $answearId);
+                $query->bind_param("si", $user, $answerId);
                 if($query->execute()) {
                     $result = $query->get_result();
                     $numRows = mysqli_num_rows($result);
@@ -474,9 +474,9 @@
                                 array_push($isVotesAdded, $up, $down, $difference);
                                 // if up and down are false then remove row
                                 if ($up === false && $down === false) {
-                                    $query = $connection->prepare("DELETE from votes WHERE username = ? AND answear_number = ?");
+                                    $query = $connection->prepare("DELETE from votes WHERE username = ? AND answer_number = ?");
                                     if($query) {
-                                        $query->bind_param("si", $user, $answearId);
+                                        $query->bind_param("si", $user, $answerId);
                                         $query->execute();
                                     }
                                 }
@@ -495,9 +495,9 @@
                             $down = true;
                         }
                         $difference = 1;
-                        $query = $connection->prepare("INSERT INTO votes SET username = ?, answear_number = ?, up = '$up', down = '$down'");
+                        $query = $connection->prepare("INSERT INTO votes SET username = ?, answer_number = ?, up = '$up', down = '$down'");
                         if($query) {
-                            $query->bind_param("si", $user, $answearId);
+                            $query->bind_param("si", $user, $answerId);
                             if($query->execute()) {
                                 array_push($isVotesAdded, $up, $down, $difference);
                             }
@@ -513,12 +513,12 @@
             return $isVotesAdded;
         }
 
-        public function deleteVote($user, $answearId) {
+        public function deleteVote($user, $answerId) {
             $res = false;
             $connection = $this->connectionToDb();
-            $query = $connection->prepare("DELETE from votes where username = ? AND answear_number = ?");
+            $query = $connection->prepare("DELETE from votes where username = ? AND answer_number = ?");
             if($query) {
-                $query->bind_param("si", $user, $answearId);
+                $query->bind_param("si", $user, $answerId);
                 if($query->execute()) {
                     $res = true;
                 }
@@ -526,11 +526,11 @@
             return $res;
         }
 
-        public function isVoted($user, $answearId) {
+        public function isVoted($user, $answerId) {
             $connection = $this->connectionToDb();
-            $query = $connection->prepare("SELECT * FROM votes where username = ? AND answear_number = ?");
+            $query = $connection->prepare("SELECT * FROM votes where username = ? AND answer_number = ?");
             if($query) {
-                $query->bind_param("si", $user, $answearId);
+                $query->bind_param("si", $user, $answerId);
                 if($query->execute()) {
                     $result = $query->get_result();
                     $result = $result->fetch_array(MYSQLI_ASSOC);
@@ -539,41 +539,41 @@
             return $result;
         }
 
-        public function getAddedAnswearsToProfileSite($username) {
-            $userAnswearsArr = [];
+        public function getAddedanswersToProfileSite($username) {
+            $useranswersArr = [];
             $connection = $this->connectionToDb();
-            $query = $connection->prepare("SELECT id, to_question, answear_text FROM answears WHERE author = ?");
+            $query = $connection->prepare("SELECT id, to_question, answer_text FROM answers WHERE author = ?");
             if($query) {
                 $query->bind_param("s", $username);
                 if($query->execute()) {
                     $result = $query->get_result();
                     while($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                        array_push($userAnswearsArr, $row);
+                        array_push($useranswersArr, $row);
                     }
                 }
                 $query->close();
                 mysqli_close($connection);
             }
-            return $userAnswearsArr;
+            return $useranswersArr;
         }
 
-        public function getNewestAnswears($limit) {
-            $latestAnswearsArr = [];
+        public function getNewestanswers($limit) {
+            $latestanswersArr = [];
             settype($limit, "integer");
             $connection = $this->connectionToDb();
-            $query = $connection->prepare("SELECT answear_text, to_question, lang, author FROM answears ORDER BY id DESC LIMIT ?");
+            $query = $connection->prepare("SELECT answer_text, to_question, lang, author FROM answers ORDER BY id DESC LIMIT ?");
             if($query) {
                 $query->bind_param("i", $limit);
                 if($query->execute()) {
                     $result = $query->get_result();
                     while($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                        array_push($latestAnswearsArr, $row);
+                        array_push($latestanswersArr, $row);
                     }
                 }
                 $query->close();
                 mysqli_close($connection);
             }
-            return $latestAnswearsArr;
+            return $latestanswersArr;
         }
     }
 
@@ -628,8 +628,8 @@
             return $res;
         }
 
-        public function setAnswearsNumber($id, $sign) {
-            $res = $this->changeAnswearsNumber($id, $sign);
+        public function setanswersNumber($id, $sign) {
+            $res = $this->changeanswersNumber($id, $sign);
             return $res;
         }
 
@@ -660,7 +660,7 @@
             }
         }
 
-        public function questionDataOnAnswearPage($id) {
+        public function questionDataOnanswerPage($id) {
             $connection = $this->connectionToDb();
             settype($id, "integer");
             $lang = $_SESSION['lang'];
@@ -679,63 +679,63 @@
     }
 
 
-    class DisplayAnswearsData extends AnswearsData {
-        public $answearsNumOnPage = 10;
+    class DisplayanswersData extends answersData {
+        public $answersNumOnPage = 10;
         private $pageNumber;
         private $from;
         private $to;
 
-        protected function setAnswearsNumber() {   
+        protected function setanswersNumber() {   
             if(isset($_GET['page'])) {
                 $this->pageNumber = $_GET['page'];
             }
 
             if (!empty($this->pageNumber)) {
-                $this->from = $this->answearsNumOnPage*(($this->pageNumber)-1);
-                $this->to = $this->answearsNumOnPage;
+                $this->from = $this->answersNumOnPage*(($this->pageNumber)-1);
+                $this->to = $this->answersNumOnPage;
             } else {
                 $this->from = 0;
-                $this->to = $this->answearsNumOnPage;
+                $this->to = $this->answersNumOnPage;
             }  
         }
 
         public function pageNavigationNumber($getId) {
-            $this->setAnswearsNumber();
-            $getAllAnswearNumber = $this->answearRowsNum($getId);
-            $pageNavigationNumber = ceil($getAllAnswearNumber/$this->answearsNumOnPage);
+            $this->setanswersNumber();
+            $getAllanswerNumber = $this->answerRowsNum($getId);
+            $pageNavigationNumber = ceil($getAllanswerNumber/$this->answersNumOnPage);
             return $pageNavigationNumber;
         }
 
-        public function getAnswears($getId) {
-            $getAnswears = $this->getAnswearsData($getId, $this->from, $this->to);
-            return $getAnswears;
+        public function getanswers($getId) {
+            $getanswers = $this->getanswersData($getId, $this->from, $this->to);
+            return $getanswers;
         }
 
-        public function getAllAnswearsNum($getId) {     
-            $getAnswears = $this->answearRowsNum($getId);
-            return $getAnswears;
+        public function getAllanswersNum($getId) {     
+            $getanswers = $this->answerRowsNum($getId);
+            return $getanswers;
         }
 
-        public function getAllAnswearsToPDF($getId) {
-            $getAnswears = $this->getAnswearsData($getId, 0, 10000);       
-            //$getAnswears = $this->answearRowsNum($getId);
-            return $getAnswears;
+        public function getAllanswersToPDF($getId) {
+            $getanswers = $this->getanswersData($getId, 0, 10000);       
+            //$getanswers = $this->answerRowsNum($getId);
+            return $getanswers;
         }
 
-        public function addAnswear($toQuestion, $answear, $author='anonim', $link="") {
+        public function addanswer($toQuestion, $answer, $author='anonim', $link="") {
             $res = false;
-            if ($this->putAnswearData($toQuestion, $answear, $author)) {
+            if ($this->putanswerData($toQuestion, $answer, $author)) {
                 $userData = new UserData();
-                $res = $userData->changeAddedAnswearsNumber($author, "+");
+                $res = $userData->changeAddedanswersNumber($author, "+");
             }
             return $res;
         }
 
-        public function deleteAnswear($id, $user) {
+        public function deleteanswer($id, $user) {
             $res = false;
-            if ($this->removeAnswear($id)) {
+            if ($this->removeanswer($id)) {
                 $userData = new UserData();
-                $res = $userData->changeAddedAnswearsNumber($user, "-");
+                $res = $userData->changeAddedanswersNumber($user, "-");
             }
             return $res;
         }
@@ -882,13 +882,13 @@
             return $res;
         }
 
-        public function changeAddedAnswearsNumber($username, $sign) {
+        public function changeAddedanswersNumber($username, $sign) {
             $res = false;
             $connection = $this->connectionToDb();
             if ($sign === "+") {
-                $query = $connection->prepare("UPDATE users SET added_answears=added_answears+1 WHERE username = ?");
+                $query = $connection->prepare("UPDATE users SET added_answers=added_answers+1 WHERE username = ?");
             } else {
-                $query = $connection->prepare("UPDATE users SET added_answears=added_answears-1 WHERE username = ?");
+                $query = $connection->prepare("UPDATE users SET added_answers=added_answers-1 WHERE username = ?");
             }
             if($query) {
                 $query->bind_param("s", $username);
@@ -906,8 +906,8 @@
             $connection = $this->connectionToDb();
             if ($added === "questions") {
                 $query = $connection->prepare("SELECT username, added_questions FROM users ORDER BY added_questions DESC LIMIT ?");
-            } else if ($added === "answears") {
-                $query = $connection->prepare("SELECT username, added_answears FROM users ORDER BY added_answears DESC LIMIT ?");
+            } else if ($added === "answers") {
+                $query = $connection->prepare("SELECT username, added_answers FROM users ORDER BY added_answers DESC LIMIT ?");
             }
             if($query) {
                 $query->bind_param("i", $limit);

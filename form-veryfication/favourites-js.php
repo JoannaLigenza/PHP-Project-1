@@ -5,7 +5,7 @@
     $chooseLang = $language->setSessionLanguage($currentLang);
 
     $questionsData = new QuestionsData();
-    $answearsData = new AnswearsData();
+    $answersData = new answersData();
 
 
     function setFavourites($questionsData) {
@@ -20,32 +20,32 @@
         // return $res;
     }
 
-    function setRating($answearsData) {
+    function setRating($answersData) {
         $res = "no";
         $user = $_SESSION['username'];
-        $answearId = $_POST['answearId'];
+        $answerId = $_POST['answerId'];
         if ($_POST['arrDirection'] === 'up') {
-            $result = $answearsData->addVote($user, $answearId, "+");
+            $result = $answersData->addVote($user, $answerId, "+");
             $up = $result[0];
             $down = $result[1];
             $difference = $result[2];
             if ($up) {
-                $answearsData->changeAnswearVotesNumber($answearId, "+", $difference);
+                $answersData->changeanswerVotesNumber($answerId, "+", $difference);
                 $res = ["orange", $difference];
             } else {
-                $answearsData->changeAnswearVotesNumber($answearId, "-", $difference);
+                $answersData->changeanswerVotesNumber($answerId, "-", $difference);
                 $res = ["grey", $difference];
             }
         } else if ($_POST['arrDirection'] === 'down') {
-            $result = $answearsData->addVote($user, $answearId, "-");
+            $result = $answersData->addVote($user, $answerId, "-");
             $up = $result[0];
             $down = $result[1];
             $difference = $result[2];
             if ($down) {
-                $answearsData->changeAnswearVotesNumber($answearId, "-", $difference);
+                $answersData->changeanswerVotesNumber($answerId, "-", $difference);
                 $res = ["orange", $difference];
             } else {
-                $answearsData->changeAnswearVotesNumber($answearId, "+", $difference);
+                $answersData->changeanswerVotesNumber($answerId, "+", $difference);
                 $res = ["grey", $difference];
             }
         }
@@ -58,7 +58,7 @@
     }
     
     if(isset($_POST['clickedArr'])) {
-        setRating($answearsData);
+        setRating($answersData);
     }
 
 ?>    
