@@ -21,6 +21,7 @@
     $userSite = $userIdentity['site'];
     $userQuestions = $questionsData->getAddedQuestionsToProfileSite($username);
     $useranswers = $answersData->getAddedanswersToProfileSite($username);
+    $mainDir = $_SESSION['main-dir'];
     $showAddLink = false;
 
 
@@ -54,7 +55,7 @@
                 $userVerify = $userData->getUserVeryficationData($_SESSION['email']);
                 $checkPass = password_verify($oldPass, $userVerify['pass']);
                 if ($checkPass) {
-                    $newPass = password_hash("$newPass", PASSWORD_ARGON2I);
+                    $newPass = password_hash("$newPass", PASSWORD_BCRYPT);
                     if($userData->changeUserPasword($newPass, $email)) {
                         $message = $displayLang['pass_changed'];
                     } else {
@@ -164,7 +165,7 @@
                             <div class="d-flex flex-column align-items-start py-2 px-3">
                                 <span data-toggle="tooltip" title="<?php echo $displayLang["delete_from_favourites"] ?>" data-placement="bottom">
                                     <form action="#show-favourites" method="post" class="d-flex flex-row align-items-center">
-                                            <input type="image" src="../img/heart-f.svg" alt="heart-icon" name=<?php echo $favouritesQuestions[$i]['id']; ?> >
+                                            <input type="image" src=<?php echo $mainDir."/img/heart-f.svg" ?> alt="heart-icon" name=<?php echo $favouritesQuestions[$i]['id']; ?> >
                                     </form>
                                 </span>
                             </div>
@@ -179,7 +180,7 @@
                         <!-- GET FAVOURITES TO PDF -->
                         <div class="py-5">
                             <p><?php echo $displayLang['download_favourites']; ?></p>
-                            <a href="download-pdf.php" target="_blank"> <img src="../img/pdf.svg" alt="download-pdf-icon"> </a>
+                            <a href="download-pdf.php" target="_blank"> <img src=<?php echo $mainDir."/img/pdf.svg" ?> alt="download-pdf-icon"> </a>
                         </div>
                     <?php endif; ?>
                 </div>

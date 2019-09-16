@@ -59,7 +59,7 @@
             } else {
                 $userData = new UserData();
                 $email = $tokenData['email'];
-                $newPass = password_hash("$newPass", PASSWORD_ARGON2I);
+                $newPass = password_hash("$newPass", PASSWORD_BCRYPT);
                 if ($userData->changeUserPasword($newPass, $email)) {
                     $messageInfo = $displayLang["pass_changed"];
                     $remindPassword->deleteToken($token);

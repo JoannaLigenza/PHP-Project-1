@@ -78,12 +78,12 @@
         $mail->addBCC($mailBCC);
         if ($lang === "pl") {
             $mail->Subject = "Instrukcja zmiany hasła - love-coding.pl pytania rekrutacyjne dla Front-end developerów";
-            $mail->Body    = "Aby zmienić hasło skopiuj ten link i wklej go do przeglądarki: <br>love-coding.pl/recruiment-questions/reset-password/?token=".$token." <br>Link jest aktywny przez 24 godziny";
-            $mail->AltBody = "Aby zmienić hasło skopiuj ten link i wklej go do przeglądarki: \nlove-coding.pl/recruiment-questions/reset-password/?token=".$token." \nLink jest aktywny przez 24 godziny";
+            $mail->Body    = "Aby zmienić hasło skopiuj ten link i wklej go do przeglądarki: <br> <a href='https://love-coding.pl/pytania-rekrutacyjne/".$lang."/reset-password/?token=".$token."'> https://love-coding.pl/pytania-rekrutacyjne/".$lang."/reset-password/?token=".$token." </a> <br>Link jest aktywny przez 24 godziny";
+            $mail->AltBody = "Aby zmienić hasło skopiuj ten link i wklej go do przeglądarki: \nhttps://love-coding.pl/pytania-rekrutacyjne/".$lang."/reset-password/?token=".$token." \nLink jest aktywny przez 24 godziny";
         } else {
             $mail->Subject = "Password change instructions - love-coding.pl recruiment questions for front-end developers";
-            $mail->Body    = "To change password copy this link and paste it to browser: <br>love-coding.pl/recruiment-questions/reset-password/?token=".$token." <br>Link is active 24 hours";
-            $mail->AltBody = "To change password copy this link and paste it to browser: \nlove-coding.pl/recruiment-questions/reset-password/?token=".$token." \nLink is active 24 hours";
+            $mail->Body    = "To change password copy this link and paste it to browser: <br> <a href='https://love-coding.pl/pytania-rekrutacyjne/".$lang."/reset-password/?token=".$token."'> https://love-coding.pl/pytania-rekrutacyjne/".$lang."/reset-password/?token=".$token." </a> <br> Link is active 24 hours";
+            $mail->AltBody = "To change password copy this link and paste it to browser: \nhttps://love-coding.pl/pytania-rekrutacyjne/".$lang."/reset-password/?token=".$token." \nLink is active 24 hours";
         }
 
         if ($mail->send()) {

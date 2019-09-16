@@ -1,4 +1,6 @@
 <?php 
+    $mainDir = $_SESSION['main-dir'];
+
     if (isset($_POST['logout-button'])) {
         $actualLang = $_SESSION['lang'];
         session_unset();
@@ -8,14 +10,14 @@
         $_SESSION['lang'] = $actualLang;
         $_SESSION['title'] = $displayLang["profile_site_title"];
         $_SESSION['description'] = $displayLang["profile_site_desc"];
-        //echo "session new id ". session_id();
-        header('Location: /'.$_SESSION['lang']);
+        $_SESSION['main-dir'] = "";
+        header('Location: '.$mainDir.'/'.$_SESSION['lang']);
     }
 
     if (!isset($_SESSION['index'])) {
         $_SESSION['index'] = "index";
     }
-    //print_r($_COOKIE);
+
     $title = $_SESSION['title'];
     $description = $_SESSION['description'];
 ?>
@@ -32,7 +34,7 @@
     <meta name="description" content=<?php echo "'$description'" ?> >
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href=<?php echo $mainDir."/css/style.css" ?>>
 </head>
 <body class="min-vh-100">
     <div class="m-0 p-0 h-100">
@@ -40,17 +42,17 @@
         <header>
             <div class="d-flex flex-sm-row justify-content-between border-bottom border-warning">
                 <div class="d-flex flex-column justify-content-center pl-2">
-                    <a class="navbar p-0" href=<?php echo '/'.$_SESSION['lang'] ?>>
+                    <a class="navbar p-0" href=<?php echo $mainDir."/".$_SESSION['lang'] ?>>
                         <picture>
-                                <source media="(max-width: 400px)" srcset="/img/logo-80x40.jpg">
-                                <img src="/img/logo-100x50.jpg" style="width:auto" alt="logo">
+                                <source media="(max-width: 400px)" srcset=<?php echo $mainDir."/img/logo-80x40.jpg" ?>>
+                                <img src=<?php echo $mainDir."/img/logo-100x50.jpg" ?> style="width:auto" alt="logo">
                         </picture>
                     </a>
                 </div>
                 
                 <div class="p-2 right">
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true ) :  
-                        $pathToProfile = '/'.$_SESSION['lang'].'/profile/?profile='.$_SESSION['username'];
+                        $pathToProfile = $mainDir."/".$_SESSION['lang'].'/profile/?profile='.$_SESSION['username'];
                     ?>
                     <form action="" method="post">
                         <a href=<?php echo $pathToProfile; ?> class="btn btn-outline-warning"><?php echo $displayLang["profil"] ?></a>
@@ -58,8 +60,8 @@
                     </form>
                     <?php else: ?>
                     <form action="" method="post">
-                        <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a> 
-                        <a href=<?php echo '/'.$_SESSION['lang'].'/signin/' ?>><button type="button" class="btn btn-warning mx-2 myBtnHover"><?php echo $displayLang["sign_up"]  ?></button></a> 
+                        <a href=<?php echo $mainDir.'/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a> 
+                        <a href=<?php echo $mainDir.'/'.$_SESSION['lang'].'/signin/' ?>><button type="button" class="btn btn-warning mx-2 myBtnHover"><?php echo $displayLang["sign_up"]  ?></button></a> 
                     </form>
                     <?php endif; ?>
                 </div>

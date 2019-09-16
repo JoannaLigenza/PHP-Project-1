@@ -6,6 +6,7 @@
     $message = "";
     $userData = new UserData();
     $loadSite = new LoadSites();
+    $mainDir = $_SESSION['main-dir'];
 
     if (isset($_POST['login-button'])) {
         $email = htmlspecialchars($_POST['login-email'], ENT_QUOTES);
@@ -20,8 +21,7 @@
                 $_SESSION['loggedin'] = true;
                 $_SESSION['username'] = $userdata['username'];
                 $_SESSION['email'] = $userdata['email'];
-                $url = $_SERVER['REQUEST_URI'];
-                header('Location: /'.$_SESSION['lang'].'/');
+                header('Location: '.$mainDir.'/'.$_SESSION['lang'].'/');
             } else {
                 $message = $displayLang["enter_valid_email_and_password"];
             }

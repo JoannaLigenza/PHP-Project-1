@@ -9,7 +9,8 @@
     if(isset($_GET['signup']) && $_GET['signup'] === "success") {
         $signupSuccess = true;
     }
-    //echo $message;
+
+    $mainDir = $_SESSION['main-dir'];
 ?>
 
 <div class="gray-background">
@@ -41,7 +42,7 @@
         <div class="container-fluid text-center">
             <h4 class="text-center my-4"><?php echo $displayLang["account-created"] ?></h4>
             <div class="py-4 my-4">
-                <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a>
+                <a href=<?php echo $mainDir.'/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a>
             </div>
         </div>
         <?php endif; ?>
@@ -52,13 +53,3 @@
 
 
 <?php include "../footer.php"; ?>
-
-<!-- <script>
-    $(document).ready(function () {
-        $("#signin-form").submit(function(e) {
-            e.preventDefault();
-            name = 
-            console.log("submit");
-        })
-    })
-</script> -->

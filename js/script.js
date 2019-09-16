@@ -52,7 +52,7 @@ $("document").ready(function(){
         $(".add-to-favourites-img-notlogin").on("click", function(e) {
             e.preventDefault();
             const path = window.location.pathname;
-            const lang = path.split("/")[1];
+            const lang = path.split("/")[2];
             const name_notLoggedIn = $(e.target).attr("name");
             if (lang === "pl") {
                     $("#log-in-message-"+name_notLoggedIn).text("Zaloguj się najpierw!");  
@@ -70,7 +70,7 @@ $("document").ready(function(){
             e.preventDefault();
             const logoutButton = $("#logout-button");
             const path = window.location.pathname;
-            const lang = path.split("/")[1];
+            const lang = path.split("/")[2];
             const clickedButton = $(e.target.closest("button")).attr("name").split('-');
             const answerId = clickedButton[2];
             const arrDirection = clickedButton[1];
@@ -130,7 +130,7 @@ $("document").ready(function(){
     // SIGNIN FORM
     function checkValidation(hook) {
         const path = window.location.pathname;
-        const lang = path.split("/")[1];
+        const lang = path.split("/")[2];
         const inputValue =  $(hook).val();
         let reg;
         let text;
@@ -196,7 +196,7 @@ $("document").ready(function(){
             }
             const inputValue =  $(hook).val();
             const path = window.location.pathname;
-            const lang = path.split("/")[1];
+            const lang = path.split("/")[2];
             let passedData;
             if (hook === "#signin-username"){
                 passedData = {username: inputValue}
@@ -245,7 +245,7 @@ $("document").ready(function(){
             const signinButton = $("#signin-button").attr('name');
             const input = $("#checkbox-privacy-policy").prop('checked');
             const path = window.location.pathname;
-            const lang = path.split("/")[1];
+            const lang = path.split("/")[2];
 
             if (!username || !email || !password) {
                 if (lang === "pl") {
@@ -286,7 +286,7 @@ $("document").ready(function(){
             const password = $("#login-pass").val();
             const loginButton = $("#login-button").attr('name');
             const path = window.location.pathname;
-            const lang = path.split("/")[1];
+            const lang = path.split("/")[2];
 
             if (!email || !password) {
                 if (lang === "pl") {
@@ -302,7 +302,7 @@ $("document").ready(function(){
                     data    :   {loginButton: loginButton, 'login-email': email, 'login-pass': password},
                     success :   function(response) {
                         if (response === 1) {
-                            window.location.replace("/"+lang+"/");
+                            window.location.replace("../");
                         } else {
                             if (lang === "pl") {
                                 $("#login-form p").text("Wprowadź poprawny email i hasło");
@@ -324,7 +324,7 @@ $("document").ready(function(){
             const email = $("#forgot-pass-email-input").val();
             const sendLinkButton = $("#remind-password-button").attr('name');
             const path = window.location.pathname;
-            const lang = path.split("/")[1];
+            const lang = path.split("/")[2];
 
             if (!email) {
                 if (lang === "pl") {
@@ -359,7 +359,7 @@ $("document").ready(function(){
             const newPassConfirm = $("#confirm-change-pass-input").val();
             const resetPassButton = $("#change-password-button").attr('name');
             const path = window.location.pathname;
-            const lang = path.split("/")[1];
+            const lang = path.split("/")[2];
             const url = window.location.href;
             const token = url.split("=")[1];
             const regPass = /^[a-zA-Z0-9?!#]{6,30}$/i;
@@ -404,7 +404,7 @@ $("document").ready(function(){
             const textareaMessage = $("#contact-textarea").val();
             const sendMessageButton = $("#send-contact-message-button").attr('name');
             const path = window.location.pathname;
-            const lang = path.split("/")[1];
+            const lang = path.split("/")[2];
             const regName = /^[a-zśćąężźńłó]{3,30}$/i;
             const regEmail = /^[A-Z0-9-._]+@[A-Z0-9-._]+\.[A-Z]{2,25}$/i;
 

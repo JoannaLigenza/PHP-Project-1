@@ -31,7 +31,7 @@
                 return;
             }
             // check if checkbox input is checked
-            else if ($_POST['checkbox-privacy-policy'] !== "on") {
+            else if (!isset($_POST['checkbox-privacy-policy'])) {
                 $message = $displayLang["confirm_privacy_policy"];
                 return;
             }

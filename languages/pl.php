@@ -76,6 +76,7 @@
         "most_answers_added_by" => "Najwięcej odpowiedzi dodali:",
         "download_basic_git_command" => "Pobierz podstawowe komendy git w PDF",
         "contact" => "Kontakt",
+        "contact_message" => "Jeśli masz jakieś pytania napisz do mnie :)",
         "send_reset_link" => "Wyślij link resetujący", 
         "forgot_pass_paragraph" => "Aby ustawić nowe hasło podaj swój email i sprawdź skrzynkę pocztową",
         "fill_all_fields" => "Proszę, wypełnij wszystkie pola!",

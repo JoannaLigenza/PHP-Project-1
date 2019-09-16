@@ -31,12 +31,9 @@
     $answersData = new answersData();
     $displayanswersData = new DisplayanswersData();
     $pageNavigationNumberForanswers = $displayanswersData->pageNavigationNumber($getId);        // this must be set before getanswers, because it read page number from url and sets answers to display on page
-    //echo $pageNavigationNumberForanswers;
     $getanswers = $displayanswersData->getanswers($getId);
-    
-    //print_r($getanswers);
 
-    
+    $mainDir = $_SESSION['main-dir'];
     
 
     if (isset($_POST['add-answer-button'])) {
@@ -152,7 +149,7 @@
                             <small><?php echo $displayLang['author'].": <a href='$pathToProfile'>".$questionData['author']."</a>, "; echo $displayLang['adding-date'].': '.$questionData['date']; ?> </small>
                             <div class="d-flex justify-content-end">
                                 <form action=<?php echo basename($_SERVER['REQUEST_URI']) ?> method="post">
-                                    <button type="submit" name="delete-question" class="btn btn-warning my-2 shadow-none myBtnHover d-flex" > <img src="../img/delete.svg" alt="trash-icon"><?php echo $displayLang['delte-question'] ?></button>
+                                    <button type="submit" name="delete-question" class="btn btn-warning my-2 shadow-none myBtnHover d-flex" > <img src=<?php echo $mainDir."/img/delete.svg" ?> alt="trash-icon"><?php echo $displayLang['delte-question'] ?></button>
                                 </form>
                             </div> 
                             <?php if ($deleteQuestion) :  ?>
@@ -234,7 +231,7 @@
                                         <div>
                                             <form action="" method="post"> 
                                                 <button type="submit" id=<?php echo 'delete-answer-'.$id ?> name="<?php echo 'delete-answer-'.$id ?>" class="d-flex flex-column justify-content-center btn m-2 p-0 shadow-none" value="delete-answer">
-                                                    <img src="../img/delete.svg" alt="trash-icon">
+                                                    <img src=<?php echo $mainDir."/img/delete.svg" ?> alt="trash-icon">
                                                 </button>
                                             </form>
                                         </div>
@@ -247,9 +244,9 @@
                                             <form action="" method="post">
                                                 <button type="submit" id=<?php echo 'arr-up-'.$id ?> name=<?php echo 'arr-up-'.$id ?> class="btn border-0 m-0 p-0 shadow-none d-flex align-items-center flex-column rate-up" >
                                                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
-                                                        <img src=<?php echo $answersData->isVoted($_SESSION['username'], $id)["up"] ? "../img/arr-up.svg" : "../img/arr-up-grey.svg" ?> alt="arrow-up-icon" class="arr-up">
+                                                        <img src=<?php echo $answersData->isVoted($_SESSION['username'], $id)["up"] ? $mainDir."/img/arr-up.svg" : $mainDir."/img/arr-up-grey.svg" ?> alt="arrow-up-icon" class="arr-up">
                                                     <?php else: ?>
-                                                        <img src="../img/arr-up-grey.svg" alt="arrow-up-icon" class="arr-up">
+                                                        <img src=<?php echo $mainDir."/img/arr-up-grey.svg" ?> alt="arrow-up-icon" class="arr-up">
                                                     <?php endif; ?>
                                                 </button>
                                                 
@@ -259,7 +256,7 @@
                                                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) :  ?>
                                                         <img src=<?php echo $answersData->isVoted($_SESSION['username'], $id)["down"] ? "../img/arr-down.svg" : "../img/arr-down-grey.svg" ?> alt="arrow-down-icon" class="arr-down">
                                                     <?php else: ?>
-                                                        <img src="../img/arr-down-grey.svg" alt="arrow-down-icon" class="arr-down">
+                                                        <img src=<?php echo $mainDir."/img/arr-down-grey.svg" ?> alt="arrow-down-icon" class="arr-down">
                                                     <?php endif; ?>
                                                 </button>
                                             </form>
@@ -312,7 +309,7 @@
                         <?php else: ?>   
                             <div class="container-fluid text-center my-2" id="log-in-first">
                                 <p class="py-3"><?php echo $displayLang["log_in_to_add_answer"] ?></p>
-                                <a href=<?php echo '/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a>
+                                <a href=<?php echo $mainDir.'/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a>
                             </div>
                         <?php endif; ?>
                     </div>

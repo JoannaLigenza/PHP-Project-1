@@ -33,7 +33,7 @@
                 } else {
                     $userData = new UserData();
                     $email = $tokenData['email'];
-                    $newPass = password_hash("$newPass", PASSWORD_ARGON2I);
+                    $newPass = password_hash("$newPass", PASSWORD_BCRYPT);
                     if ($userData->changeUserPasword($newPass, $email)) {
                         $messageInfo = $displayLang["pass_changed"];
                         $remindPassword->deleteToken($token);
@@ -44,6 +44,7 @@
         return $messageInfo;
     }
     $messageInfo = clickChangePassButton($displayLang);
+    $mainDir = $_SESSION['main-dir'];
 ?>
 
 <div class="gray-background">
@@ -52,7 +53,7 @@
         $loadSites = new LoadSites();
         if ($messageInfo === "Invalid Reset Link") : ?>
             <p class="pb-3"><?php echo $displayLang["link_expired"] ?></p>
-            <a href=<?php echo "/".$_SESSION['lang']."/".$loadSites->loadSite("forgot-password") ?> class="container btn btn-outline-warning my-2 py-2"> <?php echo $displayLang["send_another_link"] ?> </a>
+            <a href=<?php echo $mainDir."/".$_SESSION['lang']."/".$loadSites->loadSite("forgot-password") ?> class="container btn btn-outline-warning my-2 py-2"> <?php echo $displayLang["send_another_link"] ?> </a>
         <?php else : ?>
             <div class="card-body py-5">
                 <!-- <p class="pb-4">Enter your email below and check your email account to reset your password.</p> -->

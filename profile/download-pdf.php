@@ -14,17 +14,20 @@ class PDF extends FPDF {
   function Header()
   {
       // Logo
-      $this->Image('../img/logo-300x110.jpg',10,8,35, 0,'','http://love-coding.pl');
+      $this->Image('../img/logo-300x110.jpg',10,8,35, 0,'','https://love-coding.pl');
       // Arial bold 15
-      $this->SetFont('Arial','B',15);
+      $this->AddFont('Aleo','B','Aleo.php');
+      $this->SetFont('Aleo','B',15);
+     // $this->SetFont('Arial','B',15);
       $this->SetTextColor(0);
+      
       // Move to the right
       $this->Cell(35);
       // Title
       if ($_SESSION['lang'] === 'pl') {
-        $this->Cell(140,10,'Pytania rekrutacyjne dla Junior Front-end Developera',0,0,'C');
+        $this->Cell(140,10,'Pytania rekrutacyjne dla Front-end Developera',0,0,'C');
       } else {
-        $this->Cell(140,10,'Junior Front-end Developer Recruiment Questions',0,0,'C');
+        $this->Cell(140,10,'Front-end Developer Recruiment Questions',0,0,'C');
       }
       
       // Line break
@@ -37,10 +40,13 @@ class PDF extends FPDF {
       // Position at 1.5 cm from bottom
       $this->SetY(-15);
       // Arial italic 8
-      $this->SetFont('Arial','I',8);
+      $this->AddFont('Aleo','I','Aleo.php');
+      $this->SetFont('Aleo','I',8);
+      //$this->SetFont('Arial','I',8);
+
       // Page number - wiedth = 0 means the cell is extended up to the right margin
       $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
-      $this->Write(5,"love-coding.pl", 'http://love-coding.pl');
+      $this->Write(5,"love-coding.pl", 'https://love-coding.pl');
   }
 }
 
