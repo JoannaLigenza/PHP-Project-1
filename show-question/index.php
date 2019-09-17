@@ -50,8 +50,9 @@
                 } else {
                     $page = $_GET['page'];
                 }
-                if (ceil($displayanswersData->getAllanswersNum($getId)/$displayanswersData->answersNumOnPage) > $page ) {
-                    header("Location: $getPathToNavigation&page=".($page+1));
+                $numOfPages = ceil($displayanswersData->getAllanswersNum($getId)/$displayanswersData->answersNumOnPage);
+                if ($numOfPages > $page ) {
+                    header("Location: $getPathToNavigation&page=".($numOfPages+1));
                 }
             }
         }
