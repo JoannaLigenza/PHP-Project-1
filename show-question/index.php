@@ -25,7 +25,7 @@
     // Get question data
     $questionsData = new QuestionsData();
     $displayQuestionsData = new DisplayQuestionsData();
-    $questionData = $displayQuestionsData->questionDataOnanswerPage(($getId));
+    $oneQuestionData = $displayQuestionsData->questionDataOnanswerPage(($getId));
     
     // Get answers data
     $answersData = new answersData();
@@ -35,6 +35,10 @@
 
     $mainDir = $_SESSION['main-dir'];
     
+    // if there is no question with id given from url, ther redirest to main page
+    if ($oneQuestionData === NULL) {
+        header('Location: '.$mainDir.'/'.$_SESSION['lang']);
+    }
 
     if (isset($_POST['add-answer-button'])) {
         $answer = htmlspecialchars($_POST['answer-textarea'], ENT_QUOTES);
@@ -144,10 +148,10 @@
                     
                     <!-- QUESTION DATA -->
                     <div class="container-flex">
-                        <?php $pathToProfile = '../profile/?profile='.$questionData['author'];
-                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $questionData['author']) :  ?>
+                        <?php $pathToProfile = '../profile/?profile='.$oneQuestionData['author'];
+                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && $_SESSION['username'] === $oneQuestionData['author']) :  ?>
                         <p class="text-right text-muted pb-2">
-                            <small><?php echo $displayLang['author'].": <a href='$pathToProfile'>".$questionData['author']."</a>, "; echo $displayLang['adding-date'].': '.$questionData['date']; ?> </small>
+                            <small><?php echo $displayLang['author'].": <a href='$pathToProfile'>".$oneQuestionData['author']."</a>, "; echo $displayLang['adding-date'].': '.$oneQuestionData['date']; ?> </small>
                             <div class="d-flex justify-content-end">
                                 <form action=<?php echo basename($_SERVER['REQUEST_URI']) ?> method="post">
                                     <button type="submit" name="delete-question" class="btn btn-warning my-2 shadow-none myBtnHover d-flex" > <img src=<?php echo $mainDir."/img/delete.svg" ?> alt="trash-icon"><?php echo $displayLang['delte-question'] ?></button>
@@ -164,14 +168,14 @@
                             <?php endif; ?>
                         </p>
                         <?php else: ?>
-                        <p class="text-right text-muted pb-2"><small><?php echo $displayLang['author'].": <a href='$pathToProfile'>".$questionData['author']."</a>, "; echo $displayLang['adding-date'].': '.$questionData['date']; ?> </small></p>
+                        <p class="text-right text-muted pb-2"><small><?php echo $displayLang['author'].": <a href='$pathToProfile'>".$oneQuestionData['author']."</a>, "; echo $displayLang['adding-date'].': '.$oneQuestionData['date']; ?> </small></p>
                         <?php endif; ?>
                     </div>
 
                     <!-- QUESTION TITLE -->
                     <div class="pb-5">
                         <!-- nl2br() - displays enters -->
-                        <h3 class="word-break h2-size"><?php echo nl2br($questionData['title']); ?></h3>
+                        <h3 class="word-break h2-size"><?php echo nl2br($oneQuestionData['title']); ?></h3>
                     </div>
                     
                     <!-- ADD answer BUTTON -->
