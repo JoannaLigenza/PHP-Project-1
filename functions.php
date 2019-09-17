@@ -14,7 +14,7 @@
         // get first part of url and check if it's equal to substing
         public function startsWith($string, $substring) { 
             // expolode() - split a string and make array from it
-            return (explode('/', $string)[1] === $substring);
+            return (explode('/', $string)[2] === $substring);
         } 
 
         // redirect page to location with setted language
@@ -112,7 +112,8 @@
 
     class Data {
         protected function connectionToDb() {
-            include "dbconnect.php";
+            include dirname(dirname(__DIR__))."/dbconnect.php";
+            //include 'dbconnect.php';
             $mysqli = new mysqli($host, $dbUserName, $dbPass , $dbName);
             if ($mysqli->connect_error) {
                 die();

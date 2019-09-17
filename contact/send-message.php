@@ -7,7 +7,7 @@
     require_once ("../PhpMailer/SMTP.php");
 
     function sendMessage($email, $name, $message) {
-        include "../mailconnect.php";
+        include  dirname(dirname(dirname(__DIR__)))."/mailconnect.php";
         $lang = $_SESSION['lang'];
 
         $mail = new PHPMailer(); 
@@ -55,7 +55,7 @@
     }
 
     function resetPassMessage($email, $token) {
-        include "../mailconnect.php";
+        include  dirname(dirname(dirname(__DIR__)))."/mailconnect.php";
         $lang = $_SESSION['lang'];
 
         $mail = new PHPMailer(); 

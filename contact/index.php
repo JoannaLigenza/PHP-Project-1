@@ -6,8 +6,6 @@
     $_SESSION['index'] = "index";
     include "../header.php";
 
-    //$messageInfo = "";
-
     function clickContactButton() {
         $messageInfo = "";
         if (isset($_POST['send-contact-message-button'])) {

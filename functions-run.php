@@ -12,5 +12,6 @@
     $setSession->setSessionParams($displayLang, $getPathToNavigation);
 
     // set name of directory with your project, e.g. "/recriument-questions" or "" <- in case if your project is in main direcroty
-    $_SESSION['main-dir'] = "";
+   // $_SESSION['main-dir'] = "";
+    $_SESSION['main-dir'] = "/pytania-rekrutacyjne";
 ?>
