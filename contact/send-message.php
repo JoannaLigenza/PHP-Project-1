@@ -6,7 +6,7 @@
     require_once ("../PhpMailer/PHPMailer.php");
     require_once ("../PhpMailer/SMTP.php");
 
-    function sendMessage($email, $name, $message) {
+    function sendMessage($email, $name, $message, $subject) {
         include  dirname(dirname(dirname(__DIR__)))."/mailconnect.php";
         $lang = $_SESSION['lang'];
 
@@ -25,14 +25,10 @@
         //Email settings
         $mail->isHTML(true);
         $mail->setFrom($email, $name);
-        $mail->addAddress($from , "love-coding.pl");         // user address / user name
+        $mail->addAddress($from , "love-coding.pl");                            // user address / user name
         $mail->addReplyTo($email, $name);                                       // email address / decription
         $mail->addBCC($mailBCC);
-        if ($lang === "pl") {
-            $mail->Subject = "Wiadomość od ".$name." wysłana przez formularz kontaktowy ze strony love-coding.pl/pytania-rekrutacyjne-dla-front-end-developerow";
-        } else {
-            $mail->Subject = "Message from ".$name." sended on contact form from site love-coding.pl/front-end-developers-recruiment-questions";
-        }
+        $mail->Subject = $subject;
         
         $mail->Body    = $message;
         $mail->AltBody = $message;

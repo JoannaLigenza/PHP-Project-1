@@ -6,7 +6,14 @@
     function sendContactMessage($name, $email, $message) {
         $messageInfo = "";
         include "../contact/send-message.php";
-        $messageInfo = sendMessage($email, $name, $message);
+        $lang = $_SESSION['lang'];
+        $subject = "";
+        if ($lang === "pl") {
+            $subject = "Wiadomość od ".$name." wysłana przez formularz kontaktowy ze strony love-coding.pl/pytania-rekrutacyjne-dla-front-end-developerow";
+        } else {
+            $subject = "Message from ".$name." sended on contact form from site love-coding.pl/front-end-developers-recruiment-questions";
+        }
+        $messageInfo = sendMessage($email, $name, $message, $subject);
         echo json_encode($messageInfo);
     }
 
