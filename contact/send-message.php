@@ -2,9 +2,9 @@
 
     use PHPMailer\PHPMailer\PHPMailer;
 
-    require_once ("../PhpMailer/Exception.php");
-    require_once ("../PhpMailer/PHPMailer.php");
-    require_once ("../PhpMailer/SMTP.php");
+    require_once ("../../PhpMailer/Exception.php");
+    require_once ("../../PhpMailer/PHPMailer.php");
+    require_once ("../../PhpMailer/SMTP.php");
 
     function sendMessage($email, $name, $message, $subject) {
         include  dirname(dirname(dirname(__DIR__)))."/mailconnect.php";
