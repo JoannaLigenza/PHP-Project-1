@@ -30,7 +30,7 @@
                     $goToQuestion = '/'.$latestQuestions[$i]['lang']."/".$loadSite->loadSite("show-question").'/?id='.$latestQuestions[$i]['id'];
                     $pathToProfile = $mainDir."/".$_SESSION['lang']."/profile/?profile=".$latestQuestions[$i]['author'];
                     echo "<div><img src=$imgSrc alt='arrow-right-icon' class='mr-2'>";
-                    echo "<a href=".$pathToProfile.">".$latestQuestions[$i]['author']."</a> - ";
+                    echo "<a href='".$pathToProfile."'>".$latestQuestions[$i]['author']."</a> - ";
                     echo "<a href='$goToQuestion' style='color:black'>".$latestQuestions[$i]['title']."</a></div>";
                 }
                 ?>
@@ -52,7 +52,7 @@
                     $goToanswer = '/'.$latestanswers[$i]['lang']."/".$loadSite->loadSite("show-question").'?id='.$latestanswers[$i]['to_question'];
                     $pathToProfile = $mainDir."/".$_SESSION['lang']."/profile/?profile=".$latestanswers[$i]['author'];
                     echo "<div><img src=$imgSrc alt='arrow-right-icon' class='mr-2'>";
-                    echo "<a href=".$pathToProfile.">".$latestanswers[$i]['author']."</a> - ";
+                    echo "<a href='".$pathToProfile."'>".$latestanswers[$i]['author']."</a> - ";
                     if(strlen($answerText)>20) {
                         $answerText="<a href='$goToanswer' style='color:black'>".substr($answerText,0,80)."</a>";
                         echo $answerText." ...</div>";
@@ -77,7 +77,7 @@
                 } else {
                     $pathToProfile = $mainDir."/".$_SESSION['lang']."/profile/?profile=".$mostAddedQuestions[$i]['username'];
                     echo "<div><img src=$imgSrc alt='arrow-right-icon' class='mr-2'>";
-                    echo "<a href=".$pathToProfile.">".$mostAddedQuestions[$i]['username']."</a> - ".$mostAddedQuestions[$i]['added_questions']."</div>";
+                    echo "<a href='".$pathToProfile."'>".$mostAddedQuestions[$i]['username']."</a> - ".$mostAddedQuestions[$i]['added_questions']."</div>";
                 }
                 ?>
             </div>
@@ -96,7 +96,7 @@
                 } else {
                     $pathToProfile = $mainDir."/".$_SESSION['lang']."/profile/?profile=".$mostAddedanswers[$i]['username'];
                     echo "<div><img src=$imgSrc alt='arrow-right-icon' class='mr-2'>";
-                    echo "<a href=".$pathToProfile.">".$mostAddedanswers[$i]['username']."</a> - ".$mostAddedanswers[$i]['added_answers']."</div>";
+                    echo "<a href='".$pathToProfile."'>".$mostAddedanswers[$i]['username']."</a> - ".$mostAddedanswers[$i]['added_answers']."</div>";
                 }
                 ?>
             </div>
@@ -105,5 +105,5 @@
     <!-- download pdf git commands -->
     <div class="bg-warning p-2 rounded mb-3"><?php echo $displayLang['developer-tools'].":"; ?></div>
     <div><h3 class="border-left border-warning px-2 font-weight-bold h6-size"><?php echo $displayLang['download_basic_git_command']; ?></h3></div>
-    <a href=<?php echo $mainDir."/basic_git_commands_".$_SESSION['lang'].".pdf" ?>  target="_blank"> <img src=<?php echo $mainDir."/img/pdf.svg" ?> alt="download-pdf-icon"> </a>
+    <a href='<?php echo $mainDir."/basic_git_commands_".$_SESSION['lang'].".pdf" ?>'  target="_blank"> <img src=<?php echo $mainDir."/img/pdf.svg" ?> alt="download-pdf-icon"> </a>
 </div>

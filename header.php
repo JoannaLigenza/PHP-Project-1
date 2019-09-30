@@ -34,7 +34,7 @@
     <meta name="description" content=<?php echo "'$description'" ?> >
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href=<?php echo $mainDir."/css/style.css" ?>>
+    <link rel="stylesheet" href='<?php echo $mainDir."/css/style.css" ?>'>
 </head>
 <body class="min-vh-100">
     <div class="m-0 p-0 h-100">
@@ -42,7 +42,7 @@
         <header>
             <div class="d-flex flex-sm-row justify-content-between border-bottom border-warning">
                 <div class="d-flex flex-column justify-content-center pl-2">
-                    <a class="navbar p-0" href=<?php echo $mainDir."/".$_SESSION['lang'] ?>>
+                    <a class="navbar p-0" href='<?php echo $mainDir."/".$_SESSION['lang'] ?>'>
                         <picture>
                                 <source media="(max-width: 400px)" srcset=<?php echo $mainDir."/img/logo-80x40.jpg" ?>>
                                 <img src=<?php echo $mainDir."/img/logo-100x50.jpg" ?> style="width:auto" alt="logo">
@@ -55,13 +55,13 @@
                         $pathToProfile = $mainDir."/".$_SESSION['lang'].'/profile/?profile='.$_SESSION['username'];
                     ?>
                     <form action="" method="post">
-                        <a href=<?php echo $pathToProfile; ?> class="btn btn-outline-warning"><?php echo $displayLang["profil"] ?></a>
+                        <a href='<?php echo $pathToProfile; ?>' class="btn btn-outline-warning"><?php echo $displayLang["profil"] ?></a>
                         <button type="submit" class="btn btn-warning myBtnHover" name="logout-button" id="logout-button"><?php echo $displayLang["log_out"] ?></button>
                     </form>
                     <?php else: ?>
                     <form action="" method="post">
-                        <a href=<?php echo $mainDir.'/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a> 
-                        <a href=<?php echo $mainDir.'/'.$_SESSION['lang'].'/signin/' ?>><button type="button" class="btn btn-warning mx-2 myBtnHover"><?php echo $displayLang["sign_up"]  ?></button></a> 
+                        <a href='<?php echo $mainDir.'/'.$_SESSION['lang'].'/login/' ?>'><div class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></div></a> 
+                        <a href='<?php echo $mainDir.'/'.$_SESSION['lang'].'/signin/' ?>'><div class="btn btn-warning mx-2 myBtnHover"><?php echo $displayLang["sign_up"]  ?></div></a> 
                     </form>
                     <?php endif; ?>
                 </div>

@@ -10,14 +10,14 @@
         <div class="container mt-3">
             <div class="row">
                 <div class="col-6">
-                    <a href=<?php echo $mainDir."/".$_SESSION['lang']."/".$loadSites->loadSite("contact") ?> class="text-white">Kontakt</a>
+                    <a href='<?php echo $mainDir."/".$_SESSION['lang']."/".$loadSites->loadSite("contact") ?>' class="text-white">Kontakt</a>
                 </div>
             </div>
             
         </div>
 
         <div class="right py-3">
-            <a href=<?php echo $mainDir."/en/" ?> class="focus-a"><?php echo $displayLang['english'] ?></a> | <a href=<?php echo $mainDir."/pl/" ?> class="focus-a"><?php echo $displayLang['polish'] ?></a>
+            <a href='<?php echo $mainDir."/en/" ?>' class="focus-a"><?php echo $displayLang['english'] ?></a> | <a href='<?php echo $mainDir."/pl/" ?>' class="focus-a"><?php echo $displayLang['polish'] ?></a>
         </div>
     </footer>
     <!-- END FOOTER -->

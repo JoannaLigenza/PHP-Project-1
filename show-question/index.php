@@ -35,7 +35,7 @@
 
     $mainDir = $_SESSION['main-dir'];
     
-    // if there is no question with id given from url, ther redirest to main page
+    // if there is no question with id given from url, then redirest to main page
     if ($oneQuestionData === NULL) {
         header('Location: '.$mainDir.'/'.$_SESSION['lang']);
     }
@@ -43,7 +43,6 @@
     if (isset($_POST['add-answer-button'])) {
         $answer = htmlspecialchars($_POST['answer-textarea'], ENT_QUOTES);
         $author = $_SESSION['username'];
-        //echo $answer;
         if(!empty($answer)) {
             if ($displayanswersData->addanswer($getId, $answer, $author)) {
                 $displayQuestionsData->setanswersNumber(($getId), '+');
@@ -76,12 +75,10 @@
 
     if (isset($_POST['delete-question-yes'])) {
         $user = $_SESSION['username'];
-        echo "deleted 1";
         if ($displayQuestionsData->deleteQuestion($getId, $user)) {
-            echo "deleted 2";
             $questionsData->deleteFromFavourites($user, $getId);
             $lang = $_SESSION['lang'];
-            header("Location: /".$lang);
+            header("Location: ".$_SESSION['main-dir']."/".$lang);
         } 
     }
 
@@ -282,18 +279,18 @@
                     <!-- NUMERIC PAGE NAVIGATION -->
                     <div class="d-flex flex-row justify-content-center justify-content-lg-end flex-wrap py-4">
                         <?php if ($pageNavigationNumberForanswers > 1) : ?>
-                            <a href=<?php echo $getPathToNavigation ?> >
+                            <a href='<?php echo $getPathToNavigation ?>' >
                                 <div class="pagination first"> <?php echo 1; ?> </div>
                             </a>
                             <?php echo $pageNumber > 4 ? "<div class='pagination'> ... </div>" : null ?>
                             <?php for($i=$pageNumber-3; $i < $pageNumber+2; $i++) : ?>
                                 <?php if ($i < 0 || $i >= $pageNavigationNumberForanswers || $i===0 || $i===intval($pageNavigationNumberForanswers-1)) {continue;} ?>
-                                    <a href=<?php echo ($i === 0) ? $getPathToNavigation : $getPathToNavigation.'&page='.($i+1) ?> >
+                                    <a href='<?php echo ($i === 0) ? $getPathToNavigation : $getPathToNavigation.'&page='.($i+1) ?>' >
                                         <div class="pagination"> <?php echo ($i+1); ?> </div>
                                     </a>
                             <?php endfor; ?>
                             <?php echo $pageNumber < $pageNavigationNumberForanswers-3 ? "<div class='pagination'> ... </div>" : null ?>
-                            <a href=<?php echo $getPathToNavigation.'&page='.$pageNavigationNumberForanswers ?> >
+                            <a href='<?php echo $getPathToNavigation.'&page='.$pageNavigationNumberForanswers ?>' >
                                 <div class="pagination last"> <?php echo $pageNavigationNumberForanswers; ?> </div>
                             </a>
                         <?php endif; ?>
@@ -314,7 +311,7 @@
                         <?php else: ?>   
                             <div class="container-fluid text-center my-2" id="log-in-first">
                                 <p class="py-3"><?php echo $displayLang["log_in_to_add_answer"] ?></p>
-                                <a href=<?php echo $mainDir.'/'.$_SESSION['lang'].'/login/' ?>><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a>
+                                <a href='<?php echo $mainDir.'/'.$_SESSION['lang'].'/login/' ?>'><button type="button" class="btn btn-outline-warning"><?php echo $displayLang["log_in"]  ?></button></a>
                             </div>
                         <?php endif; ?>
                     </div>
