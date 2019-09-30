@@ -82,6 +82,14 @@
                $_SESSION['category'] = $displayLang['developer-tools'];
                header("Location: $getPathToNavigation");
             }
+            if (isset($_POST['display-mindset'])) {
+               $_SESSION['category'] = $displayLang['programmer-mindset'];
+               header("Location: $getPathToNavigation");
+            }
+            if (isset($_POST['display-soft-skills'])) {
+               $_SESSION['category'] = $displayLang['soft-skills'];
+               header("Location: $getPathToNavigation");
+            }
             if (isset($_POST['adding-date'])) {
                $_SESSION['queston-sort'] = "date";
                header("Location: $getPathToNavigation");

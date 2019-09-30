@@ -1,4 +1,4 @@
-            <nav class="navbar navbar-expand-sm navbar-light bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -9,6 +9,8 @@
                         <button type="submit" name="display-css" class=<?php echo (isset($_SESSION['category']) && $_SESSION['category'] === "CSS") ? "'btn my-2 shadow-none btn-warning myBtnHover'" : "'btn my-2 shadow-none'" ?>>Css</button>
                         <button type="submit" name="display-javascript" class=<?php echo (isset($_SESSION['category']) && $_SESSION['category'] === "Javascript") ? "'btn my-2 shadow-none btn-warning myBtnHover'" : "'btn my-2 shadow-none'" ?>>Javascript</button>
                         <button type="submit" name="display-dev-tools" class=<?php echo (isset($_SESSION['category']) && $_SESSION['category'] === $displayLang['developer-tools']) ? "'btn my-2 shadow-none btn-warning myBtnHover'" : "'btn my-2 shadow-none'" ?>><?php echo $displayLang["developer-tools"] ?></button>
+                        <button type="submit" name="display-mindset" class=<?php echo (isset($_SESSION['category']) && $_SESSION['category'] === $displayLang['programmer-mindset']) ? "'btn my-2 shadow-none btn-warning myBtnHover'" : "'btn my-2 shadow-none'" ?>><?php echo $displayLang["programmer-mindset"] ?></button>
+                        <button type="submit" name="display-soft-skills" class=<?php echo (isset($_SESSION['category']) && $_SESSION['category'] === $displayLang['soft-skills']) ? "'btn my-2 shadow-none btn-warning myBtnHover'" : "'btn my-2 shadow-none'" ?>><?php echo $displayLang["soft-skills"] ?></button>
                     </form>
                 </div>
             </nav>

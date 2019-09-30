@@ -23,6 +23,8 @@
         "add_answer" => "Add answer",
         "choose-category" => "Choose category",
         "developer-tools" => "Developer tools",
+        "programmer-mindset" => "Programmer mindset",
+        "soft-skills" => "Soft skills",
         "go-back" => "Go back",
         "english" => "English",
         "polish" => "Polish",

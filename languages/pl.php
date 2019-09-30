@@ -23,6 +23,8 @@
         "add_answer" => "Dodaj odpowiedź",
         "choose-category" => "Wybierz kategorię",
         "developer-tools" => "Narzędzia programisty",
+        "programmer-mindset" => "Mindset programisty",
+        "soft-skills" => "Kompetencje miękkie",
         "go-back"=> "Powrót",
         "english" => "Angielski",
         "polish" => "Polski",
