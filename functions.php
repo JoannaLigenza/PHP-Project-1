@@ -115,6 +115,18 @@
                header("Location: $getPathToNavigation");
             }
         }
+
+        public function setSessionParamsInFoter($mainDir) {
+            if (isset($_POST['set-en-lang'])) {
+                $_SESSION['category'] = "all";
+                header("Location: ".$mainDir."/en/");
+            }
+
+            if (isset($_POST['set-pl-lang'])) {
+                $_SESSION['category'] = "all";
+                header("Location: ".$mainDir."/pl/");
+            }
+        }
     }
 
 

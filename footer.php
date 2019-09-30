@@ -17,7 +17,9 @@
         </div>
 
         <div class="right py-3">
-            <a href='<?php echo $mainDir."/en/" ?>' class="focus-a"><?php echo $displayLang['english'] ?></a> | <a href='<?php echo $mainDir."/pl/" ?>' class="focus-a"><?php echo $displayLang['polish'] ?></a>
+            <form action="" method="post">
+                <button name="set-en-lang" class="btn footer-btn"><?php echo $displayLang['english'] ?></button> | <button name="set-pl-lang" class="btn footer-btn"><?php echo $displayLang['polish'] ?></button>
+            </form>
         </div>
     </footer>
     <!-- END FOOTER -->
