@@ -27,7 +27,7 @@
                 } else if (empty($latestQuestions[$i])) {
                     echo "<div> - </div>";
                 } else {
-                    $goToQuestion = '/'.$latestQuestions[$i]['lang']."/".$loadSite->loadSite("show-question").'/?id='.$latestQuestions[$i]['id'];
+                    $goToQuestion = $mainDir.'/'.$latestQuestions[$i]['lang']."/".$loadSite->loadSite("show-question").'/?id='.$latestQuestions[$i]['id'];
                     $pathToProfile = $mainDir."/".$_SESSION['lang']."/profile/?profile=".$latestQuestions[$i]['author'];
                     echo "<div><img src=$imgSrc alt='arrow-right-icon' class='mr-2'>";
                     echo "<a href='".$pathToProfile."'>".$latestQuestions[$i]['author']."</a> - ";
@@ -49,7 +49,7 @@
                     echo "<div> - </div>";
                 } else {
                     $answerText = $latestanswers[$i]['answer_text'];
-                    $goToanswer = '/'.$latestanswers[$i]['lang']."/".$loadSite->loadSite("show-question").'?id='.$latestanswers[$i]['to_question'];
+                    $goToanswer = $mainDir.'/'.$latestanswers[$i]['lang']."/".$loadSite->loadSite("show-question").'?id='.$latestanswers[$i]['to_question'];
                     $pathToProfile = $mainDir."/".$_SESSION['lang']."/profile/?profile=".$latestanswers[$i]['author'];
                     echo "<div><img src=$imgSrc alt='arrow-right-icon' class='mr-2'>";
                     echo "<a href='".$pathToProfile."'>".$latestanswers[$i]['author']."</a> - ";
