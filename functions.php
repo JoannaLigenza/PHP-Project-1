@@ -141,7 +141,6 @@
     class Data {
         protected function connectionToDb() {
             include dirname(dirname(__DIR__))."/dbconnect.php";
-            //include 'dbconnect.php';
             $mysqli = new mysqli($host, $dbUserName, $dbPass , $dbName);
             if ($mysqli->connect_error) {
                 die();
@@ -804,6 +803,8 @@
                 $query->bind_param("ssss", $userName, $email, $pass, $date);
                 if($query->execute()) {
                     $res = true;
+                } else {
+                    //echo $query->error;
                 }
                 $query->close();
                 mysqli_close($connection);
