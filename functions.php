@@ -92,18 +92,22 @@
             }
             if (isset($_POST['adding-date'])) {
                $_SESSION['queston-sort'] = "date";
+               $_SESSION['queston-sort-desc'] = $displayLang["adding_date"];
                header("Location: $getPathToNavigation");
             }
             if (isset($_POST['adding-date-newest'])) {
                $_SESSION['queston-sort'] = "date-newest";
+               $_SESSION['queston-sort-desc'] = $displayLang["adding_date_newest"];
                header("Location: $getPathToNavigation");
             }
             if (isset($_POST['most-answers'])) {
                $_SESSION['queston-sort'] = "answers";
+               $_SESSION['queston-sort-desc'] = $displayLang["most_answers"];
                header("Location: $getPathToNavigation");
             }
             if (isset($_POST['top-rated'])) {
                $_SESSION['queston-sort'] = "votes";
+               $_SESSION['queston-sort-desc'] = $displayLang["top_rated"];
                header("Location: $getPathToNavigation");
             }
             if (isset($_POST['answer-adding-date'])) {
@@ -119,11 +123,15 @@
         public function setSessionParamsInFoter($mainDir) {
             if (isset($_POST['set-en-lang'])) {
                 $_SESSION['category'] = "all";
+                $_SESSION['queston-sort'] = "date";
+                $_SESSION['queston-sort-desc'] = "Sort";
                 header("Location: ".$mainDir."/en/");
             }
 
             if (isset($_POST['set-pl-lang'])) {
                 $_SESSION['category'] = "all";
+                $_SESSION['queston-sort'] = "date";
+                $_SESSION['queston-sort-desc'] = "Sortowanie";
                 header("Location: ".$mainDir."/pl/");
             }
         }
@@ -153,7 +161,7 @@
             if (!isset($_SESSION['queston-sort']) || $_SESSION['queston-sort'] === "date") {
                 $order = "date";
             } else if ($_SESSION['queston-sort'] === "date-newest") {
-                $order = "date DESC";
+                $order = "id DESC";
             } else {
                 $order = $_SESSION['queston-sort']." DESC";
             }
@@ -600,7 +608,7 @@
 
 
     class DisplayQuestionsData extends QuestionsData {
-        private $questionsNumOnPage = 3;
+        private $questionsNumOnPage = 10;
         private $pageNumber;
         private $from;
         private $to;

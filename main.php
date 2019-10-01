@@ -6,6 +6,12 @@
     $getQuestionData = $displayQuestionsData->getQuestions();
     $loginMessage = -1;
     $pageNumber = 1;
+    $sort = "";
+    if (!isset($_SESSION['queston-sort-desc'])) {
+        $sort = $displayLang["sort"];
+    } else {
+        $sort = $_SESSION['queston-sort-desc'];
+    }
     for($i=0; $i < count($getQuestionData); $i++) {
         if(isset($_POST[$getQuestionData[$i]['id'].'_x'])){
             
@@ -43,7 +49,7 @@
                         <div class="d-flex flex-row justify-content-end">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $displayLang["sort"].":"  ?></a>
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $sort.":"  ?></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <form action="" method="post">
                                             <button type="submit" name="adding-date" class=<?php echo (isset($_SESSION['queston-sort']) && $_SESSION['queston-sort'] === "date") ? "'dropdown-item shadow-none bg-light'" : "'dropdown-item shadow-none'" ?>><?php echo $displayLang["adding_date"]; ?></button>
